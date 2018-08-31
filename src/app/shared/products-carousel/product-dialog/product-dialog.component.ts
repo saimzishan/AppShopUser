@@ -12,7 +12,7 @@ import { Product } from '../../../app.models';
 })
 export class ProductDialogComponent implements OnInit {
   public config: SwiperConfigInterface = {};
-  constructor(public appService:AppService, 
+  constructor(public appService: AppService,
               public dialogRef: MatDialogRef<ProductDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public product: Product) { }
 

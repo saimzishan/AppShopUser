@@ -20,19 +20,19 @@ export class ProductsCarouselComponent implements OnInit {
 
   ngOnInit() {
    }
-  
+
   ngAfterViewInit(){
     this.config = {
       observer: true,
       slidesPerView: 6,
-      spaceBetween: 16,       
+      spaceBetween: 16,
       keyboard: true,
       navigation: true,
       pagination: false,
-      grabCursor: true,        
+      grabCursor: true,
       loop: false,
       preloadImages: false,
-      lazy: true,  
+      lazy: true,
       breakpoints: {
         480: {
           slidesPerView: 1
@@ -53,14 +53,14 @@ export class ProductsCarouselComponent implements OnInit {
     }
   }
 
-  public openProductDialog(product){   
+  public openProductDialog(product){
     let dialogRef = this.dialog.open(ProductDialogComponent, {
         data: product,
         panelClass: 'product-dialog'
     });
     dialogRef.afterClosed().subscribe(product => {
       if(product){
-        this.router.navigate(['/products', product.id, product.name]); 
+        this.router.navigate(['/products', product.id, product.name]);
       }
     });
   }

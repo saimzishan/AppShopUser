@@ -9,9 +9,9 @@
         <div class="small-carousel"> 
             <div class="swiper-container" [swiper]="config">
                 <div class="swiper-wrapper"> 
-                    <div *ngFor="let image of product?.images" class="swiper-slide">
+                    <div *ngFor="let image of product?.suppliers[0].images" class="swiper-slide">
                         <mat-card (click)="selectImage(image)" class="p-1">
-                            <img [attr.data-src]="image.small" class="swiper-lazy"/>
+                            <img [attr.data-src]="image.url" class="swiper-lazy"/>
                             <div class="swiper-lazy-preloader"></div>
                         </mat-card>
                     </div>                    
@@ -31,16 +31,17 @@
 
         <h2>{{product?.name}}</h2>
         <div class="py-1 lh">
-            <p><span class="text-muted fw-500">Category: </span><span>{{ ( appService.Data.categories | filterById : product?.categoryId )?.name }}</span></p>
+            <p><span class="text-muted fw-500">Category: </span><span>{{ ( appService.Data.categories | filterById : product?.category_id )?.name }}</span></p>
             <p><span class="text-muted fw-500">Availibility: </span><span>{{ (product?.availibilityCount > 0) ? 'In stock':'Unavailable'}}</span></p>
         </div>                 
         <div class="py-1">
-            <app-rating [ratingsCount]="product?.ratingsCount" [ratingsValue]="product?.ratingsValue" [direction]="'row'"></app-rating>
+            <!--<app-rating [ratingsCount]="product?.ratingsCount" [ratingsValue]="product?.ratingsValue" [direction]="'row'"></app-rating>-->
+            <app-rating [ratingsCount]="4" [ratingsValue]="300" [direction]="'row'"></app-rating>
         </div>
-        <p class="py-1 text-muted lh">{{product?.description}}</p>
+        <p class="py-1 text-muted lh">{{product?.short_description}}</p>
 
         <div class="divider mt-1"></div>
-        <h2 class="py-2 new-price">${{product?.newPrice}}</h2>
+        <h2 class="py-2 new-price">${{product?.suppliers[0].price}}</h2>
 
         <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" class="details text-muted py-1">
             <div *ngIf="product?.color" class="color">
