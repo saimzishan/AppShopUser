@@ -9,14 +9,15 @@ import {Product} from '../../app.models';
 })
 export class HomeComponent implements OnInit {
 
-    public slides = [
+    /*public slides = [
         {title: 'The biggest sale', subtitle: 'Special for today', image: 'assets/images/carousel/banner1.jpg'},
         {title: 'Summer collection', subtitle: 'New Arrivals On Sale', image: 'assets/images/carousel/banner2.jpg'},
         {title: 'The biggest sale', subtitle: 'Special for today', image: 'assets/images/carousel/banner3.jpg'},
         {title: 'Summer collection', subtitle: 'New Arrivals On Sale', image: 'assets/images/carousel/banner4.jpg'},
         {title: 'The biggest sale', subtitle: 'Special for today', image: 'assets/images/carousel/banner5.jpg'}
-    ];
+    ];*/
 
+    public slides = [];
     public brands = [];
     public banners = [];
     public featuredProducts: Array<Product>;
@@ -30,15 +31,53 @@ export class HomeComponent implements OnInit {
 
     ngOnInit() {
         this.getBanners();
-        this.getProducts('featured');
-        this.getBrands();
+        this.getProductsNew('featured');
+        this.getBrandsNew();
+        this.getSlides();
     }
 
     public onLinkClick(e) {
-        this.getProducts(e.tab.textLabel.toLowerCase());
+        this.getProductsNew(e.tab.textLabel.toLowerCase());
     }
 
-    public getProducts(type) {
+    public getSlides() {
+        this.appService.getSlides().subscribe(data => {
+            // console.log(data.data);
+            this.slides = data.data.data;
+            this.slides.map(item => {
+               // console.log(item);
+               item.title = 'The biggest sale';
+               item.subtitle = 'Special for today';
+            });
+            // console.log(this.slides);
+        });
+    }
+
+    public getProductsNew (type) {
+        if (type === 'featured' && !this.featuredProducts) {
+            this.appService.getProductsNew('featured').subscribe(data => {
+                this.featuredProducts = data;
+            });
+        }
+        if (type === 'on sale' && !this.onSaleProducts) {
+            this.appService.getProductsNew('on-sale').subscribe(data => {
+                this.onSaleProducts = data;
+            });
+        }
+        if (type === 'top rated' && !this.topRatedProducts) {
+            this.appService.getProductsNew('top-rated').subscribe(data => {
+                this.topRatedProducts = data;
+            });
+        }
+        if (type === 'new arrivals' && !this.newArrivalsProducts) {
+            this.appService.getProductsNew('new-arrivals').subscribe(data => {
+                this.newArrivalsProducts = data;
+            });
+        }
+
+    }
+
+    /*public getProducts(type) {
         if (type === 'featured' && !this.featuredProducts) {
             this.appService.getProducts('featured').subscribe(data => {
                 this.featuredProducts = data;
@@ -60,7 +99,7 @@ export class HomeComponent implements OnInit {
             });
         }
 
-    }
+    }*/
 
     public getBanners() {
         this.appService.getBanners().subscribe(data => {
@@ -68,8 +107,12 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    public getBrands() {
-        this.brands = this.appService.getBrands();
+    public getBrandsNew() {
+        // this.brands = this.appService.getBrandsNew();
+        this.appService.getBrandsNew().subscribe(data => {
+            this.brands = data.data;
+            // console.log(this.brands);
+        });
     }
 
 }

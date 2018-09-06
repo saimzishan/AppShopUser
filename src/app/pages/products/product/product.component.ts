@@ -31,8 +31,10 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit() {
+        // console.log(this.activatedRoute.snapshot.paramMap.get('supplier_id'))
         this.sub = this.activatedRoute.params.subscribe(params => {
-            this.getProductByIdNew(params['id']);
+            // console.log(params['supplier_id']);
+            this.getProductByIdNew(params['id'], params['supplier_id']);
         });
         this.form = this.formBuilder.group({
             'review': [null, Validators.required],
@@ -76,13 +78,13 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }*/
 
-    public getProductByIdNew(id) {
-        this.appService.getProductByIdNew(id).subscribe(data => {
+    public getProductByIdNew(id, supId) {
+        this.appService.getProductByIdNew(id, supId).subscribe(data => {
             this.product = data.data;
             this.product.availibilityCount = 100;
             console.log(this.product);
-            this.image = this.product.suppliers[0].images[0].url;
-            this.zoomImage = this.product.suppliers[0].images[0].url;
+            this.image = this.product.suppliers[0].images[0].small;
+            this.zoomImage = this.product.suppliers[0].images[0].small;
             setTimeout(() => {
                 this.config.observer = true;
                 // this.directiveRef.setIndex(0);

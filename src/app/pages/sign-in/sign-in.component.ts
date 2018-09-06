@@ -3,7 +3,8 @@ import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 import {emailValidator, matchingPasswords} from '../../theme/utils/app-validators';
-import {SignInService} from "./sign-in.service";
+import {SignInService} from './sign-in.service';
+import {User} from '../../app.models';
 
 @Component({
     selector: 'app-sign-in',
@@ -37,24 +38,31 @@ export class SignInComponent implements OnInit {
 
     public onLoginFormSubmit(values: Object): void {
         if (this.loginForm.valid) {
-            this.router.navigate(['/']);
+
+            this.signInService.loginUser(values).subscribe(data => {
+                console.log(data);
+                if (data.statusCode !== 0) {
+                    console.log('logged in');
+                    this.router.navigate(['/']);
+                }
+            });
         }
     }
 
-    public onRegisterFormSubmit(values: Object): void {
+    public onRegisterFormSubmit(values: User): void {
         console.log(values);
         if (this.registerForm.valid) {
-
-
+            delete values.confirmPassword;
+            // values.roles = 'MobileClient';
             this.signInService.registerUser(values).subscribe(data => {
                 console.log(data);
-            });
-
-
-            this.snackBar.open('You registered successfully!', '×', {
-                panelClass: 'success',
-                verticalPosition: 'top',
-                duration: 3000
+                if (data.statusCode !== 0) {
+                    this.snackBar.open('You registered successfully!', '×', {
+                        panelClass: 'success',
+                        verticalPosition: 'top',
+                        duration: 3000
+                    });
+                }
             });
         }
     }

@@ -1,3 +1,12 @@
+export class User {
+    constructor(public id: number,
+                public name: string,
+                public email: string,
+                public password: string,
+                public confirmPassword: string,
+                public roles: string ) {
+    }
+}
 export class Category {
     constructor(public id: number,
                 public name: string,
@@ -29,7 +38,9 @@ export class Product {
                         images: [
                             {
                                 id: number,
-                                url: string
+                                small: string,
+                                medium: string,
+                                large: string
                             }
                             ],
                         price: number,

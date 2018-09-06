@@ -37,6 +37,10 @@ export class AppService {
         return this.http.get<Product[]>(this.url + type + '-products.json');
     }
 
+    public getProductsNew(type): Observable<Product[]> {
+        return this.http.get<Product[]>(this.apiUrl + 'products?' + type);
+    }
+
     public getAllProductsNew(): Observable<any> {
         return this.http.get<any>(this.apiUrl + 'products?with_suppliers');
     }
@@ -49,12 +53,20 @@ export class AppService {
         return this.http.get<Product>(this.url + 'product-' + id + '.json');
     }
 
-    public getProductByIdNew(id): Observable<any> {
-        return this.http.get<any>(this.apiUrl + 'products/' + id);
+    public getProductByIdNew(id, supId): Observable<any> {
+        return this.http.get<any>(this.apiUrl + 'products?product_id=' + id + '&supplier_id=' + supId);
     }
 
     public getBanners(): Observable<any[]> {
         return this.http.get<any[]>(this.url + 'banners.json');
+    }
+
+    public getSlides(): Observable<any> {
+        return this.http.get<any>(this.apiUrl + 'products?slider');
+    }
+
+    public getBrandsNew(): Observable<any> {
+        return this.http.get<any>(this.apiUrl + 'brands');
     }
 
     public addToCompare(product: Product) {

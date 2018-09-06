@@ -21,6 +21,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     public sortings = ['Sort by Default', 'Best match', 'Lowest first', 'Highest first'];
     public sort: any;
     public products: Array<Product> = [];
+    public productsArray = [];
     public categories: Category[];
     public brands = [];
     public priceFrom: number = 750;
@@ -38,9 +39,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.count = this.counts[0];
         this.sort = this.sortings[0];
         this.sub = this.activatedRoute.params.subscribe(params => {
-             // console.log(params['name']);
-             this.catId = params['name'];
-             // console.log(this.catId);
+            // console.log(params['name']);
+            this.catId = params['name'];
+            // console.log(this.catId);
             if (this.catId) {
                 this.getProductsByCat();
             } else {
@@ -55,7 +56,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
         }
 
         this.getCategories();
-        this.getBrands();
+        this.getBrandsNew();
         // this.getAllProducts();
 
     }
@@ -101,7 +102,21 @@ export class ProductsComponent implements OnInit, OnDestroy {
             this.products = data.data.data;
             // console.log(this.products);
             this.products.forEach(value => {
-                let priceArray: number[] = [];
+                value.suppliers.forEach(item => {
+                    // console.log(item.images);
+                    let newProduct = {
+                        id: value.id,
+                        name: value.name,
+                        category_id: value.category_id,
+                        supplier_id: item.id,
+                        supplier_name: item.name,
+                        price: item.price,
+                        image: item.images[0].small
+                    };
+                    this.productsArray.push(newProduct);
+                });
+
+                /*let priceArray: number[] = [];
                 value.suppliers.forEach(supplier => {
                     priceArray.push(supplier.price);
                 });
@@ -111,13 +126,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
                  value.avg_price = minPrice + '-' + maxPrice;
                 } else {
                     value.avg_price = priceArray.toString();
-                }
+                }*/
             });
+            // console.log(this.productsArray);
 
             // for show more product
-            for (let index = 0; index < 3; index++) {
-                this.products = this.products.concat(this.products);
-            }
+            /*for (let index = 0; index < 3; index++) {
+                this.productsArray = this.productsArray.concat(this.productsArray);
+            }*/
         });
     }
 
@@ -135,6 +151,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
     public getBrands() {
         this.brands = this.appService.getBrands();
+    }
+
+    public getBrandsNew() {
+        // this.brands = this.appService.getBrandsNew();
+        this.appService.getBrandsNew().subscribe(data => {
+            this.brands = data.data;
+            // console.log(this.brands);
+        });
     }
 
     ngOnDestroy() {
