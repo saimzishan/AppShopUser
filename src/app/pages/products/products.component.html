@@ -132,7 +132,7 @@
         </div>
 
         <div *ngIf="viewType == 'grid'" fxLayout="row wrap" class="products-wrapper">
-            <div *ngFor="let product of productsArray | paginate: { itemsPerPage: count, currentPage: page }" fxFlex="100" [fxFlex.gt-sm]="viewCol" fxFlex.sm="50" class="col">
+            <div *ngFor="let product of products | paginate: { itemsPerPage: count, currentPage: page }" fxFlex="100" [fxFlex.gt-sm]="viewCol" fxFlex.sm="50" class="col">
                 <mat-card class="product-item text-center">
                     <mat-chip-list *ngIf="product.discount">
                         <mat-chip color="warn" selected="true">{{product.discount}}% OFF</mat-chip>
@@ -173,22 +173,27 @@
                             <mat-chip-list *ngIf="product.discount" class="list-view">
                                 <mat-chip color="warn" selected="true">{{product.discount}}% OFF</mat-chip>
                             </mat-chip-list>
-                            <a [routerLink]="['/products', product.id, product.name]" class="image-link">
-                                <img [src]="product.images[0].medium" alt="">
+                            <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]" class="image-link">
+                                <img [src]="product.image" alt="">
                             </a>
                         </div>
                         <div fxFlex="100" fxFlex.gt-xs="60" class="p-2">
                             <h4 class="category text-muted">{{ ( appService.Data.categories | filterById : product.category_id )?.name }}</h4>
-                            <a [routerLink]="['/products', product.id, product.name]" class="title">
+                            <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]" class="title">
                                 {{product.name}}
                             </a>
-                            <p class="py-1 text-muted lh">{{product.short_description}}</p>
+                            <!--<p class="py-1 text-muted lh">{{product.short_description}}</p>-->
+                            <div fxLayout="row" fxLayoutAlign="space-between center" class="prices">
+                                <h4 class="category text-muted">{{product.supplier_name}}</h4>
+                            </div>
                             <div fxLayout="row" fxLayoutAlign="space-between center" class="prices">
                                 <div fxLayout="column" fxLayoutAlign="center start">
-                                    <p class="old-price text-muted"><span *ngIf="product.oldPrice">${{product.oldPrice | number : '1.2-2'}}</span></p>
-                                    <p class="new-price">${{product.newPrice | number : '1.2-2'}}</p>
+                                    <!--<p class="old-price text-muted"><span *ngIf="product.suppliers">${{avgPrice}}</span></p>-->
+                                    <!--<p class="old-price text-muted"><span *ngIf="product.oldPrice">${{product.oldPrice | number : '1.2-2'}}</span></p>-->
+                                    <!--<p class="new-price">${{product.newPrice | number : '1.2-2'}}</p>-->
+                                    <p class="new-price">${{product.price}}</p>
                                 </div>
-                                <app-rating [ratingsCount]="product.ratingsCount" [ratingsValue]="product.ratingsValue" [direction]="'column'"></app-rating>
+                                <app-rating [ratingsCount]="4" [ratingsValue]="200" [direction]="'column'"></app-rating>
                             </div>
                             <div class="divider"></div>
                             <div class="icons">
@@ -200,7 +205,7 @@
             </div>
         </div>
 
-        <div *ngIf="products.length > 0" fxLayout="row wrap">
+        <div *ngIf="products?.length > 0" fxLayout="row wrap">
             <div fxFlex="100">
                 <mat-card class="p-0 text-center">
                     <pagination-controls class="product-pagination" autoHide="true" maxSize="5" (pageChange)="onPageChanged($event)"></pagination-controls>

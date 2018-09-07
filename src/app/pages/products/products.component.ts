@@ -22,6 +22,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     public sort: any;
     public products: Array<Product> = [];
     public productsArray = [];
+    public productsCatArray = [];
     public categories: Category[];
     public brands = [];
     public priceFrom: number = 750;
@@ -73,27 +74,34 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
     public getProductsByCat() {
         this.appService.getAllProductsByCat(this.catId).subscribe(data => {
-            // console.log(data.data.products.data);
             this.products = data.data.products.data;
             // console.log(this.products);
+            this.productsCatArray = [];
+            // if (this.products.length > 0) {
             this.products.forEach(value => {
-                let priceArray: number[] = [];
-                value.suppliers.forEach(supplier => {
-                    priceArray.push(supplier.price);
+                value.suppliers.forEach(item => {
+                    // console.log(item.images);
+                    let newProduct = {
+                        id: value.id,
+                        name: value.name,
+                        category_id: value.category_id,
+                        supplier_id: item.id,
+                        supplier_name: item.name,
+                        price: item.price,
+                        image: item.images[0].small
+                    };
+                    this.productsCatArray.push(newProduct);
                 });
-                if (priceArray.length > 1) {
-                    const maxPrice = Math.max(...priceArray);
-                    const minPrice = Math.min(...priceArray);
-                    value.avg_price = minPrice + '-' + maxPrice;
-                } else {
-                    value.avg_price = priceArray.toString();
-                }
             });
+           // }
+            this.products = this.productsCatArray;
+            /*console.log(this.products);
+            console.log(this.appService.Data.categories);*/
 
             // for show more product
-            for (let index = 0; index < 3; index++) {
+            /*for (let index = 0; index < 3; index++) {
                 this.products = this.products.concat(this.products);
-            }
+            }*/
         });
     }
 
@@ -115,20 +123,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
                     };
                     this.productsArray.push(newProduct);
                 });
-
-                /*let priceArray: number[] = [];
-                value.suppliers.forEach(supplier => {
-                    priceArray.push(supplier.price);
-                });
-                if (priceArray.length > 1) {
-                const maxPrice = Math.max(...priceArray);
-                const minPrice = Math.min(...priceArray);
-                 value.avg_price = minPrice + '-' + maxPrice;
-                } else {
-                    value.avg_price = priceArray.toString();
-                }*/
             });
-            // console.log(this.productsArray);
+            this.products = this.productsArray;
 
             // for show more product
             /*for (let index = 0; index < 3; index++) {
@@ -145,7 +141,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
             });
         } else {
             this.categories = this.appService.Data.categories;
-            console.log(this.categories);
+            // console.log(this.categories);
         }
     }
 

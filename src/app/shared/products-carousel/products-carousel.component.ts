@@ -14,7 +14,7 @@ import {Product} from '../../app.models';
 })
 export class ProductsCarouselComponent implements OnInit, AfterViewInit {
 
-    @Input('products') products: Array<Product> = [];
+    @Input('products') products: Array<any> = [];
     public config: SwiperConfigInterface = {};
 
     constructor(public appService: AppService, public dialog: MatDialog, private router: Router) {

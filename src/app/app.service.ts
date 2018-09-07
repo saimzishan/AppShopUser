@@ -37,8 +37,8 @@ export class AppService {
         return this.http.get<Product[]>(this.url + type + '-products.json');
     }
 
-    public getProductsNew(type): Observable<Product[]> {
-        return this.http.get<Product[]>(this.apiUrl + 'products?' + type);
+    public getProductsNew(type): Observable<any> {
+        return this.http.get<any>(this.apiUrl + 'products?' + type);
     }
 
     public getAllProductsNew(): Observable<any> {
@@ -46,7 +46,7 @@ export class AppService {
     }
 
     public getAllProductsByCat(catId): Observable<any> {
-        return this.http.get<any>(this.apiUrl + 'categories/' + catId);
+        return this.http.get<any>(this.apiUrl + 'categories/' + catId + '?with_products');
     }
 
     public getProductById(id): Observable<Product> {
@@ -57,9 +57,13 @@ export class AppService {
         return this.http.get<any>(this.apiUrl + 'products?product_id=' + id + '&supplier_id=' + supId);
     }
 
-    public getBanners(): Observable<any[]> {
-        return this.http.get<any[]>(this.url + 'banners.json');
+    public getBanners(): Observable<any> {
+        return this.http.get<any>(this.apiUrl + 'products?promoted&count=6');
     }
+
+    /*public getBanners(): Observable<any[]> {
+        return this.http.get<any[]>(this.url + 'banners.json');
+    }*/
 
     public getSlides(): Observable<any> {
         return this.http.get<any>(this.apiUrl + 'products?slider');

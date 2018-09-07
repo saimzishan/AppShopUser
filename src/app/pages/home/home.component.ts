@@ -24,6 +24,9 @@ export class HomeComponent implements OnInit {
     public onSaleProducts: Array<Product>;
     public topRatedProducts: Array<Product>;
     public newArrivalsProducts: Array<Product>;
+    /*public featuredProductsArray = [];
+    public onSaleProductsArray = [];
+    public topRatedProductsArray = [];*/
 
 
     constructor(public appService: AppService) {
@@ -44,6 +47,7 @@ export class HomeComponent implements OnInit {
         this.appService.getSlides().subscribe(data => {
             // console.log(data.data);
             this.slides = data.data.data;
+            // console.log(this.slides);
             this.slides.map(item => {
                // console.log(item);
                item.title = 'The biggest sale';
@@ -56,22 +60,26 @@ export class HomeComponent implements OnInit {
     public getProductsNew (type) {
         if (type === 'featured' && !this.featuredProducts) {
             this.appService.getProductsNew('featured').subscribe(data => {
-                this.featuredProducts = data;
+                this.featuredProducts = data.data.data;
+                this.featuredProducts = this.createProductsArray(this.featuredProducts);
             });
         }
         if (type === 'on sale' && !this.onSaleProducts) {
             this.appService.getProductsNew('on-sale').subscribe(data => {
-                this.onSaleProducts = data;
+                this.onSaleProducts = data.data.data;
+                this.onSaleProducts = this.createProductsArray(this.onSaleProducts);
             });
         }
         if (type === 'top rated' && !this.topRatedProducts) {
             this.appService.getProductsNew('top-rated').subscribe(data => {
-                this.topRatedProducts = data;
+                this.topRatedProducts = data.data.data;
+                this.topRatedProducts = this.createProductsArray(this.topRatedProducts);
             });
         }
         if (type === 'new arrivals' && !this.newArrivalsProducts) {
-            this.appService.getProductsNew('new-arrivals').subscribe(data => {
-                this.newArrivalsProducts = data;
+            this.appService.getProductsNew('new-arrival').subscribe(data => {
+                this.newArrivalsProducts = data.data.data;
+                this.newArrivalsProducts = this.createProductsArray(this.newArrivalsProducts);
             });
         }
 
@@ -101,11 +109,44 @@ export class HomeComponent implements OnInit {
 
     }*/
 
+    public createProductsArray(productArray) {
+        let newProductArray = [];
+        productArray.forEach(value => {
+            value.suppliers.forEach(item => {
+                // console.log(item.images);
+                let newProduct = {
+                    id: value.id,
+                    name: value.name,
+                    category_id: value.category_id,
+                    supplier_id: item.id,
+                    supplier_name: item.name,
+                    price: item.price,
+                    image: item.images[0].small
+                };
+                newProductArray.push(newProduct);
+            });
+        });
+        return newProductArray;
+    }
+
     public getBanners() {
+        this.appService.getBanners().subscribe(data => {
+            // console.log(data.data.data);
+            this.banners = data.data.data;
+            this.banners.map(item => {
+                // console.log(item);
+                item.title = 'The biggest sale';
+                item.subtitle = 'Special for today';
+            });
+            // console.log(this.banners);
+        });
+    }
+
+    /*public getBanners() {
         this.appService.getBanners().subscribe(data => {
             this.banners = data;
         });
-    }
+    }*/
 
     public getBrandsNew() {
         // this.brands = this.appService.getBrandsNew();
