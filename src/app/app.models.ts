@@ -22,7 +22,8 @@ export class Product {
                 public name: string,
                 public short_description: string,
                 public long_description: string,
-                public avg_price: string,
+                public price: string,
+                public count: number,
                 public active: number,
                 public category_id: number,
                 public rating: {

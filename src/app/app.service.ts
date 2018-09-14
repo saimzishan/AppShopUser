@@ -99,16 +99,20 @@ export class AppService {
         this.snackBar.open(message, '×', {panelClass: [status], verticalPosition: 'top', duration: 3000});
     }
 
-    public addToCart(product: Product) {
+    public addToCart(product: Product, count: number) {
+    /*public addToCart(product: Product) {*/
         let message, status;
         if (this.Data.cartList.filter(item => item.id === product.id)[0]) {
             message = 'The product ' + product.name + ' already added to cart.';
             status = 'error';
         } else {
             this.Data.totalPrice = null;
+            // product.price = (+product.price * count).toString();
+            product.count = count;
             this.Data.cartList.push(product);
             this.Data.cartList.forEach(cartProduct => {
-                this.Data.totalPrice = this.Data.totalPrice + cartProduct.newPrice;
+                /*this.Data.totalPrice = this.Data.totalPrice + cartProduct.newPrice;*/
+                this.Data.totalPrice = this.Data.totalPrice + (+cartProduct.price * cartProduct.count);
             });
             message = 'The product ' + product.name + ' has been added to cart.';
             status = 'success';

@@ -82,9 +82,9 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
         this.appService.getProductByIdNew(id, supId).subscribe(data => {
             this.product = data.data;
             this.product.availibilityCount = 100;
-            console.log(this.product);
-            this.image = this.product.suppliers[0].images[0].small;
-            this.zoomImage = this.product.suppliers[0].images[0].small;
+            // console.log(this.product);
+            this.image = this.product.images[0].small;
+            this.zoomImage = this.product.images[0].small;
             setTimeout(() => {
                 this.config.observer = true;
                 // this.directiveRef.setIndex(0);

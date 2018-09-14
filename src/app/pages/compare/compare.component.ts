@@ -24,6 +24,6 @@ export class CompareComponent implements OnInit {
   }
 
   public addToCart(product){
-    this.appService.addToCart(product);
+    // this.appService.addToCart(product);
   }
 }

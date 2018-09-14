@@ -202,7 +202,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     }
 
     public onChangeCategory(event) {
-        console.log(event);
+        // console.log(event);
         this.router.navigate(['/products', event]);
         /*if (event.target) {
             console.log(event);

@@ -1,5 +1,6 @@
 <mat-horizontal-stepper #horizontalStepper linear="true" class="mat-elevation-z2" fxShow="false" fxShow.gt-sm>
-  <mat-step [stepControl]="billingForm" label="Billing address">
+  <!--<mat-step [stepControl]="billingForm" label="Billing address">-->
+    <mat-step label="Billing address">
     <form [formGroup]="billingForm">     
       <div fxLayout="row wrap">
         <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
@@ -86,8 +87,17 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="paymentForm" label="Payment method">
-    <form [formGroup]="paymentForm">
+  <!--<mat-step [stepControl]="paymentForm" label="Payment method">-->
+    <!--<mat-step label="Payment method">
+      &lt;!&ndash;<ngx-paypal [config]="payPalConfig"></ngx-paypal>&ndash;&gt;
+
+            <input name="grandTotal" [(ngModel)]="grandTotal" type="text" hidden placeholder="">
+        <div id="paypal-checkout-button"></div>
+      <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+          <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before" class="mr-1"><mat-icon>navigate_before</mat-icon></button>
+          <button mat-mini-fab matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after"><mat-icon>navigate_next</mat-icon></button>
+      </div>
+    &lt;!&ndash;<form [formGroup]="paymentForm">
       <div fxLayout="row wrap">
         <div fxFlex="100" fxLayout="column" fxLayoutAlign="start start" class="p-1">
           <span class="text-muted">Credit Card</span>
@@ -136,8 +146,8 @@
         <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before" class="mr-1"><mat-icon>navigate_before</mat-icon></button>
         <button mat-mini-fab matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after"><mat-icon>navigate_next</mat-icon></button>       
       </div>
-    </form>
-  </mat-step>
+    </form>&ndash;&gt;
+  </mat-step>-->
   <mat-step label="Review Order">    
     <div fxLayout="row wrap">
       <div fxFlex="100" class="p-1">
@@ -154,9 +164,9 @@
           <div *ngFor="let product of appService.Data.cartList" class="mat-row">
             <div class="mat-cell"><img [src]="product.images[0].small"></div>
             <div class="mat-cell">{{product.name}}</div>
-            <div class="mat-cell">${{product.newPrice | number : '1.2-2'}}</div>      
-            <div class="mat-cell text-muted"> 1 </div>
-            <div class="mat-cell">${{product.newPrice | number : '1.2-2'}}</div>
+            <div class="mat-cell">${{product.price | number : '1.2-2'}}</div>
+            <div class="mat-cell text-muted"> {{product.count}} </div>
+            <div class="mat-cell">${{(+product.price)* product.count | number : '1.2-2'}}</div>
           </div>
         </div>
       </div> 
@@ -218,10 +228,11 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1"> 
       <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before" class="mr-1"><mat-icon>navigate_before</mat-icon></button>
-      <button mat-raised-button matStepperNext color="primary" (click)="placeOrder()">Place order now</button>       
+        <div id="paypal-checkout-button"></div>
+        <!--<button mat-raised-button matStepperNext color="primary" (click)="placeOrder()">Place order now</button>-->
     </div>     
   </mat-step>
-  <mat-step label="Confirmation">
+  <mat-step [stepControl]="confirmation" label="Confirmation">
     <div fxLayout="column" fxLayoutAlign="center center" class="p-2 text-center"> 
       <button mat-fab color="primary"><mat-icon>check</mat-icon></button>
       <h2 class="py-2">Congratulation! Your order has been processed</h2>
@@ -390,7 +401,7 @@
           <div *ngFor="let product of appService.Data.cartList" class="mat-row">
             <div class="mat-cell"><img [src]="product.images[0].small"></div>
             <div class="mat-cell">{{product.name}}</div>
-            <div class="mat-cell">${{product.newPrice | number : '1.2-2'}}</div>      
+            <div class="mat-cell">${{product.price | number : '1.2-2'}}</div>
             <div class="mat-cell text-muted"> 1 </div>
             <div class="mat-cell">${{product.newPrice | number : '1.2-2'}}</div>
           </div>

@@ -1,23 +1,27 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from '../../shared/shared.module';
-import { CheckoutComponent } from './checkout.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RouterModule} from '@angular/router';
+import {ReactiveFormsModule, FormsModule} from '@angular/forms';
+import {SharedModule} from '../../shared/shared.module';
+import {CheckoutComponent} from './checkout.component';
+import {NgxPayPalModule} from 'ngx-paypal';
 
 export const routes = [
-  { path: '', component: CheckoutComponent, pathMatch: 'full' }
+    {path: '', component: CheckoutComponent, pathMatch: 'full'}
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    ReactiveFormsModule,
-    SharedModule
-  ],
-  declarations: [
-    CheckoutComponent
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        ReactiveFormsModule,
+        FormsModule,
+        SharedModule,
+        NgxPayPalModule
+    ],
+    declarations: [
+        CheckoutComponent
+    ]
 })
-export class CheckoutModule { }
+export class CheckoutModule {
+}
