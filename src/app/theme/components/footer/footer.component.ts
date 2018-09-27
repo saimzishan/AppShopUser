@@ -14,6 +14,6 @@ export class FooterComponent implements OnInit {
 
   ngOnInit() { }
 
-  subscribe(){ }
+  subscribe() { }
 
 }

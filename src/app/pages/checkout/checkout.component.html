@@ -1,80 +1,165 @@
 <mat-horizontal-stepper #horizontalStepper linear="true" class="mat-elevation-z2" fxShow="false" fxShow.gt-sm>
   <!--<mat-step [stepControl]="billingForm" label="Billing address">-->
-    <mat-step label="Billing address">
-    <form [formGroup]="billingForm">     
+    <mat-step [stepControl]="billingForm && (billlingAddress && shippingForm)" label="Billing and Shipping address">
+        <h3>Billing Address</h3>
+    <form [formGroup]="billingForm">
       <div fxLayout="row wrap">
         <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="First name" formControlName="firstName" required>
-              <mat-error *ngIf="billingForm.controls.firstName.errors?.required">First name is required</mat-error>
+              <input matInput placeholder="First name" formControlName="bfirstName" required>
+              <mat-error *ngIf="billingForm.controls.bfirstName.errors?.required">First name is required</mat-error>
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="Last name" formControlName="lastName" required>
-              <mat-error *ngIf="billingForm.controls.lastName.errors?.required">Last name is required</mat-error>
+              <input matInput placeholder="Last name" formControlName="blastName" required>
+              <mat-error *ngIf="billingForm.controls.blastName.errors?.required">Last name is required</mat-error>
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="Middle Name/Initial" formControlName="middleName">
+              <input matInput placeholder="Middle Name/Initial" formControlName="bmiddleName">
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="Company" formControlName="company">
+              <input matInput placeholder="Company" formControlName="bcompany">
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="Email" formControlName="email" required>
-              <mat-error *ngIf="billingForm.controls.email.errors?.required">Email is required</mat-error>
+              <input matInput placeholder="Email" formControlName="bemail" required>
+              <mat-error *ngIf="billingForm.controls.bemail.errors?.required">Email is required</mat-error>
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="Phone" formControlName="phone" required>
-              <mat-error *ngIf="billingForm.controls.phone.errors?.required">Phone is required</mat-error>
+              <input matInput placeholder="Phone" formControlName="bphone" required>
+              <mat-error *ngIf="billingForm.controls.bphone.errors?.required">Phone is required</mat-error>
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
           <mat-form-field class="w-100">
-            <mat-select placeholder="Country" formControlName="country" required>
-              <mat-option *ngFor="let country of countries" [value]="country">
+            <mat-select placeholder="Country" formControlName="bcountry" required>
+              <mat-option *ngFor="let country of countries" [value]="country.name">
                   {{country.name}}
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="billingForm.controls.country.errors?.required">Country is required</mat-error>
+            <mat-error *ngIf="billingForm.controls.bcountry.errors?.required">Country is required</mat-error>
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="City" formControlName="city" required>
-              <mat-error *ngIf="billingForm.controls.city.errors?.required">City is required</mat-error>
+              <input matInput placeholder="City" formControlName="bcity" required>
+              <mat-error *ngIf="billingForm.controls.bcity.errors?.required">City is required</mat-error>
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="State/Province" formControlName="state">
+              <input matInput placeholder="State/Province" formControlName="bstate">
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="Zip/Postal Code" formControlName="zip" required>
-              <mat-error *ngIf="billingForm.controls.zip.errors?.required">Zip/Postal Code is required</mat-error>
+              <input matInput placeholder="Zip/Postal Code" formControlName="bzip" required>
+              <mat-error *ngIf="billingForm.controls.bzip.errors?.required">Zip/Postal Code is required</mat-error>
           </mat-form-field>
         </div>
         <div fxFlex="100" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="Address (street, apartment, suite, unit etc.)" formControlName="address" required>
-              <mat-error *ngIf="billingForm.controls.address.errors?.required">Address is required</mat-error>
+              <input matInput placeholder="Address (street, apartment, suite, unit etc.)" formControlName="baddress" required>
+              <mat-error *ngIf="billingForm.controls.baddress.errors?.required">Address is required</mat-error>
           </mat-form-field>
         </div>
       </div>
-      <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1"> 
+      <!--<div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+        <button mat-mini-fab matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after"><mat-icon>navigate_next</mat-icon></button>
+      </div>-->
+        <mat-divider></mat-divider>
+    </form>
+        <h3 style="padding: 10px;">Shipping Address</h3>
+        <div fxLayout="row">
+            <!--<mat-form-field class="w-100">-->
+                <mat-checkbox (change)="onChange($event)">Same as Billing Address</mat-checkbox>
+            <!--</mat-form-field>-->
+        </div>
+        <div *ngIf="!billlingAddress" fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
         <button mat-mini-fab matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after"><mat-icon>navigate_next</mat-icon></button>
       </div>
-    </form>
+        <form *ngIf="billlingAddress" [formGroup]="shippingForm">
+            <div fxLayout="row wrap">
+                <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                    <mat-form-field class="w-100">
+                        <input matInput placeholder="First name" formControlName="sfirstName" required>
+                        <mat-error *ngIf="shippingForm.controls.sfirstName.errors?.required">First name is required</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                    <mat-form-field class="w-100">
+                        <input matInput placeholder="Last name" formControlName="slastName" required>
+                        <mat-error *ngIf="shippingForm.controls.slastName.errors?.required">Last name is required</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                    <mat-form-field class="w-100">
+                        <input matInput placeholder="Middle Name/Initial" formControlName="smiddleName">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                    <mat-form-field class="w-100">
+                        <input matInput placeholder="Company" formControlName="scompany">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                    <mat-form-field class="w-100">
+                        <input matInput placeholder="Email" formControlName="semail" required>
+                        <mat-error *ngIf="shippingForm.controls.semail.errors?.required">Email is required</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                    <mat-form-field class="w-100">
+                        <input matInput placeholder="Phone" formControlName="sphone" required>
+                        <mat-error *ngIf="shippingForm.controls.sphone.errors?.required">Phone is required</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
+                    <mat-form-field class="w-100">
+                        <mat-select placeholder="Country" formControlName="scountry" required>
+                            <mat-option *ngFor="let country of countries" [value]="country.name">
+                                {{country.name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="shippingForm.controls.scountry.errors?.required">Country is required</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
+                    <mat-form-field class="w-100">
+                        <input matInput placeholder="City" formControlName="scity" required>
+                        <mat-error *ngIf="shippingForm.controls.scity.errors?.required">City is required</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
+                    <mat-form-field class="w-100">
+                        <input matInput placeholder="State/Province" formControlName="sstate">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
+                    <mat-form-field class="w-100">
+                        <input matInput placeholder="Zip/Postal Code" formControlName="szip" required>
+                        <mat-error *ngIf="shippingForm.controls.szip.errors?.required">Zip/Postal Code is required</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="100" class="px-1">
+                    <mat-form-field class="w-100">
+                        <input matInput placeholder="Address (street, apartment, suite, unit etc.)" formControlName="saddress" required>
+                        <mat-error *ngIf="shippingForm.controls.saddress.errors?.required">Address is required</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+                <button mat-mini-fab matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after"><mat-icon>navigate_next</mat-icon></button>
+            </div>
+        </form>
   </mat-step>
   <mat-step [stepControl]="deliveryForm" label="Delivery method">
     <form [formGroup]="deliveryForm" class="p-2">
@@ -178,35 +263,35 @@
       </div>
       <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
         <p class="text-muted">Name:</p>
-        <p>{{billingForm.controls.firstName.value}} {{billingForm.controls.lastName.value}}</p>
+        <p>{{billingForm.controls.bfirstName.value}} {{billingForm.controls.blastName.value}}</p>
       </div>
       <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
         <p class="text-muted">Email:</p>
-        <p>{{billingForm.controls.email.value}}</p>
+        <p>{{billingForm.controls.bemail.value}}</p>
       </div>
       <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
         <p class="text-muted">Phone:</p>
-        <p>{{billingForm.controls.phone.value}}</p>
+        <p>{{billingForm.controls.bphone.value}}</p>
       </div>
       <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
         <p class="text-muted">Country:</p>
-        <p>{{billingForm.controls.country.value['name']}}</p>
+        <p>{{billingForm.controls.bcountry.value}}</p>
       </div>
       <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
         <p class="text-muted">City:</p>
-        <p>{{billingForm.controls.city.value}}</p>
+        <p>{{billingForm.controls.bcity.value}}</p>
       </div>
       <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
         <p class="text-muted">State:</p>
-        <p>{{billingForm.controls.state.value}}</p>
+        <p>{{billingForm.controls.bstate.value}}</p>
       </div>
       <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
         <p class="text-muted">Zip/PostalCode:</p>
-        <p>{{billingForm.controls.zip.value}}</p>
+        <p>{{billingForm.controls.bzip.value}}</p>
       </div>
       <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
         <p class="text-muted">Address:</p>
-        <p>{{billingForm.controls.address.value}}</p>
+        <p>{{billingForm.controls.baddress.value}}</p>
       </div>
     </div>
     <div fxLayout="row">
@@ -216,22 +301,25 @@
         <p class="py-1">{{deliveryForm.controls.deliveryMethod.value['name']}} <span class="text-muted">{{deliveryForm.controls.deliveryMethod.value['desc']}}</span></p>
       </div>
     </div>
-    <div fxLayout="row">
+    <!--<div fxLayout="row">
       <div fxFlex="100" class="p-1">
         <h3 class="text-muted mt-2">Payment information</h3>
         <div class="divider"></div>
         <p class="py-1"><span class="text-muted mr-1">Card number:</span><span>XXX-XXX-XXX-7224</span></p>
       </div>
-    </div>
+    </div>-->
     <div fxLayout="row" fxLayoutAlign="center center" class="p-1"> 
        <h2><span class="text-muted mr-1">Total Price:</span><span>${{grandTotal | number : '1.2-2'}}</span></h2>    
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1"> 
       <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before" class="mr-1"><mat-icon>navigate_before</mat-icon></button>
-        <div id="paypal-checkout-button"></div>
-        <!--<button mat-raised-button matStepperNext color="primary" (click)="placeOrder()">Place order now</button>-->
+
+        <button mat-raised-button matStepperNext color="primary" (click)="placeOrder()">Place order now</button>
     </div>     
   </mat-step>
+    <mat-step [stepControl]="billingForm" label="Payment">
+        <div id="paypal-checkout-button"></div>
+    </mat-step>
   <mat-step [stepControl]="confirmation" label="Confirmation">
     <div fxLayout="column" fxLayoutAlign="center center" class="p-2 text-center"> 
       <button mat-fab color="primary"><mat-icon>check</mat-icon></button>
@@ -251,69 +339,69 @@
       <div fxLayout="row wrap">
         <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="First name" formControlName="firstName" required>
-              <mat-error *ngIf="billingForm.controls.firstName.errors?.required">First name is required</mat-error>
+              <input matInput placeholder="First name" formControlName="bfirstName" required>
+              <mat-error *ngIf="billingForm.controls.bfirstName.errors?.required">First name is required</mat-error>
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="Last name" formControlName="lastName" required>
-              <mat-error *ngIf="billingForm.controls.lastName.errors?.required">Last name is required</mat-error>
+              <input matInput placeholder="Last name" formControlName="blastName" required>
+              <mat-error *ngIf="billingForm.controls.blastName.errors?.required">Last name is required</mat-error>
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="Middle Name/Initial" formControlName="middleName">
+              <input matInput placeholder="Middle Name/Initial" formControlName="bmiddleName">
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="Company" formControlName="company">
+              <input matInput placeholder="Company" formControlName="bcompany">
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="Email" formControlName="email" required>
-              <mat-error *ngIf="billingForm.controls.email.errors?.required">Email is required</mat-error>
+              <input matInput placeholder="Email" formControlName="bemail" required>
+              <mat-error *ngIf="billingForm.controls.bemail.errors?.required">Email is required</mat-error>
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="Phone" formControlName="phone" required>
-              <mat-error *ngIf="billingForm.controls.phone.errors?.required">Phone is required</mat-error>
+              <input matInput placeholder="Phone" formControlName="bphone" required>
+              <mat-error *ngIf="billingForm.controls.bphone.errors?.required">Phone is required</mat-error>
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
           <mat-form-field class="w-100">
-            <mat-select placeholder="Country" formControlName="country" required>
-              <mat-option *ngFor="let country of countries" [value]="country">
+            <mat-select placeholder="Country" formControlName="bcountry" required>
+              <mat-option *ngFor="let country of countries" [value]="country.value">
                   {{country.name}}
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="billingForm.controls.country.errors?.required">Country is required</mat-error>
+            <mat-error *ngIf="billingForm.controls.bcountry.errors?.required">Country is required</mat-error>
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="City" formControlName="city" required>
-              <mat-error *ngIf="billingForm.controls.city.errors?.required">City is required</mat-error>
+              <input matInput placeholder="City" formControlName="bcity" required>
+              <mat-error *ngIf="billingForm.controls.bcity.errors?.required">City is required</mat-error>
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="State/Province" formControlName="state">
+              <input matInput placeholder="State/Province" formControlName="bstate">
           </mat-form-field>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="Zip/Postal Code" formControlName="zip" required>
-              <mat-error *ngIf="billingForm.controls.zip.errors?.required">Zip/Postal Code is required</mat-error>
+              <input matInput placeholder="Zip/Postal Code" formControlName="bzip" required>
+              <mat-error *ngIf="billingForm.controls.bzip.errors?.required">Zip/Postal Code is required</mat-error>
           </mat-form-field>
         </div>
         <div fxFlex="100" class="px-1">
           <mat-form-field class="w-100">
-              <input matInput placeholder="Address (street, apartment, suite, unit etc.)" formControlName="address" required>
-              <mat-error *ngIf="billingForm.controls.address.errors?.required">Address is required</mat-error>
+              <input matInput placeholder="Address (street, apartment, suite, unit etc.)" formControlName="baddress" required>
+              <mat-error *ngIf="billingForm.controls.baddress.errors?.required">Address is required</mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -415,35 +503,35 @@
       </div>
       <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
         <p class="text-muted">Name:</p>
-        <p>{{billingForm.controls.firstName.value}} {{billingForm.controls.lastName.value}}</p>
+        <p>{{billingForm.controls.bfirstName.value}} {{billingForm.controls.blastName.value}}</p>
       </div>
       <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
         <p class="text-muted">Email:</p>
-        <p>{{billingForm.controls.email.value}}</p>
+        <p>{{billingForm.controls.bemail.value}}</p>
       </div>
       <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
         <p class="text-muted">Phone:</p>
-        <p>{{billingForm.controls.phone.value}}</p>
+        <p>{{billingForm.controls.bphone.value}}</p>
       </div>
       <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
         <p class="text-muted">Country:</p>
-        <p>{{billingForm.controls.country.value['name']}}</p>
+        <p>{{billingForm.controls.bcountry.value['name']}}</p>
       </div>
       <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
         <p class="text-muted">City:</p>
-        <p>{{billingForm.controls.city.value}}</p>
+        <p>{{billingForm.controls.bcity.value}}</p>
       </div>
       <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
         <p class="text-muted">State:</p>
-        <p>{{billingForm.controls.state.value}}</p>
+        <p>{{billingForm.controls.bstate.value}}</p>
       </div>
       <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
         <p class="text-muted">Zip/PostalCode:</p>
-        <p>{{billingForm.controls.zip.value}}</p>
+        <p>{{billingForm.controls.bzip.value}}</p>
       </div>
       <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
         <p class="text-muted">Address:</p>
-        <p>{{billingForm.controls.address.value}}</p>
+        <p>{{billingForm.controls.baddress.value}}</p>
       </div>
     </div>
     <div fxLayout="row">

@@ -24,6 +24,9 @@ export class AppService {
     );
     public url = 'assets/data/';
     public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
+    // public apiUrl = 'http://47e7dc14.ngrok.io/api/auth/';
+    // public imgUrl = 'http://47e7dc14.ngrok.io/';
+    public imgUrl = 'http://124.109.39.22:18089/onlineappshopapi';
 
     constructor(public http: HttpClient, public snackBar: MatSnackBar) {
     }

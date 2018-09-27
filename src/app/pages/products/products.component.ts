@@ -88,7 +88,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
                         supplier_id: item.id,
                         supplier_name: item.name,
                         price: item.price,
-                        image: item.images[0].small
+                        image: item.images.length > 0 && item.images[0].small.startsWith('http') ? item.images[0].small : this.appService.imgUrl + item.images[0].small
+                        // image: item.images[0].small
                     };
                     this.productsCatArray.push(newProduct);
                 });
@@ -111,7 +112,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
             // console.log(this.products);
             this.products.forEach(value => {
                 value.suppliers.forEach(item => {
-                    // console.log(item.images);
+                    // console.log(item);
                     let newProduct = {
                         id: value.id,
                         name: value.name,
@@ -119,7 +120,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
                         supplier_id: item.id,
                         supplier_name: item.name,
                         price: item.price,
-                        image: item.images[0].small
+                        // image: item.images.length > 0 ? item.images[0].small : ''
+                        image: item.images.length > 0 && item.images[0].small.startsWith('http') ? item.images[0].small : this.appService.imgUrl + item.images[0].small
                     };
                     this.productsArray.push(newProduct);
                 });

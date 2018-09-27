@@ -15,6 +15,7 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     @ViewChild('horizontalStepper') horizontalStepper: MatStepper;
     @ViewChild('verticalStepper') verticalStepper: MatStepper;
     billingForm: FormGroup;
+    shippingForm: FormGroup;
     deliveryForm: FormGroup;
     paymentForm: FormGroup;
     countries = [];
@@ -26,15 +27,19 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
 
     addScript = false;
     confirmation = false;
+    billlingAddress = true;
 
     paypalConfig = {
         env: 'sandbox', // sandbox | production
+
+        /*intent: 'sale',
+        orderID: '90048630024435',*/
 
         // Specify the style of the button
 
         style: {
             label: 'checkout',
-            size:  'medium',    // small | medium | large | responsive
+            size: 'medium',    // small | medium | large | responsive
             shape: 'pill',     // pill | rect
             color: 'gold'      // gold | blue | silver | black
         },
@@ -59,6 +64,8 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
                         {
                             amount: {total: this.grandTotal, currency: 'USD'},
                             description: 'The payment transaction description.',
+                            custom: '90048630024435',
+                            invoice_number: '0000897',
                             item_list: {
                                 items: this.checkoutItems,
                                 /*shipping_address: {
@@ -80,14 +87,20 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
         // onAuthorize() is called when the buyer approves the payment
         onAuthorize: (data, actions) => {
 
-            // Make a call to the REST api to execute the payment
-            return actions.payment.execute().then(() => {
-                this.confirmation = true;
-                this.horizontalStepper.next();
-                this.horizontalStepper._steps.forEach(step => step.editable = false);
-                this.verticalStepper._steps.forEach(step => step.editable = false);
-                this.appService.Data.cartList.length = 0;
-            });
+            // console.log(data);
+
+            // return actions.payment.get().then(data1 => {
+               // console.log(data1);
+                // Make a call to the REST api to execute the payment
+                return actions.payment.execute().then((data1) => {
+                    console.log(data1);
+                    this.confirmation = true;
+                    this.horizontalStepper.next();
+                    this.horizontalStepper._steps.forEach(step => step.editable = false);
+                    this.verticalStepper._steps.forEach(step => step.editable = false);
+                    this.appService.Data.cartList.length = 0;
+                });
+            // });
         }
     };
 
@@ -105,17 +118,30 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
         this.years = this.appService.getYears();
         this.deliveryMethods = this.appService.getDeliveryMethods();
         this.billingForm = this.formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
-            middleName: '',
-            company: '',
-            email: ['', Validators.required],
-            phone: ['', Validators.required],
-            country: ['', Validators.required],
-            city: ['', Validators.required],
-            state: '',
-            zip: ['', Validators.required],
-            address: ['', Validators.required]
+            bfirstName: ['', Validators.required],
+            blastName: ['', Validators.required],
+            bmiddleName: '',
+            bcompany: '',
+            bemail: ['', Validators.required],
+            bphone: ['', Validators.required],
+            bcountry: ['', Validators.required],
+            bcity: ['', Validators.required],
+            bstate: '',
+            bzip: ['', Validators.required],
+            baddress: ['', Validators.required]
+        });
+        this.shippingForm = this.formBuilder.group({
+            sfirstName: ['', Validators.required],
+            slastName: ['', Validators.required],
+            smiddleName: '',
+            scompany: '',
+            semail: ['', Validators.required],
+            sphone: ['', Validators.required],
+            scountry: ['', Validators.required],
+            scity: ['', Validators.required],
+            sstate: '',
+            szip: ['', Validators.required],
+            saddress: ['', Validators.required]
         });
         this.deliveryForm = this.formBuilder.group({
             deliveryMethod: [this.deliveryMethods[0], Validators.required]
@@ -139,7 +165,7 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
             };
             this.checkoutItems.push(obj);
         });
-        console.log(this.checkoutItems);
+        // console.log(this.checkoutItems);
         // this.initConfig();
     }
 
@@ -195,9 +221,26 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     }*/
 
     public placeOrder() {
+        console.log(this.billingForm.value);
+        if (this.billlingAddress) {
+            console.log(this.shippingForm.value);
+            let newObj = Object.assign({}, this.billingForm.value, this.shippingForm.value);
+            console.log(newObj);
+            newObj.items = this.checkoutItems;
+            console.log(newObj);
+        }
         this.horizontalStepper._steps.forEach(step => step.editable = false);
         this.verticalStepper._steps.forEach(step => step.editable = false);
         this.appService.Data.cartList.length = 0;
+    }
+
+    onChange(evt) {
+        console.log(evt);
+        if (evt.checked && this.billlingAddress) {
+            this.billlingAddress = false;
+        } else {
+            this.billlingAddress = true;
+        }
     }
 
 }

@@ -17,12 +17,14 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('zoomViewer') zoomViewer;
     @ViewChild(SwiperDirective) directiveRef: SwiperDirective;
     public config: SwiperConfigInterface = {};
-    public product: Product;
+    public product: any;
     public image: any;
     public zoomImage: any;
     private sub: any;
     public form: FormGroup;
     public relatedProducts: Array<Product>;
+
+    public variantImages = [];
 
     constructor(public appService: AppService,
                 private activatedRoute: ActivatedRoute,
@@ -82,9 +84,43 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
         this.appService.getProductByIdNew(id, supId).subscribe(data => {
             this.product = data.data;
             this.product.availibilityCount = 100;
-            // console.log(this.product);
-            this.image = this.product.images[0].small;
-            this.zoomImage = this.product.images[0].small;
+            console.log(this.product);
+            if (!this.product.product_variants.length) {
+                // console.log(this.product.product_variants.length);
+                // console.log(this.product.images[0].small.startsWith('http'));
+                this.product.images[0].medium = this.product.images[0].medium ? this.product.images[0].medium : this.product.images[0].small;
+                this.product.images[0].large = this.product.images[0].large ? this.product.images[0].large : this.product.images[0].small;
+                if (!this.product.images[0].small.startsWith('http') || !this.product.images[0].medium.startsWith('http') || !this.product.images[0].large.startsWith('http')) {
+                    // only this required start
+                    this.image = this.appService.imgUrl + this.product.images[0].medium;
+                    this.zoomImage = this.appService.imgUrl + this.product.images[0].large;
+                    this.variantImages = this.product.images;
+                    this.variantImages.forEach(item => {
+                        item.small = this.appService.imgUrl + item.small;
+                    });
+                    // only this required end
+                } else {
+                    this.image = this.product.images[0].medium;
+                    this.zoomImage = this.product.images[0].large;
+                    this.variantImages = this.product.images;
+                }
+
+            } else {
+                // let publicIndex = this.product.product_variants[0].images[0].small.indexOf('images');
+                /*this.image = this.appService.imgUrl + this.product.product_variants[0].images[0].medium.substring(publicIndex);*/
+                if (this.product.product_variants[0].images.length) {
+                    this.image = this.appService.imgUrl + this.product.product_variants[0].images[0].medium;
+                    // this.image = this.product.images[0].small;
+
+                    // this.zoomImage = this.appService.imgUrl + this.product.product_variants[0].images[0].large.substring(publicIndex);
+                    this.zoomImage = this.appService.imgUrl + this.product.product_variants[0].images[0].large;
+                    this.variantImages = this.product.product_variants[0].images;
+                    this.variantImages.forEach(item => {
+                        // item.small = item.small.substring(item.small.indexOf('images'));
+                        item.small = this.appService.imgUrl + item.small;
+                    });
+                }
+            }
             setTimeout(() => {
                 this.config.observer = true;
                 // this.directiveRef.setIndex(0);
@@ -99,8 +135,9 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public selectImage(image) {
-        this.image = image.url;
-        this.zoomImage = image.url;
+        console.log(image);
+        this.image = this.appService.imgUrl + image.medium;
+        this.zoomImage = this.appService.imgUrl + image.large;
     }
 
     public onMouseMove(e) {

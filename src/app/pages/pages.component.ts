@@ -45,7 +45,7 @@ export class PagesComponent implements OnInit, AfterViewInit {
     public changeCategory(event) {
         if (event.target) {
             this.category = this.categories.filter(category => category.name === event.target.innerText)[0];
-            console.log(this.category);
+            // console.log(this.category);
         }
         if (window.innerWidth < 960) {
             this.stopClickPropagate(event);
