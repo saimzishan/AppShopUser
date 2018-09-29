@@ -51,19 +51,19 @@
         <p class="py-1 text-muted lh">{{product?.short_description}}</p>
 
         <div class="divider mt-1"></div>
-        <h2 class="py-2 new-price">${{product?.price}}</h2>
-        <ng-template [ngIf]="product?.attachedOptions">
-            <div *ngFor="let option of product.attachedOptions" fxLayout="row" fxLayout.xs="column"
+        <h2 class="py-2 new-price">${{product?.price | number}}</h2>
+        <ng-template [ngIf]="product?.product_supplier_attributes">
+            <div *ngFor="let option of optionsArray" fxLayout="row" fxLayout.xs="column"
                  fxLayoutAlign="space-around center" class="details text-muted py-1">
-                {{option.options.name}}
-                <ng-template [ngIf]="option.options.name === 'Color'">
-                <button mat-raised-button *ngFor="let color of option?.options.values" [style.background]="color.value">&nbsp;</button>
+                <div fxFlex="33">{{option.name}}</div>
+                <ng-template [ngIf]="option.name === 'Color'">
+                <button mat-raised-button *ngFor="let color of option.values" [style.background]="color.value">&nbsp;</button>
                 </ng-template>
-                <ng-template [ngIf]="option.options.name === 'Size'">
-                    <button mat-raised-button *ngFor="let size of option?.options.values">{{size.value}}</button>
+                <ng-template [ngIf]="option.name === 'Size'">
+                    <button mat-raised-button *ngFor="let size of option.values">{{size.value}}</button>
                 </ng-template>
-                <ng-template [ngIf]="option.options.name !== 'Size' && option.options.name !== 'Color' ">
-                <button mat-raised-button *ngFor="let value of option?.options.values">{{value.value}}</button>
+                <ng-template [ngIf]="option.name !== 'Size' && option.name !== 'Color' ">
+                <button mat-raised-button *ngFor="let value of option.values">{{value.value}}</button>
                 </ng-template>
                 <!--<div class="color">
 

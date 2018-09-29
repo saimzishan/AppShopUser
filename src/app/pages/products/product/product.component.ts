@@ -25,6 +25,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
     public relatedProducts: Array<Product>;
 
     public variantImages = [];
+    public optionsArray = [];
 
     constructor(public appService: AppService,
                 private activatedRoute: ActivatedRoute,
@@ -86,8 +87,6 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
             this.product.availibilityCount = 100;
             console.log(this.product);
             if (!this.product.product_variants.length) {
-                // console.log(this.product.product_variants.length);
-                // console.log(this.product.images[0].small.startsWith('http'));
                 this.product.images[0].medium = this.product.images[0].medium ? this.product.images[0].medium : this.product.images[0].small;
                 this.product.images[0].large = this.product.images[0].large ? this.product.images[0].large : this.product.images[0].small;
                 if (!this.product.images[0].small.startsWith('http') || !this.product.images[0].medium.startsWith('http') || !this.product.images[0].large.startsWith('http')) {
@@ -106,18 +105,59 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
 
             } else {
+                this.product.product_supplier_attributes.forEach(variants => {
+                    if (this.optionsArray.length && this.optionsArray.find(val => val.name === variants.option_set.name)) {
+                        this.optionsArray.forEach(itm => {
+                            if (itm.name === variants.option_set.name) {
+                                itm.values.push(
+                                    {id: variants.option.id, value: variants.option.value}
+                                );
+                            }
+                        });
+                    } else {
+                    this.optionsArray.push({
+                        id: variants.option_set.id,
+                        'name': variants.option_set.name,
+                        'values': [{id: variants.option.id, value: variants.option.value}]
+                    });
+                    }
+                });
+                // console.log(this.optionsArray);
+
                 // let publicIndex = this.product.product_variants[0].images[0].small.indexOf('images');
                 /*this.image = this.appService.imgUrl + this.product.product_variants[0].images[0].medium.substring(publicIndex);*/
                 if (this.product.product_variants[0].images.length) {
                     this.image = this.appService.imgUrl + this.product.product_variants[0].images[0].medium;
-                    // this.image = this.product.images[0].small;
-
-                    // this.zoomImage = this.appService.imgUrl + this.product.product_variants[0].images[0].large.substring(publicIndex);
                     this.zoomImage = this.appService.imgUrl + this.product.product_variants[0].images[0].large;
-                    this.variantImages = this.product.product_variants[0].images;
+                    this.product.product_variants.forEach(variant => {
+                        this.variantImages = this.variantImages.concat(variant.images);
+                    });
                     this.variantImages.forEach(item => {
-                        // item.small = item.small.substring(item.small.indexOf('images'));
                         item.small = this.appService.imgUrl + item.small;
+                    });
+                }
+                // price calculation
+                if (this.product.product_variants[0].operation === 'none' || this.product.product_variants[0].operation === null) {
+                    let newArr = [];
+                    this.product.product_variants[0].product_variant_attributes.forEach(attr => {
+                        newArr = newArr.concat(this.product.product_supplier_attributes.filter(item => {
+                           return item.option_set_id === attr.option_set_id && item.option_id === attr.option_id;
+                       }));
+                       // console.log(newArr);
+                    });
+                    newArr.forEach(item => {
+                       if (item.operation && item.operation !== 'none') {
+                           // console.log(item.operation);
+                           if (item.operation === 'add' && item.changeBy === 'percentage') {
+                               this.product.price += (this.product.price * item.amount) / 100;
+                           } else if (item.operation === 'add' && item.changeBy === 'absolute') {
+                               this.product.price += item.amount;
+                           } else if (item.operation === 'subtract' && item.changeBy === 'percentage') {
+                               this.product.price -= (this.product.price * item.amount) / 100;
+                           } else {
+                               this.product.price -= item.amount;
+                           }
+                       }
                     });
                 }
             }
