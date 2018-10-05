@@ -75,3 +75,9 @@
         cursor:url('../../../../assets/images/others/zoom.svg') 10 10, zoom-in;
     }
 }
+
+.selected {
+  border: 2px solid darkslategrey;
+  border-radius: 10px;
+  padding: 10px 24px;
+}

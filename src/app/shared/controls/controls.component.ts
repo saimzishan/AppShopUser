@@ -11,6 +11,7 @@ import {Product} from '../../app.models';
 export class ControlsComponent implements OnInit {
     @Input() product: Product;
     @Input() type: string;
+    @Input() status: boolean;
     @Output() onOpenProductDialog: EventEmitter<any> = new EventEmitter();
     @Output() onQuantityChange: EventEmitter<any> = new EventEmitter<any>();
     public count = 1;

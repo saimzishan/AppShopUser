@@ -11,10 +11,12 @@
         <div class="small-carousel">
             <div class="swiper-container" [swiper]="config">
                 <div class="swiper-wrapper">
+                    <!--<div *ngFor="let image of variantImages" class="swiper-slide">-->
                     <div *ngFor="let image of variantImages" class="swiper-slide">
                         <mat-card (click)="selectImage(image)" class="p-1">
-                            <img [attr.data-src]="image.small" class="swiper-lazy"/>
-                            <div class="swiper-lazy-preloader"></div>
+                            <!--<img [attr.data-src]="this.appService.imgUrl + image.small" class="swiper-lazy"/>-->
+                            <img [src]="this.appService.imgUrl + image.small" class="swiper-lazy"/>
+                            <!--<div class="swiper-lazy-preloader"></div>-->
                         </mat-card>
                     </div>
                 </div>
@@ -36,12 +38,13 @@
                       [ngStyle]="{'background-image': 'url(' + zoomImage + ')'}"></mat-card>
         </div>
 
-        <h2>{{product?.name}}</h2>
+        <div fxLayout="row" fxLayoutAlign="space-between center"><h2>{{product?.name}}</h2><h2 class="py-2 new-price">${{product?.price | number}}</h2></div>
+
         <div class="py-1 lh">
             <!--<p><span class="text-muted fw-500">Category: </span><span>{{ ( appService.Data.categories | filterById : product?.category_id )?.name }}</span></p>-->
             <p><span class="text-muted fw-500">Sku: </span><span>{{ product?.sku }}</span></p>
             <p><span class="text-muted fw-500">Category: </span><span>{{ product?.category[0].name }}</span></p>
-            <p><span class="text-muted fw-500">Availibility: </span><span>{{ (product?.availibilityCount > 0) ? 'In stock':'Unavailable'}}</span>
+            <p><span class="text-muted fw-500">Availibility: </span><span>{{ (product?.stock > 0) ? 'In stock':'Unavailable'}}</span>
             </p>
         </div>
         <div class="py-1">
@@ -51,19 +54,20 @@
         <p class="py-1 text-muted lh">{{product?.short_description}}</p>
 
         <div class="divider mt-1"></div>
-        <h2 class="py-2 new-price">${{product?.price | number}}</h2>
+        <!--<h2 class="py-2 new-price">${{product?.price | number}}</h2>-->
         <ng-template [ngIf]="product?.product_supplier_attributes">
             <div *ngFor="let option of optionsArray" fxLayout="row" fxLayout.xs="column"
-                 fxLayoutAlign="space-around center" class="details text-muted py-1">
-                <div fxFlex="33">{{option.name}}</div>
+                 fxLayoutAlign="start center" class="details text-muted py-1">
+                <div fxFlex="20">{{option.name}}</div>
                 <ng-template [ngIf]="option.name === 'Color'">
-                <button mat-raised-button *ngFor="let color of option.values" [style.background]="color.value">&nbsp;</button>
+                <button mat-raised-button *ngFor="let color of option.values" [ngClass]="{'selected':getVal(color.id)}" [style.background]="color.value" (click)="selectedOption(option, color)">&nbsp;</button>
                 </ng-template>
-                <ng-template [ngIf]="option.name === 'Size'">
-                    <button mat-raised-button *ngFor="let size of option.values">{{size.value}}</button>
-                </ng-template>
-                <ng-template [ngIf]="option.name !== 'Size' && option.name !== 'Color' ">
-                <button mat-raised-button *ngFor="let value of option.values">{{value.value}}</button>
+                <!--<ng-template [ngIf]="option.name === 'Size'">
+                    <button mat-raised-button *ngFor="let size of option.values" [ngStyle]="{'border':size.id === selOption ? '2px solid' : 'none'}" (click)="selectedOption(option, size)">{{size.value}}</button>
+                </ng-template>-->
+                <!--<ng-template [ngIf]="option.name !== 'Size' && option.name !== 'Color' ">-->
+                <ng-template [ngIf]="option.name !== 'Color' ">
+                <button mat-raised-button *ngFor="let value of option.values" [ngClass]="{'selected':getVal(value.id)}" (click)="selectedOption(option, value)">{{value.value}}</button>
                 </ng-template>
                 <!--<div class="color">
 
@@ -76,12 +80,12 @@
             </div>
         </ng-template>
         <div class="py-1">
-            <app-controls [product]="product" [type]="'all'"></app-controls>
+            <app-controls [product]="product" [type]="'all'" [status]="addToCart"></app-controls>
         </div>
 
-        <div class="divider"></div>
+        <!--<div class="divider"></div>-->
 
-        <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted py-1">
+        <!--<div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted py-1">
             <button mat-button>
                 <mat-icon>mail_outline</mat-icon>
                 Email to a Friend
@@ -89,7 +93,7 @@
             <button mat-icon-button>
                 <mat-icon>share</mat-icon>
             </button>
-        </div>
+        </div>-->
 
     </div>
     <div fxFlex="100" fxFlex.gt-md="20" fxHide fxShow.gt-md>

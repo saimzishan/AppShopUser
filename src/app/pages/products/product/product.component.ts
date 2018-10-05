@@ -26,6 +26,10 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public variantImages = [];
     public optionsArray = [];
+    public selOption;
+    public clickOptions = [];
+    public addToCart = false;
+    public basePrice;
 
     constructor(public appService: AppService,
                 private activatedRoute: ActivatedRoute,
@@ -34,9 +38,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit() {
-        // console.log(this.activatedRoute.snapshot.paramMap.get('supplier_id'))
         this.sub = this.activatedRoute.params.subscribe(params => {
-            // console.log(params['supplier_id']);
             this.getProductByIdNew(params['id'], params['supplier_id']);
         });
         this.form = this.formBuilder.group({
@@ -86,7 +88,26 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
             this.product = data.data;
             this.product.availibilityCount = 100;
             console.log(this.product);
-            if (!this.product.product_variants.length) {
+
+            // showing product images
+            this.product.images[0].medium = this.product.images[0].medium ? this.product.images[0].medium : this.product.images[0].small;
+            this.product.images[0].large = this.product.images[0].large ? this.product.images[0].large : this.product.images[0].small;
+            /*if (!this.product.images[0].small.startsWith('http') || !this.product.images[0].medium.startsWith('http') || !this.product.images[0].large.startsWith('http')) {
+                // only this required start
+                this.image = this.appService.imgUrl + this.product.images[0].medium;
+                this.zoomImage = this.appService.imgUrl + this.product.images[0].large;
+                this.variantImages = this.product.images;
+                this.variantImages.forEach(item => {
+                    item.small = this.appService.imgUrl + item.small;
+                });
+            }*/
+            this.image = this.appService.imgUrl + this.product.images[0].medium;
+            this.zoomImage = this.appService.imgUrl + this.product.images[0].large;
+            this.variantImages = this.product.images;
+            this.basePrice = this.product.price;
+
+            // showing product images when product variants does not exist
+            /*if (!this.product.product_variants.length) {
                 this.product.images[0].medium = this.product.images[0].medium ? this.product.images[0].medium : this.product.images[0].small;
                 this.product.images[0].large = this.product.images[0].large ? this.product.images[0].large : this.product.images[0].small;
                 if (!this.product.images[0].small.startsWith('http') || !this.product.images[0].medium.startsWith('http') || !this.product.images[0].large.startsWith('http')) {
@@ -104,29 +125,30 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.variantImages = this.product.images;
                 }
 
-            } else {
-                this.product.product_supplier_attributes.forEach(variants => {
-                    if (this.optionsArray.length && this.optionsArray.find(val => val.name === variants.option_set.name)) {
-                        this.optionsArray.forEach(itm => {
-                            if (itm.name === variants.option_set.name) {
-                                itm.values.push(
-                                    {id: variants.option.id, value: variants.option.value}
-                                );
-                            }
-                        });
-                    } else {
+            } else {*/
+            this.product.product_supplier_attributes.forEach(variants => {
+                if (this.optionsArray.length && this.optionsArray.find(val => val.name === variants.option_set.name)) {
+                    this.optionsArray.forEach(itm => {
+                        if (itm.name === variants.option_set.name) {
+                            itm.values.push(
+                                {id: variants.option.id, value: variants.option.value}
+                            );
+                        }
+                    });
+                } else {
                     this.optionsArray.push({
                         id: variants.option_set.id,
                         'name': variants.option_set.name,
                         'values': [{id: variants.option.id, value: variants.option.value}]
                     });
-                    }
-                });
-                // console.log(this.optionsArray);
+                }
+            });
+            console.log(this.optionsArray);
 
-                // let publicIndex = this.product.product_variants[0].images[0].small.indexOf('images');
-                /*this.image = this.appService.imgUrl + this.product.product_variants[0].images[0].medium.substring(publicIndex);*/
-                if (this.product.product_variants[0].images.length) {
+            // let publicIndex = this.product.product_variants[0].images[0].small.indexOf('images');
+            /*this.image = this.appService.imgUrl + this.product.product_variants[0].images[0].medium.substring(publicIndex);*/
+            // showing product images when product variants exist from 0 index
+            /*if (this.product.product_variants[0].images.length) {
                     this.image = this.appService.imgUrl + this.product.product_variants[0].images[0].medium;
                     this.zoomImage = this.appService.imgUrl + this.product.product_variants[0].images[0].large;
                     this.product.product_variants.forEach(variant => {
@@ -135,37 +157,175 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.variantImages.forEach(item => {
                         item.small = this.appService.imgUrl + item.small;
                     });
-                }
-                // price calculation
-                if (this.product.product_variants[0].operation === 'none' || this.product.product_variants[0].operation === null) {
-                    let newArr = [];
-                    this.product.product_variants[0].product_variant_attributes.forEach(attr => {
-                        newArr = newArr.concat(this.product.product_supplier_attributes.filter(item => {
-                           return item.option_set_id === attr.option_set_id && item.option_id === attr.option_id;
-                       }));
-                       // console.log(newArr);
-                    });
-                    newArr.forEach(item => {
-                       if (item.operation && item.operation !== 'none') {
-                           // console.log(item.operation);
-                           if (item.operation === 'add' && item.changeBy === 'percentage') {
-                               this.product.price += (this.product.price * item.amount) / 100;
-                           } else if (item.operation === 'add' && item.changeBy === 'absolute') {
-                               this.product.price += item.amount;
-                           } else if (item.operation === 'subtract' && item.changeBy === 'percentage') {
-                               this.product.price -= (this.product.price * item.amount) / 100;
-                           } else {
-                               this.product.price -= item.amount;
-                           }
+                }*/
+            // price calculation
+            /*if (this.product.product_variants[0].operation === 'none' || this.product.product_variants[0].operation === null) {
+                let newArr = [];
+                this.product.product_variants[0].product_variant_attributes.forEach(attr => {
+                    newArr = newArr.concat(this.product.product_supplier_attributes.filter(item => {
+                       return item.option_set_id === attr.option_set_id && item.option_id === attr.option_id;
+                   }));
+                   // console.log(newArr);
+                });
+                newArr.forEach(item => {
+                   if (item.operation && item.operation !== 'none') {
+                       // console.log(item.operation);
+                       if (item.operation === 'add' && item.changeBy === 'percentage') {
+                           this.product.price += (this.product.price * item.amount) / 100;
+                       } else if (item.operation === 'add' && item.changeBy === 'absolute') {
+                           this.product.price += item.amount;
+                       } else if (item.operation === 'subtract' && item.changeBy === 'percentage') {
+                           this.product.price -= (this.product.price * item.amount) / 100;
+                       } else {
+                           this.product.price -= item.amount;
                        }
-                    });
-                }
-            }
+                   }
+                });
+            }*/
+            //  }
             setTimeout(() => {
                 this.config.observer = true;
                 // this.directiveRef.setIndex(0);
             });
         });
+    }
+
+    public getVal(id) {
+        let styleId = this.clickOptions.find(item => item.option_id === id);
+        if (styleId) {
+            return true;
+        }
+    }
+
+    public selectedOption(optionSet, option) {
+        this.selOption = option.id;
+        if (this.clickOptions.length && this.clickOptions.find(val => val.option_set_id === optionSet.id)) {
+            this.clickOptions = this.clickOptions.filter(item => {
+                return item.option_set_id !== optionSet.id;
+            });
+            this.clickOptions.push({
+                'option_set_id': optionSet.id,
+                // 'option_set_name': optionSet.name,
+                'option_id': option.id,
+                // 'option_name': option.value
+            });
+        } else {
+            this.clickOptions.push({
+                'option_set_id': optionSet.id,
+                // 'option_set_name': optionSet.name,
+                'option_id': option.id,
+                // 'option_name': option.value
+            });
+        }
+        console.log(this.clickOptions);
+        if (this.optionsArray.length === this.clickOptions.length) {
+            let nArray = [];
+            this.product.product_variants.forEach(variants => {
+                // console.log(variants);
+                let singleAttr;
+                this.clickOptions.forEach(item => {
+                    singleAttr = variants.product_variant_attributes.find(attr => {
+                        return attr.option_set_id === item.option_set_id && attr.option_id === item.option_id;
+                    });
+                    // console.log(singleAttr);
+                    if (singleAttr) {
+                        if (nArray.length) {
+                            if (nArray.find(vId => vId.product_variant_id === singleAttr.product_variant_id)) {
+                                nArray.push(singleAttr);
+                            }
+                        } else {
+                            nArray.push(singleAttr);
+                        }
+                    }
+                });
+            });
+            // console.log(nArray);
+            if (nArray.length === this.clickOptions.length) {
+                this.addToCart = true;
+                let reqVariant = this.product.product_variants.find(variant => {
+                    return variant.id === nArray[0].product_variant_id;
+                });
+                console.log(reqVariant);
+                this.product.sku = reqVariant.sku;
+                this.product.stock = reqVariant.stock;
+                /*reqVariant.images.forEach(img => {
+                    console.log(img);
+                if (!img.small.startsWith('http') || !img.medium.startsWith('http') || !img.large.startsWith('http')) {
+                    this.image = this.appService.imgUrl + reqVariant.images[0].medium;
+                    this.zoomImage = this.appService.imgUrl + reqVariant.images[0].large;
+                    // this.variantImages = reqVariant.images;
+                    /!*this.variantImages.forEach(item => {*!/
+                        console.log(img.small);
+                     img.small = this.appService.imgUrl + img.small;
+                    console.log(img.small);
+                    /!* console.log(item.small);
+                });*!/
+
+                } else {
+                    this.image = reqVariant.images[0].medium;
+                    this.zoomImage = reqVariant.images[0].large;
+                    this.variantImages = reqVariant.images;
+                }
+                });*/
+                this.image = this.appService.imgUrl + reqVariant.images[0].medium;
+                this.zoomImage = this.appService.imgUrl + reqVariant.images[0].large;
+                this.variantImages = reqVariant.images;
+                // console.log(this.variantImages);
+
+                // price calculation
+                if (reqVariant.operation === 'none' || reqVariant.operation === null) {
+                    this.product.price = this.basePrice;
+                    let newArr = [];
+                    reqVariant.product_variant_attributes.forEach(attr => {
+                        newArr = newArr.concat(this.product.product_supplier_attributes.filter(item => {
+                            return item.option_set_id === attr.option_set_id && item.option_id === attr.option_id;
+                        }));
+                        console.log(newArr);
+                    });
+                    newArr.forEach(item => {
+                        if (item.operation && item.operation !== 'none') {
+                            // console.log(item.operation);
+                            if (item.operation === 'add' && item.changeBy === 'percentage') {
+                                this.product.price += (this.product.price * item.amount) / 100;
+                            } else if (item.operation === 'add' && item.changeBy === 'absolute') {
+                                this.product.price += item.amount;
+                            } else if (item.operation === 'subtract' && item.changeBy === 'percentage') {
+                                this.product.price -= (this.product.price * item.amount) / 100;
+                            } else {
+                                this.product.price -= item.amount;
+                            }
+                        }
+                    });
+                } else {
+                    this.product.price = this.basePrice;
+                    if (reqVariant.operation === 'add' && reqVariant.changeBy === 'percentage'){
+                        this.product.price += (this.product.price * reqVariant.amount) / 100;
+                    } else if (reqVariant.operation === 'add' && reqVariant.changeBy === 'absolute') {
+                        this.product.price += reqVariant.amount;
+                    } else if (reqVariant.operation === 'subtract' && reqVariant.changeBy === 'percentage') {
+                        this.product.price -= (this.product.price * reqVariant.amount) / 100;
+                    } else {
+                        this.product.price -= reqVariant.amount;
+                    }
+                }
+
+            } else {
+                this.addToCart = false;
+                this.product.sku = 'Not Available';
+                this.product.stock = 0;
+                this.product.price = this.basePrice;
+                this.image = 'assets/images/not_available.jpg';
+                this.zoomImage = '';
+                this.variantImages = [];
+                /*this.variantImages.forEach(item => {
+                    item.small = this.appService.imgUrl + item.small;
+                });*/
+            }
+
+            // this.product.product_variants.find(item => )
+            // count = 0;
+        }
+        // console.log(a);
     }
 
     public getRelatedProducts() {
