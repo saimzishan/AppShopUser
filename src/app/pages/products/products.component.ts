@@ -25,8 +25,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     public productsCatArray = [];
     public categories: Category[];
     public brands = [];
-    public priceFrom: number = 750;
-    public priceTo: number = 1599;
+    public priceFrom = 750;
+    public priceTo = 1599;
     public colors = ['#5C6BC0', '#66BB6A', '#EF5350', '#BA68C8', '#FF4081', '#9575CD', '#90CAF9', '#B2DFDB', '#DCE775', '#FFD740', '#00E676', '#FBC02D', '#FF7043', '#F5F5F5', '#000000'];
     public sizes = ['S', 'M', 'L', 'XL', '2XL', '32', '36', '38', '46', '52', '13.3\"', '15.4\"', '17\"', '21\"', '23.4\"'];
     public page: any;
@@ -81,14 +81,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
             this.products.forEach(value => {
                 value.suppliers.forEach(item => {
                     // console.log(item.images);
-                    let newProduct = {
+                    const newProduct = {
                         id: value.id,
                         name: value.name,
                         category_id: value.category_id,
                         supplier_id: item.id,
                         supplier_name: item.name,
                         price: item.price,
-                        image: item.images.length > 0 && item.images[0].small.startsWith('http') ? item.images[0].small : this.appService.imgUrl + item.images[0].small
+                        image: item.product_images.length > 0 && item.product_images[0].small.startsWith('http') ? item.product_images[0].small : this.appService.imgUrl + item.product_images[0].small
                         // image: item.images[0].small
                     };
                     this.productsCatArray.push(newProduct);
@@ -109,11 +109,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
     public getAllProductsNew() {
         this.appService.getAllProductsNew().subscribe(data => {
             this.products = data.data.data;
-            // console.log(this.products);
+            console.log(this.products);
             this.products.forEach(value => {
                 value.suppliers.forEach(item => {
                     // console.log(item);
-                    let newProduct = {
+                    const newProduct = {
                         id: value.id,
                         name: value.name,
                         category_id: value.category_id,
@@ -121,7 +121,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
                         supplier_name: item.name,
                         price: item.price,
                         // image: item.images.length > 0 ? item.images[0].small : ''
-                        image: item.images.length > 0 && item.images[0].small.startsWith('http') ? item.images[0].small : this.appService.imgUrl + item.images[0].small
+                        image: !item.product_images.length ? '' : item.product_images[0].small.startsWith('http') ? item.product_images[0].small : this.appService.imgUrl + item.product_images[0].small
                     };
                     this.productsArray.push(newProduct);
                 });

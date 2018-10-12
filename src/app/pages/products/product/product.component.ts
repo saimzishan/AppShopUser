@@ -17,7 +17,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('zoomViewer') zoomViewer;
     @ViewChild(SwiperDirective) directiveRef: SwiperDirective;
     public config: SwiperConfigInterface = {};
-    public product: any;
+    public product: Product;
     public image: any;
     public zoomImage: any;
     private sub: any;
@@ -85,6 +85,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public getProductByIdNew(id, supId) {
         this.appService.getProductByIdNew(id, supId).subscribe(data => {
+            // console.log(data);
             this.product = data.data;
             this.product.availibilityCount = 100;
             console.log(this.product);
@@ -126,6 +127,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
 
             } else {*/
+            if (this.product.product_supplier_attributes.length) {
             this.product.product_supplier_attributes.forEach(variants => {
                 if (this.optionsArray.length && this.optionsArray.find(val => val.name === variants.option_set.name)) {
                     this.optionsArray.forEach(itm => {
@@ -144,6 +146,9 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
             });
             console.log(this.optionsArray);
+            } else {
+                this.addToCart = true;
+            }
 
             // let publicIndex = this.product.product_variants[0].images[0].small.indexOf('images');
             /*this.image = this.appService.imgUrl + this.product.product_variants[0].images[0].medium.substring(publicIndex);*/
@@ -270,6 +275,9 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.image = this.appService.imgUrl + reqVariant.images[0].medium;
                 this.zoomImage = this.appService.imgUrl + reqVariant.images[0].large;
                 this.variantImages = reqVariant.images;
+                console.log(this.product.product_variants);
+                this.product.product_variants = [reqVariant];
+                // this.product.product_variants[0] = reqVariant;
                 // console.log(this.variantImages);
 
                 // price calculation
@@ -298,7 +306,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                     });
                 } else {
                     this.product.price = this.basePrice;
-                    if (reqVariant.operation === 'add' && reqVariant.changeBy === 'percentage'){
+                    if (reqVariant.operation === 'add' && reqVariant.changeBy === 'percentage') {
                         this.product.price += (this.product.price * reqVariant.amount) / 100;
                     } else if (reqVariant.operation === 'add' && reqVariant.changeBy === 'absolute') {
                         this.product.price += reqVariant.amount;

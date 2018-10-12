@@ -104,6 +104,7 @@ export class AppService {
 
     public addToCart(product: Product, count: number) {
     /*public addToCart(product: Product) {*/
+        console.log(product);
         let message, status;
         if (this.Data.cartList.filter(item => item.id === product.id)[0]) {
             message = 'The product ' + product.name + ' already added to cart.';

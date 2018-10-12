@@ -131,7 +131,7 @@ export class HomeComponent implements OnInit {
 
     public getBanners() {
         this.appService.getBanners().subscribe(data => {
-            // console.log(data.data.data);
+            console.log(data.data.data);
             this.banners = data.data.data;
             this.banners.map(item => {
                 // console.log(item);

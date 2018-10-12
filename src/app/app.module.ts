@@ -23,6 +23,7 @@ import {AppService} from './app.service';
 import {AppInterceptor} from './theme/utils/app-interceptor';
 import {OptionsComponent} from './theme/components/options/options.component';
 import {FooterComponent} from './theme/components/footer/footer.component';
+import {DetectChangesService} from "./shared/detectchanges.service";
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import {FooterComponent} from './theme/components/footer/footer.component';
     providers: [
         AppSettings,
         AppService,
+        DetectChangesService,
         {provide: OverlayContainer, useClass: CustomOverlayContainer},
         {provide: HTTP_INTERCEPTORS, useClass: AppInterceptor, multi: true}
     ],

@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material';
 import {Data, AppService} from '../../app.service';
 import {PayPalConfig, PayPalEnvironment, PayPalIntegrationType} from 'ngx-paypal';
+import {Router} from "@angular/router";
 
 declare let paypal: any;
 
@@ -106,7 +107,11 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
 
     // public payPalConfig?: PayPalConfig;
 
-    constructor(public appService: AppService, public formBuilder: FormBuilder) {
+    constructor(public router: Router, public appService: AppService, public formBuilder: FormBuilder) {
+        const currUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currUser) {
+            this.router.navigate(['/sign-in']);
+        }
     }
 
     ngOnInit() {

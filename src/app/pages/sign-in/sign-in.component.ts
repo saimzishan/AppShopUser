@@ -5,6 +5,7 @@ import {MatSnackBar} from '@angular/material';
 import {emailValidator, matchingPasswords} from '../../theme/utils/app-validators';
 import {SignInService} from './sign-in.service';
 import {User} from '../../app.models';
+import {DetectChangesService} from '../../shared/detectchanges.service';
 
 @Component({
     selector: 'app-sign-in',
@@ -18,7 +19,8 @@ export class SignInComponent implements OnInit {
     constructor(public formBuilder: FormBuilder,
                 public router: Router,
                 public snackBar: MatSnackBar,
-                public signInService: SignInService) {
+                public signInService: SignInService,
+                private detectChanges: DetectChangesService) {
     }
 
     ngOnInit() {
@@ -41,9 +43,16 @@ export class SignInComponent implements OnInit {
 
             this.signInService.loginUser(values).subscribe(data => {
                 console.log(data);
-                if (data.statusCode !== 0) {
+                if (data.error === false) {
+                    localStorage.setItem('currentUser', JSON.stringify(data));
+                    // const currUser = JSON.parse(localStorage.getItem('currentUser'));
+                    // localStorage.removeItem('currentUser');
                     console.log('logged in');
-                    this.router.navigate(['/']);
+                    this.detectChanges.notifyOther({
+                        option: 'loggedIn',
+                        value: true
+                    });
+                    this.router.navigate(['/checkout']);
                 }
             });
         }
@@ -53,12 +62,24 @@ export class SignInComponent implements OnInit {
         console.log(values);
         if (this.registerForm.valid) {
             delete values.confirmPassword;
+            console.log(values);
             // values.roles = 'MobileClient';
             this.signInService.registerUser(values).subscribe(data => {
                 console.log(data);
-                if (data.statusCode !== 0) {
-                    this.snackBar.open('You registered successfully!', '×', {
+                if (!data.error) {
+                    this.snackBar.open('a', '×', {
                         panelClass: 'success',
+                        verticalPosition: 'top',
+                        duration: 3000
+                    });
+                    this.detectChanges.notifyOther({
+                        option: 'loggedIn',
+                        value: true
+                    });
+                    this.router.navigate(['/checkout']);
+                } else {
+                    this.snackBar.open('b', '×', {
+                        panelClass: 'failure',
                         verticalPosition: 'top',
                         duration: 3000
                     });
