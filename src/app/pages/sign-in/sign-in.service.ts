@@ -24,4 +24,12 @@ export class SignInService {
     public loginUser(data): Observable<any> {
         return this.http.post<any>(this.apiUrl + 'login', data);
     }
+
+    public getErrorMessage (err) {
+        let message;
+        if (err.status === 401) {
+            message = 'Please enter a valid email/password';
+        }
+        return message;
+    }
 }

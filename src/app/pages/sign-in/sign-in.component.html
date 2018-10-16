@@ -2,6 +2,7 @@
     <div fxLayout="row wrap">
         <div fxFlex="100" fxFlex.gt-sm="50" class="p-2">
             <h2 class="text-muted text-center">Sign In</h2>
+            <mat-error class="text-danger">{{errMessage}}</mat-error>
             <form [formGroup]="loginForm" (ngSubmit)="onLoginFormSubmit(loginForm.value)">
                 <mat-form-field class="w-100 mt-2">
                     <input matInput placeholder="Email" formControlName="email" required>

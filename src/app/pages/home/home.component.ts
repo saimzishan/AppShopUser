@@ -48,11 +48,13 @@ export class HomeComponent implements OnInit {
             // console.log(data.data);
             this.slides = data.data.data;
             // console.log(this.slides);
+            if (this.slides) {
             this.slides.map(item => {
                // console.log(item);
                item.title = 'The biggest sale';
                item.subtitle = 'Special for today';
             });
+            }
             // console.log(this.slides);
         });
     }
@@ -110,7 +112,8 @@ export class HomeComponent implements OnInit {
     }*/
 
     public createProductsArray(productArray) {
-        let newProductArray = [];
+        const newProductArray = [];
+        if (productArray) {
         productArray.forEach(value => {
             value.suppliers.forEach(item => {
                 // console.log(item.images);
@@ -126,6 +129,7 @@ export class HomeComponent implements OnInit {
                 newProductArray.push(newProduct);
             });
         });
+        }
         return newProductArray;
     }
 
@@ -133,11 +137,13 @@ export class HomeComponent implements OnInit {
         this.appService.getBanners().subscribe(data => {
             console.log(data.data.data);
             this.banners = data.data.data;
+            if (this.banners) {
             this.banners.map(item => {
                 // console.log(item);
                 item.title = 'The biggest sale';
                 item.subtitle = 'Special for today';
             });
+            }
             // console.log(this.banners);
         });
     }

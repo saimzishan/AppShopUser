@@ -10,5 +10,5 @@ export class AppSettings {
     public settings = new Settings(
         'ECONO',  // theme name
         'red'     // green, blue, red, pink, purple, grey
-    )
+    );
 }

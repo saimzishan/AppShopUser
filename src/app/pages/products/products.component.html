@@ -139,6 +139,7 @@
                     </mat-chip-list>
                     <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]" class="image-link">
                         <img [src]="product.image" alt="">
+                        <!--<img *ngIf="product.image" src="assets/images/img_not_available.jpg">-->
                     </a>
                     <h4 class="category text-muted">{{ ( appService.Data.categories | filterById : product.category_id )?.name }}</h4>
                     <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]" class="title text-truncate">
@@ -157,10 +158,10 @@
                         </div>
                         <app-rating [ratingsCount]="4" [ratingsValue]="200" [direction]="'column'"></app-rating>
                     </div>
-                    <div class="divider mt-2"></div>
+                    <!--<div class="divider mt-2"></div>
                     <div class="icons">
-                        <app-controls [product]="product" (onOpenProductDialog)="openProductDialog(product)"></app-controls>
-                    </div>
+                        <app-controls [product]="product" [type]="'list'" (onOpenProductDialog)="openProductDialog(product)"></app-controls>
+                    </div>-->
                 </mat-card>
             </div>
         </div>
@@ -195,10 +196,10 @@
                                 </div>
                                 <app-rating [ratingsCount]="4" [ratingsValue]="200" [direction]="'column'"></app-rating>
                             </div>
-                            <div class="divider"></div>
+                            <!--<div class="divider"></div>
                             <div class="icons">
-                                <app-controls [product]="product" (onOpenProductDialog)="openProductDialog(product)"></app-controls>
-                            </div>
+                                <app-controls [product]="product" [type]="'list'" (onOpenProductDialog)="openProductDialog(product)"></app-controls>
+                            </div>-->
                         </div>
                     </div>
                 </mat-card>

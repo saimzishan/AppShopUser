@@ -32,7 +32,7 @@
     <a *ngIf="loggedIn" mat-button [matMenuTriggerFor]="accountMenu" #accountMenuTrigger="matMenuTrigger">
         <mat-icon class="mat-icon-sm account-icon">person</mat-icon> <span fxShow="false" fxShow.gt-sm>account</span> <mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
     </a>
-    <mat-menu #accountMenu="matMenu" [overlapTrigger]="false" xPosition="before" class="app-dropdown account">
+    <mat-menu *ngIf="loggedIn" #accountMenu="matMenu" [overlapTrigger]="false" xPosition="before" class="app-dropdown account">
         <span (mouseleave)="accountMenuTrigger.closeMenu()">
             <div fxLayout="row" fxLayoutAlign="space-around center" class="user-info">                   
                 <img src="assets/images/others/user.jpg" alt="user-image" width="50">

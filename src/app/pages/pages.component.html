@@ -33,9 +33,9 @@
             <app-top-menu></app-top-menu>       
         </mat-toolbar-row>
         <mat-toolbar-row fxLayoutAlign="space-between center" class="logo-toolbar theme-container">
-            <!--<a class="logo" routerLink="/" (click)="closeSubMenus()">
-                <img src="assets/images/logo_p.png" width="180px" height="80px"/></a>-->
-            <h1>AppShop</h1>
+            <a class="logo" routerLink="/" (click)="closeSubMenus()">
+                <img src="assets/images/logo.png" width="180px" height="80px"/></a>
+            <!--<h1>AppShop</h1>-->
             <div fxFlex fxFlexOffset.gt-sm="10" fxShow="false" fxShow.gt-sm>
                 <form method="get"  class="search-form" fxLayout="row">
                     <button mat-raised-button [matMenuTriggerFor]="categoriesMenu" #categoriesMenuTrigger="matMenuTrigger" type="button" class="mat-elevation-z0 categories text-truncate text-muted">{{category?.name}}<mat-icon>arrow_drop_down</mat-icon></button>
@@ -71,7 +71,7 @@
                         <span (mouseleave)="cartMenuTrigger.closeMenu()" class="d-block">
                             <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted">
                                 <b><span>{{appService.Data.cartList.length}} ITEM<span *ngIf="appService.Data.cartList.length > 1">S</span></span></b>
-                                <b><a [routerLink]="['/cart']" class="text-muted">VIEW CART</a></b>
+                                <b><a *ngIf="appService.Data.cartList.length > 0" [routerLink]="['/cart']" class="text-muted">VIEW CART</a></b>
                             </div>
                             <div class="divider mt-1"></div>
                             <div *ngIf="appService.Data.cartList.length == 0" class="py-1 text-muted text-center">You have no items in your shopping cart.</div>
@@ -81,7 +81,7 @@
                                     <p matLine class="text-muted">
                                         <span> {{product.count}} x ${{product.price | number : '1.2-2'}} </span>
                                     </p>
-                                    <img  [src]="product.images[0].small" alt="image">
+                                    <img  [src]="this.appService.imgUrl + product.images[0].small" alt="image">
                                     <button mat-icon-button color="warn" class="remove" (click)="remove(product);stopClickPropagate($event)" matTooltip="Remove" matTooltipPosition="before">
                                         <mat-icon class="mat-icon-sm">close</mat-icon>
                                     </button>
