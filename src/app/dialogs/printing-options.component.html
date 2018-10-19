@@ -1,0 +1,44 @@
+<div class="close-btn-outer">
+    <button mat-mini-fab color="warn" (click)="close()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<h2 mat-dialog-title>Printing Options</h2>
+<div mat-dialog-content>
+    <div fxLayout="column">
+        <!--<div fxFlex="100" fxFlex.gt-sm="50">
+            <div class="swiper-container h-100" [swiper]="config">
+                <div class="swiper-wrapper">
+                    <div *ngFor="let image of product.images" class="swiper-slide">
+                        <img [attr.data-src]="image.medium" class="swiper-lazy"/>
+                        <div class="swiper-lazy-preloader"></div>
+                    </div>
+                </div>
+                <button mat-icon-button class="swiper-button-prev swipe-arrow"><mat-icon>keyboard_arrow_left</mat-icon></button>
+                <button mat-icon-button class="swiper-button-next swipe-arrow"><mat-icon>keyboard_arrow_right</mat-icon></button>
+            </div>
+        </div>-->
+        <!--<div fxFlex="100" fxFlex.gt-sm="50" ngClass.gt-sm="px-2 m-0" ngClass.sm="mt-2" ngClass.xs="mt-2">-->
+        <!--<h2>{{product.name}}</h2>
+        <p>{{product.sides.split(',')}}</p>-->
+        <div *ngFor="let side of product.sides.split(',')">
+            <h2>{{side.charAt(0).toUpperCase() + side.slice(1)}} side image </h2>
+            <dropzone [config]="DEFAULT_DROPZONE_CONFIG" [message]="'Click or drag images here to upload'"
+                      (error)="onUploadError($event)" (success)="onUploadSuccess($event, side)"></dropzone>
+        </div>
+
+        <mat-form-field>
+            <textarea matInput placeholder="Instructions"></textarea>
+        </mat-form-field>
+
+        <div fxLayoutAlign="end center" class="text-muted">
+            <mat-dialog-actions>
+                <button mat-button mat-dialog-close>Close</button>
+                <button color="primary" [mat-dialog-close]="filesArray" mat-raised-button matTooltip="Save"> Save
+                    <!--<mat-icon>arrow_forward</mat-icon>-->
+                </button>
+            </mat-dialog-actions>
+        </div>
+        <!--</div>-->
+    </div>
+</div>

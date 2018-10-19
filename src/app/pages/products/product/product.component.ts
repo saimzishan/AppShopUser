@@ -7,6 +7,7 @@ import {Data, AppService} from '../../../app.service';
 import {Product} from '../../../app.models';
 import {emailValidator} from '../../../theme/utils/app-validators';
 import {ProductZoomComponent} from './product-zoom/product-zoom.component';
+import {PrintingOptionsComponent} from '../../../dialogs/printing-options.component';
 
 @Component({
     selector: 'app-product',
@@ -175,11 +176,11 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                 newArr.forEach(item => {
                    if (item.operation && item.operation !== 'none') {
                        // console.log(item.operation);
-                       if (item.operation === 'add' && item.changeBy === 'percentage') {
+                       if (item.operation === 'add' && item.changed_by === 'percentage') {
                            this.product.price += (this.product.price * item.amount) / 100;
-                       } else if (item.operation === 'add' && item.changeBy === 'absolute') {
+                       } else if (item.operation === 'add' && item.changed_by === 'absolute') {
                            this.product.price += item.amount;
-                       } else if (item.operation === 'subtract' && item.changeBy === 'percentage') {
+                       } else if (item.operation === 'subtract' && item.changed_by === 'percentage') {
                            this.product.price -= (this.product.price * item.amount) / 100;
                        } else {
                            this.product.price -= item.amount;
@@ -293,11 +294,11 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                     newArr.forEach(item => {
                         if (item.operation && item.operation !== 'none') {
                             // console.log(item.operation);
-                            if (item.operation === 'add' && item.changeBy === 'percentage') {
+                            if (item.operation === 'add' && item.changed_by === 'percentage') {
                                 this.product.price += (this.product.price * item.amount) / 100;
-                            } else if (item.operation === 'add' && item.changeBy === 'absolute') {
+                            } else if (item.operation === 'add' && item.changed_by === 'absolute') {
                                 this.product.price += item.amount;
-                            } else if (item.operation === 'subtract' && item.changeBy === 'percentage') {
+                            } else if (item.operation === 'subtract' && item.changed_by === 'percentage') {
                                 this.product.price -= (this.product.price * item.amount) / 100;
                             } else {
                                 this.product.price -= item.amount;
@@ -306,15 +307,17 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                     });
                 } else {
                     this.product.price = this.basePrice;
-                    if (reqVariant.operation === 'add' && reqVariant.changeBy === 'percentage') {
+                    console.log(reqVariant);
+                    if (reqVariant.operation === 'add' && reqVariant.changed_by === 'percentage') {
                         this.product.price += (this.product.price * reqVariant.amount) / 100;
-                    } else if (reqVariant.operation === 'add' && reqVariant.changeBy === 'absolute') {
+                    } else if (reqVariant.operation === 'add' && reqVariant.changed_by === 'absolute') {
                         this.product.price += reqVariant.amount;
-                    } else if (reqVariant.operation === 'subtract' && reqVariant.changeBy === 'percentage') {
+                    } else if (reqVariant.operation === 'subtract' && reqVariant.changed_by === 'percentage') {
                         this.product.price -= (this.product.price * reqVariant.amount) / 100;
                     } else {
                         this.product.price -= reqVariant.amount;
                     }
+                    console.log(this.product.price);
                 }
 
             } else {
@@ -374,6 +377,18 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
         this.dialog.open(ProductZoomComponent, {
             data: this.zoomImage,
             panelClass: 'zoom-dialog'
+        });
+    }
+
+    public openPrintingOptionsDialog(product) {
+        let dialogRef = this.dialog.open(PrintingOptionsComponent, {
+            data: product,
+            panelClass: 'product-dialog'
+        });
+        dialogRef.afterClosed().subscribe(options => {
+            if (options) {
+                console.log(options);
+            }
         });
     }
 

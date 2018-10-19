@@ -4,6 +4,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import {AgmCoreModule} from '@agm/core';
+import { DropzoneModule } from 'ngx-dropzone-wrapper';
+import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
+// import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
 
 import {OverlayContainer} from '@angular/cdk/overlay';
 import {CustomOverlayContainer} from './theme/utils/custom-overlay-container';
@@ -23,7 +26,9 @@ import {AppService} from './app.service';
 import {AppInterceptor} from './theme/utils/app-interceptor';
 import {OptionsComponent} from './theme/components/options/options.component';
 import {FooterComponent} from './theme/components/footer/footer.component';
-import {DetectChangesService} from "./shared/detectchanges.service";
+import {DetectChangesService} from './shared/detectchanges.service';
+import {DEFAULT_DROPZONE_CONFIG, PrintingOptionsComponent} from './dialogs/printing-options.component';
+
 
 
 @NgModule({
@@ -36,7 +41,8 @@ import {DetectChangesService} from "./shared/detectchanges.service";
             apiKey: 'AIzaSyB3HQ_Gk_XRt6KitPdiHQNGpVn0NDwQGMI'
         }),
         SharedModule,
-        routing
+        routing,
+        DropzoneModule
     ],
     declarations: [
         AppComponent,
@@ -47,14 +53,19 @@ import {DetectChangesService} from "./shared/detectchanges.service";
         SidenavMenuComponent,
         BreadcrumbComponent,
         OptionsComponent,
-        FooterComponent
+        FooterComponent,
+        PrintingOptionsComponent
     ],
     providers: [
         AppSettings,
         AppService,
         DetectChangesService,
         {provide: OverlayContainer, useClass: CustomOverlayContainer},
-        {provide: HTTP_INTERCEPTORS, useClass: AppInterceptor, multi: true}
+        {provide: HTTP_INTERCEPTORS, useClass: AppInterceptor, multi: true},
+        { provide: DROPZONE_CONFIG, useValue: DEFAULT_DROPZONE_CONFIG }
+    ],
+    entryComponents: [
+        PrintingOptionsComponent
     ],
     bootstrap: [AppComponent]
 })

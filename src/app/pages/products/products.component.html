@@ -138,7 +138,7 @@
                         <mat-chip color="warn" selected="true">{{product.discount}}% OFF</mat-chip>
                     </mat-chip-list>
                     <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]" class="image-link">
-                        <img [src]="product.image" alt="">
+                        <img [src]="product.image" alt="" height="216" width="250">
                         <!--<img *ngIf="product.image" src="assets/images/img_not_available.jpg">-->
                     </a>
                     <h4 class="category text-muted">{{ ( appService.Data.categories | filterById : product.category_id )?.name }}</h4>

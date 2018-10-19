@@ -150,7 +150,7 @@ import {DetectChangesService} from "./detectchanges.service";
     BannersComponent,
     CategoryListComponent
   ],
-  entryComponents:[
+  entryComponents: [
     ProductDialogComponent
   ],
   providers:[

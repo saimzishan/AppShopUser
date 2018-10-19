@@ -67,6 +67,8 @@ export class Product {
     public active: number;
     public category: Category;
     public category_id: number;
+    public printing_option: number;
+    public sides: string;
     public rating: { id: number, rating: number };
     public suppliers: Supplier[];
     public images: [{ id: number, small: string, medium: string, large: string }];
@@ -77,7 +79,7 @@ export class Product {
             option_set_id: number,
             option_id: number,
             operation: string,
-            changeBy: string,
+            changed_by: string,
             amount: number,
             option_set: { id: number, name: string },
             option: { id: number, value: string }
@@ -93,7 +95,7 @@ export class Product {
             depth: number,
             stock: number,
             operation: string,
-            changeBy: string,
+            changed_by: string,
             amount: number,
             product_variant_attributes: [
                 {
@@ -136,6 +138,8 @@ export class Product {
         this.count = 0;
         this.active = 0;
         this.category_id = 0;
+        this.printing_option = 0;
+        this.sides = '';
         this.category = new Category();
         this.rating = {id: 0, rating: 0};
         this.suppliers = [new Supplier()];
@@ -154,7 +158,7 @@ export class Product {
                 option_set_id: 0,
                 option_id: 0,
                 operation: '',
-                changeBy: '',
+                changed_by: '',
                 amount: 0,
                 option_set: {id: 0, name: ''},
                 option: {id: 0, value: ''}
@@ -170,7 +174,7 @@ export class Product {
                 depth: 0,
                 stock: 0,
                 operation: '',
-                changeBy: '',
+                changed_by: '',
                 amount: 0,
                 product_variant_attributes: [
                     {

@@ -153,6 +153,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
             });
             this.products = this.productsArray;
 
+            // console.log(this.products);
             // for show more product
             /*for (let index = 0; index < 3; index++) {
                 this.productsArray = this.productsArray.concat(this.productsArray);

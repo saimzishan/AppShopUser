@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material';
 import {Data, AppService} from '../../app.service';
 import {PayPalConfig, PayPalEnvironment, PayPalIntegrationType} from 'ngx-paypal';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 declare let paypal: any;
 
@@ -28,7 +28,9 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
 
     addScript = false;
     confirmation = false;
-    billlingAddress = true;
+    billlingAddressFlag = true;
+    billingAddress: any;
+    shippingAddress: any;
 
     paypalConfig = {
         env: 'sandbox', // sandbox | production
@@ -161,6 +163,7 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
 
         // this.checkoutItems =
         this.appService.Data.cartList.forEach(item => {
+            console.log(item);
             let obj = {
                 name: item.name,
                 description: item.short_description,
@@ -226,13 +229,17 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     }*/
 
     public placeOrder() {
-        console.log(this.billingForm.value);
-        if (this.billlingAddress) {
-            console.log(this.shippingForm.value);
+        // console.log(this.billingForm.value);
+        // console.log(this.billlingAddressFlag);
+        if (!this.billlingAddressFlag) {
+            this.shippingAddress = this.billingForm.value;
+            // this.billingAddress.
             let newObj = Object.assign({}, this.billingForm.value, this.shippingForm.value);
-            console.log(newObj);
+            // console.log(newObj);
             newObj.items = this.checkoutItems;
-            console.log(newObj);
+            // console.log(newObj);
+        } else {
+            // console.log(this.shippingForm.value);
         }
         this.horizontalStepper._steps.forEach(step => step.editable = false);
         this.verticalStepper._steps.forEach(step => step.editable = false);
@@ -240,12 +247,16 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     }
 
     onChange(evt) {
-        console.log(evt);
-        if (evt.checked && this.billlingAddress) {
-            this.billlingAddress = false;
-        } else {
-            this.billlingAddress = true;
+        // console.log(evt);
+        this.billlingAddressFlag = !(evt.checked && this.billlingAddressFlag);
+        if (!this.billlingAddressFlag) {
+
         }
+        /*if (evt.checked && this.billlingAddressFlag) {
+            this.billlingAddressFlag = false;
+        } else {
+            this.billlingAddressFlag = true;
+        }*/
     }
 
 }
