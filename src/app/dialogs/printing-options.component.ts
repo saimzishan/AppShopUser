@@ -1,8 +1,10 @@
 import {Component, ViewEncapsulation, OnInit, Inject} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AppService} from '../app.service';
 import {Product} from '../app.models';
 import {DropzoneConfigInterface} from 'ngx-dropzone-wrapper';
+import {emailValidator} from "../theme/utils/app-validators";
 
 export const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     // Change this to your upload POST address:
@@ -34,15 +36,17 @@ export const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
 export class PrintingOptionsComponent implements OnInit {
 
     filesArray = [];
+    // instructionForm: FormGroup;
+    prntInst: any = {};
 
-    constructor(public appService: AppService,
+    constructor(public formBuilder: FormBuilder,
+                public appService: AppService,
                 public dialogRef: MatDialogRef<PrintingOptionsComponent>,
                 @Inject(MAT_DIALOG_DATA) public product: Product) {
         // console.log(product);
     }
 
-    ngOnInit() {
-    }
+    ngOnInit() { }
 
     public close(): void {
         this.dialogRef.close();
@@ -66,5 +70,7 @@ export class PrintingOptionsComponent implements OnInit {
         image.type = sideName;
         // console.log(image);
         this.filesArray.push(image);
+        this.prntInst.filesArray = this.filesArray;
+        // this.prntInst.inst = this.instructionForm;
     }
 }

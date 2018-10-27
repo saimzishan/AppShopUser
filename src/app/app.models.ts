@@ -1,10 +1,11 @@
 export class User {
-                public id: number;
-                public name: string;
-                public email: string;
-                public password: string;
-                public confirmPassword: string;
-                // public roles: string;
+    public id: number;
+    public name: string;
+    public email: string;
+    public password: string;
+    public confirmPassword: string;
+
+    // public roles: string;
     constructor(user?) {
         this.id = user.id || 0;
         this.name = user.name || '';
@@ -52,6 +53,80 @@ export class Supplier {
         this.price = supplier.price || 0;
         this.rating = supplier.rating || {};
         this.product_images = supplier.product_images || [];
+    }
+}
+
+export class Order {
+    public payment_id: number;
+    public billing_address: {
+        no: number,
+        street: string,
+        city: string,
+        postol_code: string,
+        state: string,
+        country: string
+    };
+    public shipping_address: {
+        no: number,
+        street: string,
+        city: string,
+        postol_code: string,
+        state: string,
+        country: string
+    };
+    public line_items: [
+        {
+            sku: string,
+            quantity: number,
+            price_paid: number,
+            line_item_printing_infos: {
+                instructions: string,
+                images: [
+                    {
+                        content_type: string,
+                        base64String: string,
+                        type: string
+                    }
+                    ]
+            }
+        }
+        ];
+
+    constructor() {
+        this.payment_id = -1;
+        this.billing_address = {
+            no: -1,
+            street: '',
+            city: '',
+            postol_code: '',
+            state: '',
+            country: ''
+        };
+        this.shipping_address = {
+            no: -1,
+            street: '',
+            city: '',
+            postol_code: '',
+            state: '',
+            country: ''
+        };
+        this.line_items = [
+            {
+                sku: '',
+                quantity: 0,
+                price_paid: 0,
+                line_item_printing_infos: {
+                    instructions: '',
+                    images: [
+                        {
+                            content_type: '',
+                            base64String: '',
+                            type: ''
+                        }
+                    ]
+                }
+            }
+        ];
     }
 }
 
@@ -124,6 +199,16 @@ export class Product {
     public color: Array<string>;
     public size: Array<string>;
     public weight: number;
+    public line_item_printing_infos: {
+        instructions: string,
+        images: [
+            {
+                content_type: string,
+                base64String: string,
+                type: string
+            }
+            ]
+    };
 
     // public categoryId: number;
 
@@ -203,6 +288,16 @@ export class Product {
         this.color = [];
         this.size = [];
         this.weight = 0;
+        this.line_item_printing_infos = {
+            instructions: '',
+            images: [
+                {
+                    content_type: '',
+                    base64String: '',
+                    type: ''
+                }
+            ]
+        };
         // this.categoryId = 0;
     }
 }

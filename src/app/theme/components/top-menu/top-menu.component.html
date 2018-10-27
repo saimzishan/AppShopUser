@@ -1,7 +1,8 @@
-<div class="top-menu">    
+<div class="top-menu">
 
     <a mat-button [matMenuTriggerFor]="currencyMenu" #currencyMenuTrigger="matMenuTrigger">
-        {{currency}}<mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+        {{currency}}
+        <mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
     </a>
     <mat-menu #currencyMenu="matMenu" [overlapTrigger]="false" xPosition="before" class="app-dropdown">
         <span (mouseleave)="currencyMenuTrigger.closeMenu()">
@@ -28,11 +29,14 @@
         <a mat-button routerLink="/compare">Compare  ({{appService.Data.compareList.length}})</a>
         <a mat-button routerLink="/wishlist">Wishlist ({{appService.Data.wishList.length}})</a>
     </span>  -->
-
-    <a *ngIf="loggedIn" mat-button [matMenuTriggerFor]="accountMenu" #accountMenuTrigger="matMenuTrigger">
-        <mat-icon class="mat-icon-sm account-icon">person</mat-icon> <span fxShow="false" fxShow.gt-sm>account</span> <mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
-    </a>
-    <mat-menu *ngIf="loggedIn" #accountMenu="matMenu" [overlapTrigger]="false" xPosition="before" class="app-dropdown account">
+    <ng-container *ngIf="loggedIn">
+        <a mat-button [matMenuTriggerFor]="accountMenu" #accountMenuTrigger="matMenuTrigger">
+            <mat-icon class="mat-icon-sm account-icon">person</mat-icon>
+            <span fxShow="false" fxShow.gt-sm>account</span>
+            <mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+        </a>
+        <mat-menu #accountMenu="matMenu" [overlapTrigger]="false" xPosition="before"
+                  class="app-dropdown account">
         <span (mouseleave)="accountMenuTrigger.closeMenu()">
             <div fxLayout="row" fxLayoutAlign="space-around center" class="user-info">                   
                 <img src="assets/images/others/user.jpg" alt="user-image" width="50">
@@ -66,6 +70,7 @@
                 <span>Sign Out</span> 
             </a>
         </span>
-    </mat-menu>    
+        </mat-menu>
+    </ng-container>
 
 </div>  

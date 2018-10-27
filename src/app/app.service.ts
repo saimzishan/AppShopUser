@@ -2,13 +2,15 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {MatSnackBar} from '@angular/material';
-import {Category, Product} from './app.models';
+import {Category, Order, Product} from './app.models';
+import {reject} from "q";
 
 export class Data {
     constructor(public categories: Category[],
                 public compareList: Product[],
                 public wishList: Product[],
                 public cartList: Product[],
+                // public orderList: Order,
                 public totalPrice: number) {
     }
 }
@@ -20,13 +22,12 @@ export class AppService {
         [], // compareList
         [],  // wishList
         [],  // cartList
+        // null, // order
         null // totalPrice
     );
     public url = 'assets/data/';
     // public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
     public apiUrl = 'http://18.217.12.17/api/public/api/auth/';
-    // public apiUrl = 'http://47e7dc14.ngrok.io/api/auth/';
-    // public imgUrl = 'http://47e7dc14.ngrok.io/';
     // public imgUrl = 'http://124.109.39.22:18089/onlineappshopapi';
     public imgUrl = 'http://18.217.12.17/api';
 
@@ -54,6 +55,10 @@ export class AppService {
         return this.http.get<any>(this.apiUrl + 'categories/' + catId + '?with_products');
     }
 
+    public getAllProductsByBrand(brandId): Observable<any> {
+        return this.http.get<any>(this.apiUrl + 'brands/' + brandId + '?with_products');
+    }
+
     public getProductById(id): Observable<Product> {
         return this.http.get<Product>(this.url + 'product-' + id + '.json');
     }
@@ -76,6 +81,27 @@ export class AppService {
 
     public getBrandsNew(): Observable<any> {
         return this.http.get<any>(this.apiUrl + 'brands');
+    }
+
+    public createOrder(order) {
+        return new Promise((resolve, reject) => {
+            let orderObj;
+            console.log(this.Data.cartList);
+            this.Data.cartList.forEach(item => {
+                console.log(item);
+                orderObj.sku = item.sku;
+                orderObj.quantity = item.count;
+                orderObj.price_paid = item.price;
+                orderObj.line_item_printing_infos = item.line_item_printing_infos;
+                order.line_items.push(orderObj);
+            });
+            console.log(this.Data.cartList.length === order.line_items.length);
+            if (this.Data.cartList.length === order.line_items.length) {
+                resolve();
+            } else {
+                reject();
+            }
+        });
     }
 
     public addToCompare(product: Product) {
@@ -105,7 +131,7 @@ export class AppService {
     }
 
     public addToCart(product: Product, count: number) {
-    /*public addToCart(product: Product) {*/
+        /*public addToCart(product: Product) {*/
         console.log(product);
         let message, status;
         if (this.Data.cartList.filter(item => item.id === product.id)[0]) {

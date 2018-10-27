@@ -381,6 +381,10 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public openPrintingOptionsDialog(product) {
+        let printingInfo: any = product;
+        printingInfo.line_item_printing_infos = {};
+        console.log(product);
+
         let dialogRef = this.dialog.open(PrintingOptionsComponent, {
             data: product,
             panelClass: 'product-dialog'
@@ -388,6 +392,21 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
         dialogRef.afterClosed().subscribe(options => {
             if (options) {
                 console.log(options);
+                // console.log(this.product);
+                this.product.line_item_printing_infos.instructions = options.instructions;
+                this.product.line_item_printing_infos.images = options.filesArray;
+                /*this.appService.Data.orderList.line_items.push({
+                    sku: this.product.sku,
+                    quantity: 1,
+                    price_paid: this.product.price,
+                    line_item_printing_infos: {
+                        instructions: options.instructions,
+                        images: options.filesArray
+                    }
+                });*/
+                console.log(this.product);
+                // printingInfo.line_item_printing_infos.instructions = options.instructions;
+                // console.log(printingInfo);
             }
         });
     }

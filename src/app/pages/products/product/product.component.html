@@ -47,16 +47,18 @@
             <p><span class="text-muted fw-500">Availibility: </span><span>{{ (product?.stock > 0) ? 'In stock':'Unavailable'}}</span>
             </p>
         </div>
-        <div class="py-1">
+        <!--<div class="py-1">-->
+            <div fxLayout="row" fxLayoutAlign="space-between center">
             <!--<app-rating [ratingsCount]="product?.ratingsCount" [ratingsValue]="product?.ratingsValue" [direction]="'row'"></app-rating>-->
             <app-rating [ratingsCount]="4" [ratingsValue]="300" [direction]="'row'"></app-rating>
-        </div>
-        <div fxLayout="row" fxLayoutAlign="space-between center">
-        <p class="py-1 text-muted lh">{{product?.short_description}}</p>
             <button *ngIf="product?.printing_option === 1" (click)="openPrintingOptionsDialog(product)"  mat-raised-button color="primary" matTooltip="Printing options available" >Printing options available
-            <mat-icon>print</mat-icon>
+                <mat-icon>print</mat-icon>
             </button>
         </div>
+
+        <p class="py-1 text-muted lh">{{product?.short_description}}</p>
+
+        <!--</div>-->
 
         <div class="divider mt-1"></div>
         <!--<h2 class="py-2 new-price">${{product?.price | number}}</h2>-->

@@ -26,15 +26,20 @@
             <dropzone [config]="DEFAULT_DROPZONE_CONFIG" [message]="'Click or drag images here to upload'"
                       (error)="onUploadError($event)" (success)="onUploadSuccess($event, side)"></dropzone>
         </div>
-
-        <mat-form-field>
-            <textarea matInput placeholder="Instructions"></textarea>
+        <!--<form [formGroup]="instructionForm">-->
+        <div fxFlex="100" >
+        <form #f="ngForm">
+        <mat-form-field fxFlex>
+            <textarea matInput placeholder="Instructions" name="instructions" [(ngModel)]="prntInst.instructions" #instructions="ngModel" required></textarea>
         </mat-form-field>
+        </form>
+        </div>
+        <!--</form>-->
 
         <div fxLayoutAlign="end center" class="text-muted">
             <mat-dialog-actions>
                 <button mat-button mat-dialog-close>Close</button>
-                <button color="primary" [mat-dialog-close]="filesArray" mat-raised-button matTooltip="Save"> Save
+                <button color="primary" [mat-dialog-close]="prntInst" mat-raised-button matTooltip="Save"> Save
                     <!--<mat-icon>arrow_forward</mat-icon>-->
                 </button>
             </mat-dialog-actions>

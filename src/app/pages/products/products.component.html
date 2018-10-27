@@ -71,9 +71,11 @@
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-brands">
-                    <button mat-raised-button *ngFor="let brand of brands">
-                        <img [src]="brand.image?.small"/>
-                    </button>
+                    <ng-template ngFor let-brand [ngForOf]="brands">
+                        <button mat-raised-button (click)="getBrandProducts(brand.id)">
+                            <img [src]="this.appService.imgUrl + brand.image?.small"/>
+                        </button>
+                    </ng-template>
                 </div>
             </mat-expansion-panel>
 

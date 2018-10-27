@@ -4,6 +4,7 @@ import {MatStepper} from '@angular/material';
 import {Data, AppService} from '../../app.service';
 import {PayPalConfig, PayPalEnvironment, PayPalIntegrationType} from 'ngx-paypal';
 import {Router} from '@angular/router';
+import {Order} from "../../app.models";
 
 declare let paypal: any;
 
@@ -29,8 +30,10 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     addScript = false;
     confirmation = false;
     billlingAddressFlag = true;
-    billingAddress: any;
-    shippingAddress: any;
+    billingAddress: any = {};
+    shippingAddress: any = {};
+    order: Order;
+    orderObj:any = {};
 
     paypalConfig = {
         env: 'sandbox', // sandbox | production
@@ -63,15 +66,19 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
             // Make a call to the REST api to create the payment
             return actions.payment.create({
                 payment: {
+                    /*payer: {
+                        payment_method: 'paypal'
+                    },*/
                     transactions: [
                         {
                             amount: {total: this.grandTotal, currency: 'USD'},
                             description: 'The payment transaction description.',
-                            custom: '90048630024435',
-                            invoice_number: '0000897',
+                            // custom: '90048630024435',
+                            // invoice_number: '0000897',
                             item_list: {
                                 items: this.checkoutItems,
-                                /*shipping_address: {
+                                // billing_address: this.billingAddress,
+                                /*billing_address: {
                                     recipient_name: 'Brian Robinson',
                                     line1: '4th Floor',
                                     line2: 'Unit #34',
@@ -80,7 +87,8 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
                                     postal_code: '95131',
                                     phone: '011862212345678',
                                     state: 'CA'
-                                }*/
+                                },*/
+                                // shipping_address: this.shippingAddress
                             }
                         },
                     ]
@@ -90,19 +98,37 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
         // onAuthorize() is called when the buyer approves the payment
         onAuthorize: (data, actions) => {
 
-            // console.log(data);
+            console.log(data);
 
             // return actions.payment.get().then(data1 => {
-               // console.log(data1);
-                // Make a call to the REST api to execute the payment
-                return actions.payment.execute().then((data1) => {
-                    console.log(data1);
-                    this.confirmation = true;
-                    this.horizontalStepper.next();
-                    this.horizontalStepper._steps.forEach(step => step.editable = false);
-                    this.verticalStepper._steps.forEach(step => step.editable = false);
-                    this.appService.Data.cartList.length = 0;
-                });
+            // console.log(data1);
+            // Make a call to the REST api to execute the payment
+            return actions.payment.execute().then((paymentData) => {
+                console.log(paymentData);
+                this.order.payment_id = paymentData.id;
+                /*this.order.billing_address = this.billingAddress;
+                this.order.shipping_address = this.shippingAddress;*/
+                // let orderObj;
+                // console.log(this.appService.Data.cartList);
+                /*this.appService.createOrder(this.order).then(order => {
+                    console.log(order);
+                });*/
+                /*this.appService.Data.cartList.forEach(item => {
+                    console.log(item);
+                    orderObj.sku = item.sku;
+                    orderObj.quantity = item.count;
+                    orderObj.price_paid = item.price;
+                    orderObj.line_item_printing_infos = item.line_item_printing_infos;
+                    this.order.line_items.push(orderObj);
+                });*/
+                // this.order.line_items = data1.line_items;
+                console.log(this.order);
+                this.confirmation = true;
+                this.horizontalStepper.next();
+                this.horizontalStepper._steps.forEach(step => step.editable = false);
+                this.verticalStepper._steps.forEach(step => step.editable = false);
+                this.appService.Data.cartList.length = 0;
+            });
             // });
         }
     };
@@ -117,6 +143,7 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     }
 
     ngOnInit() {
+        console.log(this.order);
         this.appService.Data.cartList.forEach(product => {
             this.grandTotal += +product.price * product.count;
         });
@@ -125,30 +152,34 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
         this.years = this.appService.getYears();
         this.deliveryMethods = this.appService.getDeliveryMethods();
         this.billingForm = this.formBuilder.group({
-            bfirstName: ['', Validators.required],
+            /*bfirstName: ['', Validators.required],
             blastName: ['', Validators.required],
             bmiddleName: '',
             bcompany: '',
             bemail: ['', Validators.required],
-            bphone: ['', Validators.required],
+            bphone: ['', Validators.required],*/
+            bNo: ['', Validators.required],
+            bStreet: ['', Validators.required],
             bcountry: ['', Validators.required],
             bcity: ['', Validators.required],
             bstate: '',
             bzip: ['', Validators.required],
-            baddress: ['', Validators.required]
+            // baddress: ['', Validators.required]
         });
         this.shippingForm = this.formBuilder.group({
-            sfirstName: ['', Validators.required],
+            /*sfirstName: ['', Validators.required],
             slastName: ['', Validators.required],
             smiddleName: '',
             scompany: '',
             semail: ['', Validators.required],
-            sphone: ['', Validators.required],
+            sphone: ['', Validators.required],*/
+            sNo: ['', Validators.required],
+            sStreet: ['', Validators.required],
             scountry: ['', Validators.required],
             scity: ['', Validators.required],
             sstate: '',
             szip: ['', Validators.required],
-            saddress: ['', Validators.required]
+            // saddress: ['', Validators.required]
         });
         this.deliveryForm = this.formBuilder.group({
             deliveryMethod: [this.deliveryMethods[0], Validators.required]
@@ -161,15 +192,22 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
             cvv: ['', Validators.required]
         });
 
+        // this.order = new Order();
+
+        console.log(this.order);
+
         // this.checkoutItems =
+        console.log(this.appService.Data.cartList);
         this.appService.Data.cartList.forEach(item => {
             console.log(item);
             let obj = {
+                sku: item.sku,
                 name: item.name,
                 description: item.short_description,
                 quantity: item.count,
                 price: item.price,
-                currency: 'USD'
+                currency: 'USD',
+                // line_item_printing_infos: item.line_item_printing_infos
             };
             this.checkoutItems.push(obj);
         });
@@ -229,34 +267,72 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     }*/
 
     public placeOrder() {
-        // console.log(this.billingForm.value);
-        // console.log(this.billlingAddressFlag);
         if (!this.billlingAddressFlag) {
-            this.shippingAddress = this.billingForm.value;
-            // this.billingAddress.
-            let newObj = Object.assign({}, this.billingForm.value, this.shippingForm.value);
-            // console.log(newObj);
-            newObj.items = this.checkoutItems;
-            // console.log(newObj);
+            this.billingAddress = {
+                line1: this.billingForm.value.bNo,
+                line2: this.billingForm.value.bStreet,
+                city: this.billingForm.value.bcity,
+                postal_code: this.billingForm.value.bzip,
+                state: this.billingForm.value.bstate,
+                country_code: this.billingForm.value.bcountry
+            };
+            this.shippingAddress = {
+                line1: this.billingForm.value.bNo,
+                line2: this.billingForm.value.bStreet,
+                city: this.billingForm.value.bcity,
+                postal_code: this.billingForm.value.bzip,
+                state: this.billingForm.value.bstate,
+                country_code: this.billingForm.value.bcountry
+            };
         } else {
             // console.log(this.shippingForm.value);
+            this.billingAddress = {
+                no: this.billingForm.value.bNo,
+                street: this.billingForm.value.bStreet,
+                city: this.billingForm.value.bcity,
+                postol_code: this.billingForm.value.bzip,
+                state: this.billingForm.value.bstate,
+                country: this.billingForm.value.bcountry
+            };
+            this.shippingAddress = {
+                no: this.shippingForm.value.sNo,
+                street: this.shippingForm.value.sStreet,
+                city: this.shippingForm.value.scity,
+                postol_code: this.shippingForm.value.szip,
+                state: this.shippingForm.value.sstate,
+                country: this.shippingForm.value.scountry
+            };
         }
+        this.orderObj.billing_address = this.billingAddress;
+        this.orderObj.shipping_address = this.shippingAddress;
+        this.orderObj.line_items = [];
+        let newOrder: any = {};
+        console.log(this.appService.Data.cartList);
+        this.appService.Data.cartList.forEach(item => {
+            console.log(item);
+            newOrder = {
+                sku: item.sku,
+                quantity: item.count,
+                price_paid: item.price,
+                line_item_printing_infos: item.line_item_printing_infos
+            };
+            console.log(newOrder);
+            this.orderObj.line_items.push(newOrder);
+        });
+        console.log(this.orderObj);
+        // this.orderObj.line_items = newArr;
+        // console.log(this.orderObj);
+        this.order = this.orderObj;
+        this.order.payment_id = 0;
+        console.log(this.order);
+        // this.appService.createOrder(this.order);
         this.horizontalStepper._steps.forEach(step => step.editable = false);
         this.verticalStepper._steps.forEach(step => step.editable = false);
         this.appService.Data.cartList.length = 0;
     }
 
     onChange(evt) {
-        // console.log(evt);
         this.billlingAddressFlag = !(evt.checked && this.billlingAddressFlag);
-        if (!this.billlingAddressFlag) {
-
-        }
-        /*if (evt.checked && this.billlingAddressFlag) {
-            this.billlingAddressFlag = false;
-        } else {
-            this.billlingAddressFlag = true;
-        }*/
     }
 
 }

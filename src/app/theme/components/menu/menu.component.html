@@ -1,7 +1,7 @@
 <mat-toolbar class="top-navbar mat-elevation-z2" fxLayoutAlign="center center">
 
     <ng-template ngFor let-cat [ngForOf]="categories">
-        <a *ngIf="!cat.parent_id && !cat.children.length" mat-button routerLink="/products"
+        <a *ngIf="!cat.parent_id && !cat.children.length" mat-button [routerLink]="['/products', cat.id]"
            routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">{{cat.name}}</a>
         <a *ngIf="!cat.parent_id && cat.children.length" mat-button [matMenuTriggerFor]="menuCat"
            [matMenuTriggerData]="{catChildren: cat.children}">{{cat.name}}
@@ -11,10 +11,10 @@
     <mat-menu #menuCat="matMenu" [overlapTrigger]="false" class="app-dropdown">
         <ng-template matMenuContent let-catChildArray="catChildren">
             <ng-template ngFor let-child [ngForOf]="catChildArray">
-                <a *ngIf="!checkChildren(child)" mat-menu-item routerLink="/products"
+                <a *ngIf="!checkChildren(child)" mat-menu-item [routerLink]="['/products', child.id]"
                    routerLinkActive="horizontal-active-link"
                    [routerLinkActiveOptions]="{exact:true}">{{child.name}}</a>
-                <a *ngIf="checkChildren(child)" mat-menu-item routerLink="/products"
+                <a *ngIf="checkChildren(child)" mat-menu-item [routerLink]="['/products', child.id]"
                    routerLinkActive="horizontal-active-link"
                    [matMenuTriggerFor]="third" [matMenuTriggerData]="{thirdChild: getThirdChildren(child)}">{{child.name}}</a>
             </ng-template>
@@ -22,10 +22,10 @@
         <mat-menu #third="matMenu" class="app-dropdown">
             <ng-template matMenuContent let-thirdChildArray="thirdChild">
                 <ng-template ngFor let-tChild [ngForOf]="thirdChildArray">
-                    <a *ngIf="!checkChildren(tChild)" mat-menu-item routerLink="/products"
+                    <a *ngIf="!checkChildren(tChild)" mat-menu-item [routerLink]="['/products', tChild.id]"
                        routerLinkActive="horizontal-active-link"
                        [routerLinkActiveOptions]="{exact:true}">{{tChild.name}}</a>
-                    <a *ngIf="checkChildren(tChild)" mat-menu-item routerLink="/products"
+                    <a *ngIf="checkChildren(tChild)" mat-menu-item [routerLink]="['/products', tChild.id]"
                        routerLinkActive="horizontal-active-link"
                        [matMenuTriggerFor]="fourth" [matMenuTriggerData]="{thirdChild: getThirdChildren(tChild)}">{{tChild.name}}</a>
                     <!--<a mat-menu-item routerLink="/products">{{tChild.name}}</a>-->
@@ -36,7 +36,7 @@
         <mat-menu #fourth="matMenu" class="app-dropdown">
             <ng-template matMenuContent let-thirdChildArray="thirdChild">
                 <ng-template ngFor let-tChild [ngForOf]="thirdChildArray">
-                    <a mat-menu-item routerLink="/products">{{tChild.name}}</a>
+                    <a mat-menu-item [routerLink]="['/products', tChild.id]">{{tChild.name}}</a>
                 </ng-template>
             </ng-template>
         </mat-menu>

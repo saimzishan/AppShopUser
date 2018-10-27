@@ -4,6 +4,7 @@ import {MatDialog} from '@angular/material';
 import {ProductDialogComponent} from '../../shared/products-carousel/product-dialog/product-dialog.component';
 import {AppService} from '../../app.service';
 import {Product, Category} from '../../app.models';
+import {Observable} from "rxjs/Observable";
 
 @Component({
     selector: 'app-products',
@@ -18,11 +19,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
     public viewCol: number = 25;
     public counts = [12, 24, 36];
     public count: any;
-    public sortings = ['Sort by Default', 'Best match', 'Lowest first', 'Highest first'];
+    public sortings = ['Default', 'Lowest Price', 'Highest Price'];
     public sort: any;
     public products: Array<Product> = [];
     public productsArray = [];
     public productsCatArray = [];
+    public productsBrandArray = [];
     public categories: Category[];
     public brands = [];
     public priceFrom = 750;
@@ -47,6 +49,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     public page: any;
     public avgPrice: string;
     public catId;
+    public param;
 
     constructor(private activatedRoute: ActivatedRoute, public appService: AppService, public dialog: MatDialog, private router: Router) {
     }
@@ -55,11 +58,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.count = this.counts[0];
         this.sort = this.sortings[0];
         this.sub = this.activatedRoute.params.subscribe(params => {
-            // console.log(params['name']);
-            this.catId = params['name'];
-            // console.log(this.catId);
-            if (this.catId) {
-                this.getProductsByCat();
+            // console.log(params);
+            const currentUrl = this.router.url;
+            this.param = params['id'];
+            // console.log(this.param);
+            if (this.param && currentUrl.indexOf('products/category') !== -1) {
+                // const catId = this.param.substr(0, this.param.indexOf('cat'));
+                // console.log(catId);
+                this.getProductsByCat(this.param);
+            } else if (this.param && currentUrl.indexOf('products/brand') !== -1) {
+                // const brandId = this.param.substr(0, this.param.indexOf('bnd'));
+                // console.log(catId);
+                this.getProductsByBrand(this.param);
             } else {
                 this.getAllProductsNew();
             }
@@ -87,15 +97,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
         });
     }*/
 
-    public getProductsByCat() {
-        this.appService.getAllProductsByCat(this.catId).subscribe(data => {
+    public getProductsByCat(catId) {
+        this.appService.getAllProductsByCat(catId).subscribe(data => {
             this.products = data.data.products.data;
-            // console.log(this.products);
+            console.log(this.products);
             this.productsCatArray = [];
             // if (this.products.length > 0) {
             this.products.forEach(value => {
                 value.suppliers.forEach(item => {
-                    // console.log(item.images);
+                    console.log(item);
                     const newProduct = {
                         id: value.id,
                         name: value.name,
@@ -103,9 +113,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
                         supplier_id: item.id,
                         supplier_name: item.name,
                         price: item.price,
-                        image: item.product_images.length > 0 && item.product_images[0].small.startsWith('http')
-                            ? item.product_images[0].small
-                            : this.appService.imgUrl + item.product_images[0].small
+                        image: !item.product_images.length
+                                ? 'assets/images/img_not_available.png'
+                                : item.product_images[0].small.startsWith('http')
+                                ? item.product_images[0].small
+                                : this.appService.imgUrl + item.product_images[0].small
                         // image: item.images[0].small
                     };
                     this.productsCatArray.push(newProduct);
@@ -123,6 +135,36 @@ export class ProductsComponent implements OnInit, OnDestroy {
         });
     }
 
+    public getProductsByBrand(brandId) {
+        this.appService.getAllProductsByBrand(brandId).subscribe(data => {
+            console.log(data);
+            this.products = data.data.products.data;
+            console.log(this.products);
+            this.productsBrandArray = [];
+            // if (this.products.length > 0) {
+            this.products.forEach(value => {
+                value.suppliers.forEach(item => {
+                    // console.log(item.images);
+                    const newProduct = {
+                        id: value.id,
+                        name: value.name,
+                        category_id: value.category_id,
+                        supplier_id: item.id,
+                        supplier_name: item.name,
+                        price: item.price,
+                        image: item.product_images.length > 0 && item.product_images[0].small.startsWith('http')
+                            ? item.product_images[0].small
+                            : this.appService.imgUrl + item.product_images[0].small
+                        // image: item.images[0].small
+                    };
+                    this.productsBrandArray.push(newProduct);
+                });
+            });
+            // }
+            this.products = this.productsBrandArray;
+        });
+    }
+
     public getAllProductsNew() {
         if (this.productsArray.length) {
             this.productsArray = [];
@@ -130,7 +172,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
         // console.log(this.products);
         this.appService.getAllProductsNew().subscribe(data => {
             this.products = data.data.data;
-            // console.log(this.products);
+            console.log(this.products);
             this.products.forEach(value => {
                 value.suppliers.forEach(item => {
                     // console.log(item);
@@ -151,6 +193,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
                     this.productsArray.push(newProduct);
                 });
             });
+            // console.log(this.productsArray);
             this.products = this.productsArray;
 
             // console.log(this.products);
@@ -203,6 +246,28 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
     public changeSorting(sort) {
         this.sort = sort;
+        // console.log(this.sort);
+        // console.log(this.products);
+        switch (sort) {
+            case 'Default': {
+                this.products.sort((a, b) => {
+                    return a.id - b.id;
+                });
+                break;
+            }
+            case 'Lowest Price': {
+                this.products.sort((a, b) => {
+                    return a.price - b.price;
+                });
+                break;
+            }
+            case 'Highest Price': {
+                this.products.sort((a, b) => {
+                    return b.price - a.price;
+                });
+                break;
+            }
+        }
     }
 
     public changeViewType(viewType, viewCol) {
@@ -230,12 +295,16 @@ export class ProductsComponent implements OnInit, OnDestroy {
     }
 
     public onChangeCategory(event) {
-        // console.log(event);
-        this.router.navigate(['/products', event]);
+        console.log(event);
+        this.router.navigate(['/products/category', event]);
         /*if (event.target) {
             console.log(event);
             this.router.navigate(['/products', event.target.innerText.toLowerCase()]);
         }*/
+    }
+
+    public getBrandProducts(brandId) {
+        this.router.navigate(['/products/brand', brandId]);
     }
 
 }
