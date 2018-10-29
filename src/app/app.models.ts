@@ -147,6 +147,7 @@ export class Product {
     public rating: { id: number, rating: number };
     public suppliers: Supplier[];
     public images: [{ id: number, small: string, medium: string, large: string }];
+    public product_images: [{ id: number, small: string, medium: string, large: string }];
     product_supplier_attributes: [
         {
             id: number,
@@ -229,6 +230,14 @@ export class Product {
         this.rating = {id: 0, rating: 0};
         this.suppliers = [new Supplier()];
         this.images = [
+            {
+                id: 0,
+                small: '',
+                medium: '',
+                large: ''
+            }
+        ];
+        this.product_images = [
             {
                 id: 0,
                 small: '',

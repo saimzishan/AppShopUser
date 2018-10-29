@@ -34,6 +34,7 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     shippingAddress: any = {};
     order: Order;
     orderObj:any = {};
+    order_id;
 
     paypalConfig = {
         env: 'sandbox', // sandbox | production
@@ -73,7 +74,8 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
                         {
                             amount: {total: this.grandTotal, currency: 'USD'},
                             description: 'The payment transaction description.',
-                            // custom: '90048630024435',
+                            // order_id: this.order_id,
+                            custom: this.order_id,
                             // invoice_number: '0000897',
                             item_list: {
                                 items: this.checkoutItems,
@@ -269,20 +271,20 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     public placeOrder() {
         if (!this.billlingAddressFlag) {
             this.billingAddress = {
-                line1: this.billingForm.value.bNo,
-                line2: this.billingForm.value.bStreet,
+                no: this.billingForm.value.bNo,
+                street: this.billingForm.value.bStreet,
                 city: this.billingForm.value.bcity,
-                postal_code: this.billingForm.value.bzip,
+                postol_code: this.billingForm.value.bzip,
                 state: this.billingForm.value.bstate,
-                country_code: this.billingForm.value.bcountry
+                country: this.billingForm.value.bcountry
             };
             this.shippingAddress = {
-                line1: this.billingForm.value.bNo,
-                line2: this.billingForm.value.bStreet,
+                no: this.billingForm.value.bNo,
+                street: this.billingForm.value.bStreet,
                 city: this.billingForm.value.bcity,
-                postal_code: this.billingForm.value.bzip,
+                postol_code: this.billingForm.value.bzip,
                 state: this.billingForm.value.bstate,
-                country_code: this.billingForm.value.bcountry
+                country: this.billingForm.value.bcountry
             };
         } else {
             // console.log(this.shippingForm.value);
@@ -325,7 +327,12 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
         this.order = this.orderObj;
         this.order.payment_id = 0;
         console.log(this.order);
-        // this.appService.createOrder(this.order);
+        this.appService.createOrder(this.order).subscribe(data => {
+            console.log(data);
+            this.order_id = data.data.order_uuid;
+            console.log(this.order_id);
+        });
+
         this.horizontalStepper._steps.forEach(step => step.editable = false);
         this.verticalStepper._steps.forEach(step => step.editable = false);
         this.appService.Data.cartList.length = 0;

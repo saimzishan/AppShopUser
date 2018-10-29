@@ -31,6 +31,7 @@ export class PagesComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         this.getCategories();
         this.sidenavMenuItems = this.sidenavMenuService.getSidenavMenuItems();
+        // console.log(this.appService.Data.cartList);
     }
 
     public getCategories() {

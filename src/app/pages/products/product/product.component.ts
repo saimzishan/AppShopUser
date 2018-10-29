@@ -92,20 +92,38 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
             console.log(this.product);
 
             // showing product images
-            this.product.images[0].medium = this.product.images[0].medium ? this.product.images[0].medium : this.product.images[0].small;
-            this.product.images[0].large = this.product.images[0].large ? this.product.images[0].large : this.product.images[0].small;
-            /*if (!this.product.images[0].small.startsWith('http') || !this.product.images[0].medium.startsWith('http') || !this.product.images[0].large.startsWith('http')) {
-                // only this required start
+            if (!this.product.images.length) {
+                this.product.product_images[0].medium = this.product.product_images[0].medium ? this.product.product_images[0].medium : this.product.product_images[0].small;
+                this.product.product_images[0].large = this.product.product_images[0].large ? this.product.product_images[0].large : this.product.product_images[0].small;
+                /*if (!this.product.images[0].small.startsWith('http') || !this.product.images[0].medium.startsWith('http') || !this.product.images[0].large.startsWith('http')) {
+                    // only this required start
+                    this.image = this.appService.imgUrl + this.product.images[0].medium;
+                    this.zoomImage = this.appService.imgUrl + this.product.images[0].large;
+                    this.variantImages = this.product.images;
+                    this.variantImages.forEach(item => {
+                        item.small = this.appService.imgUrl + item.small;
+                    });
+                }*/
+                this.image = this.appService.imgUrl + this.product.product_images[0].medium;
+                this.zoomImage = this.appService.imgUrl + this.product.product_images[0].large;
+                this.variantImages = this.product.product_images;
+            } else {
+                this.product.images[0].medium = this.product.images[0].medium ? this.product.images[0].medium : this.product.images[0].small;
+                this.product.images[0].large = this.product.images[0].large ? this.product.images[0].large : this.product.images[0].small;
+                /*if (!this.product.images[0].small.startsWith('http') || !this.product.images[0].medium.startsWith('http') || !this.product.images[0].large.startsWith('http')) {
+                    // only this required start
+                    this.image = this.appService.imgUrl + this.product.images[0].medium;
+                    this.zoomImage = this.appService.imgUrl + this.product.images[0].large;
+                    this.variantImages = this.product.images;
+                    this.variantImages.forEach(item => {
+                        item.small = this.appService.imgUrl + item.small;
+                    });
+                }*/
                 this.image = this.appService.imgUrl + this.product.images[0].medium;
                 this.zoomImage = this.appService.imgUrl + this.product.images[0].large;
                 this.variantImages = this.product.images;
-                this.variantImages.forEach(item => {
-                    item.small = this.appService.imgUrl + item.small;
-                });
-            }*/
-            this.image = this.appService.imgUrl + this.product.images[0].medium;
-            this.zoomImage = this.appService.imgUrl + this.product.images[0].large;
-            this.variantImages = this.product.images;
+            }
+
             this.basePrice = this.product.price;
 
             // showing product images when product variants does not exist
@@ -146,7 +164,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                     });
                 }
             });
-            console.log(this.optionsArray);
+            // console.log(this.optionsArray);
             } else {
                 this.addToCart = true;
             }
@@ -223,7 +241,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                 // 'option_name': option.value
             });
         }
-        console.log(this.clickOptions);
+        // console.log(this.clickOptions);
         if (this.optionsArray.length === this.clickOptions.length) {
             let nArray = [];
             this.product.product_variants.forEach(variants => {
@@ -251,7 +269,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                 let reqVariant = this.product.product_variants.find(variant => {
                     return variant.id === nArray[0].product_variant_id;
                 });
-                console.log(reqVariant);
+                // console.log(reqVariant);
                 this.product.sku = reqVariant.sku;
                 this.product.stock = reqVariant.stock;
                 /*reqVariant.images.forEach(img => {
@@ -276,7 +294,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.image = this.appService.imgUrl + reqVariant.images[0].medium;
                 this.zoomImage = this.appService.imgUrl + reqVariant.images[0].large;
                 this.variantImages = reqVariant.images;
-                console.log(this.product.product_variants);
+                // console.log(this.product.product_variants);
                 this.product.product_variants = [reqVariant];
                 // this.product.product_variants[0] = reqVariant;
                 // console.log(this.variantImages);
@@ -307,7 +325,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                     });
                 } else {
                     this.product.price = this.basePrice;
-                    console.log(reqVariant);
+                    // console.log(reqVariant);
                     if (reqVariant.operation === 'add' && reqVariant.changed_by === 'percentage') {
                         this.product.price += (this.product.price * reqVariant.amount) / 100;
                     } else if (reqVariant.operation === 'add' && reqVariant.changed_by === 'absolute') {
@@ -317,7 +335,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                     } else {
                         this.product.price -= reqVariant.amount;
                     }
-                    console.log(this.product.price);
+                    // console.log(this.product.price);
                 }
 
             } else {

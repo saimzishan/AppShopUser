@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {MatSnackBar} from '@angular/material';
 import {Category, Order, Product} from './app.models';
@@ -26,10 +26,12 @@ export class AppService {
         null // totalPrice
     );
     public url = 'assets/data/';
-    // public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
-    public apiUrl = 'http://18.217.12.17/api/public/api/auth/';
-    // public imgUrl = 'http://124.109.39.22:18089/onlineappshopapi';
-    public imgUrl = 'http://18.217.12.17/api';
+    public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
+    // public apiUrl = 'http://18.217.12.17/api/public/api/auth/';
+    public imgUrl = 'http://124.109.39.22:18089/onlineappshopapi';
+    // public imgUrl = 'http://18.217.12.17/api';
+
+    public currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     constructor(public http: HttpClient, public snackBar: MatSnackBar) {
     }
@@ -83,8 +85,19 @@ export class AppService {
         return this.http.get<any>(this.apiUrl + 'brands');
     }
 
-    public createOrder(order) {
-        return new Promise((resolve, reject) => {
+    public createOrder(order): Observable<any> {
+        let httpOptions;
+        if (this.currentUser) {
+            httpOptions = {
+                headers: new HttpHeaders({
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${this.currentUser.access_token}`
+                })
+            };
+        }
+        console.log(httpOptions);
+        return this.http.post<any>(this.apiUrl + 'orders', order, httpOptions);
+        /*return new Promise((resolve, reject) => {
             let orderObj;
             console.log(this.Data.cartList);
             this.Data.cartList.forEach(item => {
@@ -101,8 +114,12 @@ export class AppService {
             } else {
                 reject();
             }
-        });
+        });*/
     }
+
+    /*public updateOrder(orderId): Observable<any> {
+        return this.http.put();
+    }*/
 
     public addToCompare(product: Product) {
         let message, status;
