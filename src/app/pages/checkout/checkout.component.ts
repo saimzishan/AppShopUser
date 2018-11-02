@@ -4,7 +4,9 @@ import {MatStepper} from '@angular/material';
 import {Data, AppService} from '../../app.service';
 import {PayPalConfig, PayPalEnvironment, PayPalIntegrationType} from 'ngx-paypal';
 import {Router} from '@angular/router';
-import {Order} from "../../app.models";
+import {Order} from '../../app.models';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
 
 declare let paypal: any;
 
@@ -33,8 +35,10 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     billingAddress: any = {};
     shippingAddress: any = {};
     order: Order;
-    orderObj:any = {};
+    orderObj: any = {};
     order_id;
+    bTree: any;
+    public currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     paypalConfig = {
         env: 'sandbox', // sandbox | production
@@ -137,7 +141,7 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
 
     // public payPalConfig?: PayPalConfig;
 
-    constructor(public router: Router, public appService: AppService, public formBuilder: FormBuilder) {
+    constructor(public http: HttpClient, public router: Router, public appService: AppService, public formBuilder: FormBuilder) {
         const currUser = JSON.parse(localStorage.getItem('currentUser'));
         if (!currUser) {
             this.router.navigate(['/sign-in']);
@@ -145,6 +149,12 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     }
 
     ngOnInit() {
+
+        /*this.appService.getClientToken()
+            .subscribe((res: any) => {
+                this.bTree = res.data; // This should return a string
+            });*/
+
         console.log(this.order);
         this.appService.Data.cartList.forEach(product => {
             this.grandTotal += +product.price * product.count;
@@ -196,12 +206,12 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
 
         // this.order = new Order();
 
-        console.log(this.order);
+        // console.log(this.order);
 
         // this.checkoutItems =
-        console.log(this.appService.Data.cartList);
+        // console.log(this.appService.Data.cartList);
         this.appService.Data.cartList.forEach(item => {
-            console.log(item);
+            // console.log(item);
             let obj = {
                 sku: item.sku,
                 name: item.name,
@@ -215,18 +225,75 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
         });
         // console.log(this.checkoutItems);
         // this.initConfig();
+        // this.getClientToken();
     }
 
     ngAfterViewChecked() {
-        if (!this.addScript) {
+        /*if (!this.addScript) {
             this.addPaypalScript().then(() => {
                 // this.paypalConfig.payment().transactions[0].amount.total = this.grandTotal;
                 paypal.Button.render(this.paypalConfig, '#paypal-checkout-button');
             });
+        }*/
+    }
+
+    /*getClientTokenFunction(): Observable<string> {
+        console.log(this.bTree);
+        console.log(of(this.bTree));
+        return of(this.bTree);
+    }
+*/
+    public getClientToken(): Observable<string> {
+
+        return this.appService.getClientToken();
+
+        /*
+        let httpOptions;
+        if (this.currentUser) {
+            httpOptions = {
+                headers: new HttpHeaders({
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${this.currentUser.access_token}`
+                })
+            };
+        }
+        return this.http
+            .get('http://124.109.39.22:18089/onlineappshopapi/public/api/auth/cashiers', httpOptions)
+            .pipe(
+            map((response: any) => {
+                // console.log(response);
+                // console.log(response.data);
+                return response.data;
+            }));*/
+        /*.subscribe(token => {
+            console.log(token);
+            return token.data;
+        }, err => {
+            console.log(err);
+        });*/
+    }
+
+    public createPurchase(nonce: string, chargeAmount: number): Observable<any> {
+        const purchaseObj = {
+            nonce: nonce,
+            chargeAmount: chargeAmount,
+            amount: this.grandTotal,
+          order_uuid: this.order_id
+        };
+        return this.appService.createPurchase(purchaseObj);
+    }
+
+    onPaymentStatus(evt) {
+        console.log(evt);
+        if (!evt.error) {
+            this.confirmation = true;
+            this.horizontalStepper.next();
+            this.horizontalStepper._steps.forEach(step => step.editable = false);
+            this.verticalStepper._steps.forEach(step => step.editable = false);
         }
     }
 
-    addPaypalScript() {
+    /*addPaypalScript() {
         this.addScript = true;
         return new Promise((resolve, reject) => {
             let scriptElement = document.createElement('script');
@@ -234,7 +301,7 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
             scriptElement.onload = resolve;
             document.body.appendChild(scriptElement);
         });
-    }
+    }*/
 
     /*private initConfig(): void {
         this.payPalConfig = new PayPalConfig(PayPalIntegrationType.ClientSideREST, PayPalEnvironment.Sandbox, {

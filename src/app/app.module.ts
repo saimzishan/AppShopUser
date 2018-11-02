@@ -28,7 +28,9 @@ import {OptionsComponent} from './theme/components/options/options.component';
 import {FooterComponent} from './theme/components/footer/footer.component';
 import {DetectChangesService} from './shared/detectchanges.service';
 import {DEFAULT_DROPZONE_CONFIG, PrintingOptionsComponent} from './dialogs/printing-options.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule} from '@angular/forms';
+import {NgxBraintreeModule} from 'ngx-braintree';
+import {httpInterceptorProviders} from "./interceptor";
 
 
 
@@ -44,7 +46,8 @@ import {FormsModule} from "@angular/forms";
         }),
         SharedModule,
         routing,
-        DropzoneModule
+        DropzoneModule,
+        NgxBraintreeModule
     ],
     declarations: [
         AppComponent,
@@ -62,9 +65,9 @@ import {FormsModule} from "@angular/forms";
         AppSettings,
         AppService,
         DetectChangesService,
+        httpInterceptorProviders,
         {provide: OverlayContainer, useClass: CustomOverlayContainer},
-        {provide: HTTP_INTERCEPTORS, useClass: AppInterceptor, multi: true},
-        { provide: DROPZONE_CONFIG, useValue: DEFAULT_DROPZONE_CONFIG }
+        { provide: DROPZONE_CONFIG, useValue: DEFAULT_DROPZONE_CONFIG },
     ],
     entryComponents: [
         PrintingOptionsComponent

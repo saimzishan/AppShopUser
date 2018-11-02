@@ -5,6 +5,7 @@ import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {SharedModule} from '../../shared/shared.module';
 import {CheckoutComponent} from './checkout.component';
 import {NgxPayPalModule} from 'ngx-paypal';
+import {NgxBraintreeModule} from 'ngx-braintree';
 
 export const routes = [
     {path: '', component: CheckoutComponent, pathMatch: 'full'}
@@ -17,7 +18,8 @@ export const routes = [
         ReactiveFormsModule,
         FormsModule,
         SharedModule,
-        NgxPayPalModule
+        NgxPayPalModule,
+        NgxBraintreeModule
     ],
     declarations: [
         CheckoutComponent

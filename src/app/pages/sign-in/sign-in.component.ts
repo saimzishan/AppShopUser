@@ -73,26 +73,33 @@ export class SignInComponent implements OnInit {
             console.log(values);
             // values.roles = 'MobileClient';
             this.signInService.registerUser(values).subscribe(data => {
-                console.log(data);
-                if (!data.error) {
-                    this.snackBar.open('a', '×', {
-                        panelClass: 'success',
-                        verticalPosition: 'top',
-                        duration: 3000
-                    });
-                    this.detectChanges.notifyOther({
-                        option: 'loggedIn',
-                        value: true
-                    });
-                    this.router.navigate(['/checkout']);
-                } else {
-                    this.snackBar.open('b', '×', {
-                        panelClass: 'failure',
-                        verticalPosition: 'top',
-                        duration: 3000
-                    });
-                }
-            });
+                    console.log(data);
+                    if (!data.error) {
+                        // localStorage.setItem('currentUser', JSON.stringify(data));
+                        this.snackBar.open('User Created Successfully', '×', {
+                            panelClass: 'success',
+                            verticalPosition: 'top',
+                            // duration: 3000
+                        });
+                        this.detectChanges.notifyOther({
+                            option: 'loggedIn',
+                            value: true
+                        });
+                        console.log(data);
+                        this.router.navigate(['/checkout']);
+                    } else {
+                        this.snackBar.open('User Creation Failed', '×', {
+                            panelClass: 'failure',
+                            verticalPosition: 'top',
+                            duration: 3000
+                        });
+                    }
+                },
+                err => {
+                    this.spinner.hide();
+                    this.errMessage = this.signInService.getErrorMessage(err);
+                    console.log(this.errMessage);
+                });
         }
     }
 

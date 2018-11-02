@@ -445,7 +445,17 @@
     </div>     
   </mat-step>
     <mat-step [stepControl]="billingForm" label="Payment">
-        <div id="paypal-checkout-button"></div>
+        <!--<div id="paypal-checkout-button"></div>-->
+        <ngx-braintree
+                [getClientToken]="getClientToken.bind(this)"
+                [createPurchase] = "createPurchase.bind(this)"
+                [chargeAmount]="grandTotal"
+                (paymentStatus)="onPaymentStatus($event)"
+                [showCardholderName]="false"
+                [enablePaypalCheckout] = "false"
+                [currency]="'USD'"
+                [enablePaypalVault] = "true">
+        </ngx-braintree>
     </mat-step>
   <mat-step [stepControl]="confirmation" label="Confirmation">
     <div fxLayout="column" fxLayoutAlign="center center" class="p-2 text-center"> 

@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {MatSnackBar} from '@angular/material';
 import {Category, Order, Product} from './app.models';
-import {reject} from "q";
+import {map} from 'rxjs/operators';
 
 export class Data {
     constructor(public categories: Category[],
@@ -26,10 +26,16 @@ export class AppService {
         null // totalPrice
     );
     public url = 'assets/data/';
-    public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
-    // public apiUrl = 'http://18.217.12.17/api/public/api/auth/';
-    public imgUrl = 'http://124.109.39.22:18089/onlineappshopapi';
-    // public imgUrl = 'http://18.217.12.17/api';
+    // public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
+    public apiUrl = 'http://18.217.12.17/api/public/api/auth/';
+    // public imgUrl = 'http://124.109.39.22:18089/onlineappshopapi';
+    public imgUrl = 'http://18.217.12.17/api';
+
+    public httpOptions = {
+        headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+        })
+    };
 
     public currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -86,7 +92,8 @@ export class AppService {
     }
 
     public createOrder(order): Observable<any> {
-        let httpOptions;
+        /*let httpOptions;
+        // console.log(this.currentUser);
         if (this.currentUser) {
             httpOptions = {
                 headers: new HttpHeaders({
@@ -94,9 +101,9 @@ export class AppService {
                     Authorization: `Bearer ${this.currentUser.access_token}`
                 })
             };
-        }
-        console.log(httpOptions);
-        return this.http.post<any>(this.apiUrl + 'orders', order, httpOptions);
+        }*/
+        // console.log(httpOptions);
+        return this.http.post<any>(this.apiUrl + 'orders', order, this.httpOptions);
         /*return new Promise((resolve, reject) => {
             let orderObj;
             console.log(this.Data.cartList);
@@ -115,6 +122,34 @@ export class AppService {
                 reject();
             }
         });*/
+    }
+
+    public getClientToken(): Observable<any> {
+        /*let httpOptions;
+        if (this.currentUser) {
+            httpOptions = {
+                headers: new HttpHeaders({
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${this.currentUser.access_token}`
+                })
+            };
+        }*/
+        return this.http.get<any>(this.apiUrl + 'cashiers', this.httpOptions)
+            .pipe(map((token: any) => {
+                console.log(token.data);
+                return token.data;
+                // console.log(token);
+            }));
+    }
+
+    public createPurchase(purchaseObj): Observable<any> {
+        return this.http
+            .post(this.apiUrl + 'cashiers', purchaseObj, this.httpOptions)
+            .pipe(
+            map((response: any) => {
+                console.log(response);
+                return response;
+            }));
     }
 
     /*public updateOrder(orderId): Observable<any> {
