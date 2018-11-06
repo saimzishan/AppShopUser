@@ -31,6 +31,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
     public clickOptions = [];
     public addToCart = false;
     public basePrice;
+    public httpImg = false;
 
     constructor(public appService: AppService,
                 private activatedRoute: ActivatedRoute,
@@ -104,9 +105,15 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                         item.small = this.appService.imgUrl + item.small;
                     });
                 }*/
-                this.image = this.appService.imgUrl + this.product.product_images[0].medium;
-                this.zoomImage = this.appService.imgUrl + this.product.product_images[0].large;
+                this.image = this.product.product_images[0].medium.startsWith('http') ? this.product.product_images[0].medium : this.appService.imgUrl + this.product.product_images[0].medium;
+                this.zoomImage = this.product.product_images[0].large.startsWith('http') ? this.product.product_images[0].large : this.appService.imgUrl + this.product.product_images[0].large;
                 this.variantImages = this.product.product_images;
+                this.variantImages.map(img => {
+                   console.log(img);
+                    img.small = img.small.startsWith('http') ? img.small : this.appService.imgUrl + img.small;
+                    img.medium = img.medium.startsWith('http') ? img.medium : this.appService.imgUrl + img.medium;
+                    img.large = img.large.startsWith('http') ? img.large : this.appService.imgUrl + img.large;
+                });
             } else {
                 this.product.images[0].medium = this.product.images[0].medium ? this.product.images[0].medium : this.product.images[0].small;
                 this.product.images[0].large = this.product.images[0].large ? this.product.images[0].large : this.product.images[0].small;
@@ -119,9 +126,20 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                         item.small = this.appService.imgUrl + item.small;
                     });
                 }*/
-                this.image = this.appService.imgUrl + this.product.images[0].medium;
-                this.zoomImage = this.appService.imgUrl + this.product.images[0].large;
+                this.image = this.product.images[0].medium.startsWith('http') ? this.product.images[0].medium : this.appService.imgUrl + this.product.images[0].medium;
+                this.zoomImage = this.product.images[0].large.startsWith('http') ? this.product.images[0].large : this.appService.imgUrl + this.product.images[0].large;
                 this.variantImages = this.product.images;
+                this.variantImages.map(img => {
+                    console.log(img);
+                    img.small = img.small.startsWith('http') ? img.small : this.appService.imgUrl + img.small;
+                    img.medium = img.medium.startsWith('http') ? img.medium : this.appService.imgUrl + img.medium;
+                    img.large = img.large.startsWith('http') ? img.large : this.appService.imgUrl + img.large;
+                });
+            }
+
+            if (!this.product.images.length && !this.product.product_images.length) {
+                this.image = 'assets/images/img_not_available.png';
+                this.zoomImage = 'assets/images/img_not_available.png';
             }
 
             this.basePrice = this.product.price;
@@ -147,24 +165,24 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 
             } else {*/
             if (this.product.product_supplier_attributes.length) {
-            this.product.product_supplier_attributes.forEach(variants => {
-                if (this.optionsArray.length && this.optionsArray.find(val => val.name === variants.option_set.name)) {
-                    this.optionsArray.forEach(itm => {
-                        if (itm.name === variants.option_set.name) {
-                            itm.values.push(
-                                {id: variants.option.id, value: variants.option.value}
-                            );
-                        }
-                    });
-                } else {
-                    this.optionsArray.push({
-                        id: variants.option_set.id,
-                        'name': variants.option_set.name,
-                        'values': [{id: variants.option.id, value: variants.option.value}]
-                    });
-                }
-            });
-            // console.log(this.optionsArray);
+                this.product.product_supplier_attributes.forEach(variants => {
+                    if (this.optionsArray.length && this.optionsArray.find(val => val.name === variants.option_set.name)) {
+                        this.optionsArray.forEach(itm => {
+                            if (itm.name === variants.option_set.name) {
+                                itm.values.push(
+                                    {id: variants.option.id, value: variants.option.value}
+                                );
+                            }
+                        });
+                    } else {
+                        this.optionsArray.push({
+                            id: variants.option_set.id,
+                            'name': variants.option_set.name,
+                            'values': [{id: variants.option.id, value: variants.option.value}]
+                        });
+                    }
+                });
+                // console.log(this.optionsArray);
             } else {
                 this.addToCart = true;
             }
@@ -365,8 +383,12 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public selectImage(image) {
         console.log(image);
-        this.image = this.appService.imgUrl + image.medium;
-        this.zoomImage = this.appService.imgUrl + image.large;
+        image.medium = image.medium.startsWith('http') ? image.medium : this.appService.imgUrl + image.medium;
+        image.large = image.large.startsWith('http') ? image.large : this.appService.imgUrl + image.large;
+        /*this.image = this.appService.imgUrl + image.medium;
+        this.zoomImage = this.appService.imgUrl + image.large;*/
+        this.image = image.medium;
+        this.zoomImage = image.large;
     }
 
     public onMouseMove(e) {

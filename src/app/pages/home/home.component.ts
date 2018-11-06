@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
     public onSaleProducts: Array<Product>;
     public topRatedProducts: Array<Product>;
     public newArrivalsProducts: Array<Product>;
+
     /*public featuredProductsArray = [];
     public onSaleProductsArray = [];
     public topRatedProductsArray = [];*/
@@ -45,42 +46,42 @@ export class HomeComponent implements OnInit {
 
     public getSlides() {
         this.appService.getSlides().subscribe(data => {
-            // console.log(data.data);
-            this.slides = data.data.data;
-            // console.log(this.slides);
-            if (this.slides) {
+            console.log(data.data);
+            this.slides = data.data;
+            console.log(this.slides);
+            /*if (this.slides) {
             this.slides.map(item => {
                // console.log(item);
                item.title = 'The biggest sale';
                item.subtitle = 'Special for today';
             });
-            }
+            }*/
             // console.log(this.slides);
         });
     }
 
-    public getProductsNew (type) {
+    public getProductsNew(type) {
         if (type === 'featured' && !this.featuredProducts) {
             this.appService.getProductsNew('featured').subscribe(data => {
-                this.featuredProducts = data.data.data;
+                this.featuredProducts = data.data;
                 this.featuredProducts = this.createProductsArray(this.featuredProducts);
             });
         }
         if (type === 'on sale' && !this.onSaleProducts) {
             this.appService.getProductsNew('on-sale').subscribe(data => {
-                this.onSaleProducts = data.data.data;
+                this.onSaleProducts = data.data;
                 this.onSaleProducts = this.createProductsArray(this.onSaleProducts);
             });
         }
         if (type === 'top rated' && !this.topRatedProducts) {
             this.appService.getProductsNew('top-rated').subscribe(data => {
-                this.topRatedProducts = data.data.data;
+                this.topRatedProducts = data.data;
                 this.topRatedProducts = this.createProductsArray(this.topRatedProducts);
             });
         }
         if (type === 'new arrivals' && !this.newArrivalsProducts) {
             this.appService.getProductsNew('new-arrival').subscribe(data => {
-                this.newArrivalsProducts = data.data.data;
+                this.newArrivalsProducts = data.data;
                 this.newArrivalsProducts = this.createProductsArray(this.newArrivalsProducts);
             });
         }
@@ -113,37 +114,46 @@ export class HomeComponent implements OnInit {
 
     public createProductsArray(productArray) {
         const newProductArray = [];
-        if (productArray) {
-        productArray.forEach(value => {
-            value.suppliers.forEach(item => {
-                // console.log(item.images);
-                let newProduct = {
-                    id: value.id,
-                    name: value.name,
-                    category_id: value.category_id,
-                    supplier_id: item.id,
-                    supplier_name: item.name,
-                    price: item.price,
-                    image: item.images[0].small
-                };
-                newProductArray.push(newProduct);
+        console.log(productArray);
+        if (productArray.length) {
+            productArray.forEach(value => {
+                console.log(value);
+                if (value) {
+                    value.suppliers.forEach(item => {
+                        // console.log(item.images);
+                        const newProduct = {
+                            id: value.id,
+                            name: value.name,
+                            category_id: value.category_id,
+                            supplier_id: item.id,
+                            supplier_name: item.name,
+                            price: item.price,
+                            image: !item.product_images.length
+                                ? value.product_images[0].small
+                                : item.product_images[0].small.startsWith('http')
+                                    ? item.product_images[0].small
+                                    : this.appService.imgUrl + item.product_images[0].small
+                        };
+                        newProductArray.push(newProduct);
+                    });
+                }
             });
-        });
         }
+        console.log(newProductArray);
         return newProductArray;
     }
 
     public getBanners() {
         this.appService.getBanners().subscribe(data => {
-            console.log(data.data.data);
-            this.banners = data.data.data;
-            if (this.banners) {
+            console.log(data.data);
+            this.banners = data.data;
+            /*if (this.banners) {
             this.banners.map(item => {
                 // console.log(item);
                 item.title = 'The biggest sale';
                 item.subtitle = 'Special for today';
             });
-            }
+            }*/
             // console.log(this.banners);
         });
     }
@@ -158,7 +168,7 @@ export class HomeComponent implements OnInit {
         // this.brands = this.appService.getBrandsNew();
         this.appService.getBrandsNew().subscribe(data => {
             this.brands = data.data;
-            // console.log(this.brands);
+            console.log(this.brands);
         });
     }
 

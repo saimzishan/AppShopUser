@@ -18,7 +18,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     public viewType: string = 'grid';
     public viewCol: number = 25;
     public counts = [12, 24, 36];
-    public count: any;
+    public count = 12;
     public sortings = ['Default', 'Lowest Price', 'Highest Price'];
     public sort: any;
     public products: Array<Product> = [];
@@ -50,6 +50,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     public avgPrice: string;
     public catId;
     public param;
+    public totalProducts;
+    public itemPerPage;
 
     constructor(private activatedRoute: ActivatedRoute, public appService: AppService, public dialog: MatDialog, private router: Router) {
     }
@@ -71,7 +73,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
                 // console.log(catId);
                 this.getProductsByBrand(this.param);
             } else {
-                this.getAllProductsNew();
+                this.getAllProductsNew(1, this.count);
             }
         });
         if (window.innerWidth < 960) {
@@ -105,7 +107,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
             // if (this.products.length > 0) {
             this.products.forEach(value => {
                 value.suppliers.forEach(item => {
-                    console.log(item);
+                    // console.log(item);
                     const newProduct = {
                         id: value.id,
                         name: value.name,
@@ -114,8 +116,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
                         supplier_name: item.name,
                         price: item.price,
                         image: !item.product_images.length
-                                ? 'assets/images/img_not_available.png'
-                                : item.product_images[0].small.startsWith('http')
+                            ? value.product_images[0].small
+                            : item.product_images[0].small.startsWith('http')
                                 ? item.product_images[0].small
                                 : this.appService.imgUrl + item.product_images[0].small
                         // image: item.images[0].small
@@ -139,6 +141,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.appService.getAllProductsByBrand(brandId).subscribe(data => {
             console.log(data);
             this.products = data.data.products.data;
+            this.itemPerPage = data.data.per_page;
             console.log(this.products);
             this.productsBrandArray = [];
             // if (this.products.length > 0) {
@@ -152,10 +155,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
                         supplier_id: item.id,
                         supplier_name: item.name,
                         price: item.price,
-                        image: item.product_images.length > 0 && item.product_images[0].small.startsWith('http')
-                            ? item.product_images[0].small
-                            : this.appService.imgUrl + item.product_images[0].small
-                        // image: item.images[0].small
+                        image: !item.product_images.length
+                            ? value.product_images[0].small
+                            : item.product_images[0].small.startsWith('http')
+                                ? item.product_images[0].small
+                                : this.appService.imgUrl + item.product_images[0].small
                     };
                     this.productsBrandArray.push(newProduct);
                 });
@@ -165,12 +169,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
         });
     }
 
-    public getAllProductsNew() {
+    public getAllProductsNew(page?, count?) {
         if (this.productsArray.length) {
             this.productsArray = [];
         }
         // console.log(this.products);
-        this.appService.getAllProductsNew().subscribe(data => {
+        this.appService.getAllProductsNew(page, count).subscribe(data => {
+            console.log(data);
+            this.totalProducts = data.data.total;
             this.products = data.data.data;
             console.log(this.products);
             this.products.forEach(value => {
@@ -185,11 +191,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
                         price: item.price,
                         // image: item.images.length > 0 ? item.images[0].small : ''
                         image: !item.product_images.length
-                            ? 'assets/images/img_not_available.png'
+                            ? value.product_images[0].small
                             : item.product_images[0].small.startsWith('http')
                                 ? item.product_images[0].small
                                 : this.appService.imgUrl + item.product_images[0].small
                     };
+                    // 'assets/images/img_not_available.png'
                     this.productsArray.push(newProduct);
                 });
             });
@@ -209,10 +216,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
             this.appService.getCategories().subscribe(data => {
                 this.categories = data.data;
                 this.appService.Data.categories = data.data;
+                console.log(this.categories);
             });
         } else {
             this.categories = this.appService.Data.categories;
-            // console.log(this.categories);
+            console.log(this.categories);
         }
     }
 
@@ -241,7 +249,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     public changeCount(count) {
         this.count = count;
         /*this.getAllProducts();*/
-        this.getAllProductsNew();
+        this.getAllProductsNew(1, this.count);
     }
 
     public changeSorting(sort) {
@@ -290,7 +298,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     public onPageChanged(event) {
         this.page = event;
         /*this.getAllProducts();*/
-        this.getAllProductsNew();
+        console.log(event);
+        this.getAllProductsNew(this.page, this.count);
         window.scrollTo(0, 0);
     }
 

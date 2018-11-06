@@ -4,7 +4,8 @@
             <div *ngFor="let brand of brands" class="swiper-slide">
                 <div class="p-0">
                     <a [routerLink]="['/brands', brand.name]" class="brand-item">
-                        <img [attr.data-src]="brand.image?.small" class="swiper-lazy">
+                        <img [src]="brand.image" alt="" height="216" width="250">
+                        <!--<img [attr.data-src]="brand.image?.small" class="swiper-lazy">-->
                     </a>
                     <div class="swiper-lazy-preloader"></div>
                 </div>

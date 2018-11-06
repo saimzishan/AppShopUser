@@ -81,12 +81,12 @@ export class SignInComponent implements OnInit {
                             verticalPosition: 'top',
                             // duration: 3000
                         });
-                        this.detectChanges.notifyOther({
+                        /*this.detectChanges.notifyOther({
                             option: 'loggedIn',
                             value: true
                         });
                         console.log(data);
-                        this.router.navigate(['/checkout']);
+                        this.router.navigate(['/checkout']);*/
                     } else {
                         this.snackBar.open('User Creation Failed', '×', {
                             panelClass: 'failure',

@@ -39,22 +39,23 @@ export class MenuComponent implements OnInit {
                 this.categories = data.data;
                 this.appService.Data.categories = data.data;
                 this.mainCategories = this.categories.filter(category => category.parent_id === null);
-                // console.log(this.categories);
+                console.log(this.categories);
             });
         } else {
             this.categories = this.appService.Data.categories;
             this.mainCategories = this.categories.filter(category => category.parent_id === null);
+            console.log(this.categories);
         }
     }
 
     public checkChildren(child) {
-        // console.log(child);
-        return this.categories.find(item => item.id === child.id).children.length;
+        console.log(child);
+        return this.categories.find(item => item.id === child.parent_id).children.length;
     }
 
     public getThirdChildren(child) {
         // console.log(child);
-        const childArray = this.categories.find(item => item.id === child.id).children;
+        const childArray = this.categories.find(item => item.id === child.parent_id).children;
         return childArray;
     }
 

@@ -1,14 +1,51 @@
 <mat-toolbar class="top-navbar mat-elevation-z2" fxLayoutAlign="center center">
 
     <ng-template ngFor let-cat [ngForOf]="categories">
-        <a *ngIf="!cat.parent_id && !cat.children.length" mat-button [routerLink]="['/products', cat.id]"
+        <a *ngIf="!cat.parent_id && !cat.children.length" mat-button [routerLink]="['/products/category', cat.id]"
            routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">{{cat.name}}</a>
         <a *ngIf="!cat.parent_id && cat.children.length" mat-button [matMenuTriggerFor]="menuCat"
            [matMenuTriggerData]="{catChildren: cat.children}">{{cat.name}}
             <mat-icon class="caret">arrow_drop_down</mat-icon>
         </a>
     </ng-template>
+
     <mat-menu #menuCat="matMenu" [overlapTrigger]="false" class="app-dropdown">
+        <ng-template matMenuContent let-catChildArray="catChildren">
+            <ng-template ngFor let-child [ngForOf]="catChildArray">
+                <a *ngIf="!child.children?.length" mat-menu-item [routerLink]="['/products/category', child.id]"
+                   routerLinkActive="horizontal-active-link"
+                   [routerLinkActiveOptions]="{exact:true}">{{child.name}}</a>
+                <a *ngIf="child.children?.length" mat-menu-item [routerLink]="['/products/category', child.id]"
+                   routerLinkActive="horizontal-active-link"
+                   [matMenuTriggerFor]="third" [matMenuTriggerData]="{thirdChild: getThirdChildren(child)}">{{child.name}}</a>
+            </ng-template>
+        </ng-template>
+        <mat-menu #third="matMenu" class="app-dropdown">
+            <ng-template matMenuContent let-thirdChildArray="thirdChild">
+                <ng-template ngFor let-tChild [ngForOf]="thirdChildArray">
+                    <a *ngIf="!tChild.children?.length" mat-menu-item [routerLink]="['/products/category', tChild.id]"
+                       routerLinkActive="horizontal-active-link"
+                       [routerLinkActiveOptions]="{exact:true}">{{tChild.name}}</a>
+                    <a *ngIf="tChild.children?.length" mat-menu-item [routerLink]="['/products/category', tChild.id]"
+                       routerLinkActive="horizontal-active-link"
+                       [matMenuTriggerFor]="fourth" [matMenuTriggerData]="{thirdChild: getThirdChildren(tChild)}">{{tChild.name}}</a>
+                    <!--<a mat-menu-item routerLink="/products">{{tChild.name}}</a>-->
+                </ng-template>
+            </ng-template>
+        </mat-menu>
+
+        <mat-menu #fourth="matMenu" class="app-dropdown">
+            <ng-template matMenuContent let-thirdChildArray="thirdChild">
+                <ng-template ngFor let-tChild [ngForOf]="thirdChildArray">
+                    <a mat-menu-item [routerLink]="['/products/category', tChild.id]">{{tChild.name}}</a>
+                </ng-template>
+            </ng-template>
+        </mat-menu>
+
+    </mat-menu>
+
+
+    <!--<mat-menu #menuCat="matMenu" [overlapTrigger]="false" class="app-dropdown">
         <ng-template matMenuContent let-catChildArray="catChildren">
             <ng-template ngFor let-child [ngForOf]="catChildArray">
                 <a *ngIf="!checkChildren(child)" mat-menu-item [routerLink]="['/products', child.id]"
@@ -28,7 +65,7 @@
                     <a *ngIf="checkChildren(tChild)" mat-menu-item [routerLink]="['/products', tChild.id]"
                        routerLinkActive="horizontal-active-link"
                        [matMenuTriggerFor]="fourth" [matMenuTriggerData]="{thirdChild: getThirdChildren(tChild)}">{{tChild.name}}</a>
-                    <!--<a mat-menu-item routerLink="/products">{{tChild.name}}</a>-->
+                    &lt;!&ndash;<a mat-menu-item routerLink="/products">{{tChild.name}}</a>&ndash;&gt;
                 </ng-template>
             </ng-template>
         </mat-menu>
@@ -41,7 +78,7 @@
             </ng-template>
         </mat-menu>
 
-    </mat-menu>
+    </mat-menu>-->
 
     <!--<ng-template ngFor let-cat [ngForOf]="categories">
         <a *ngIf="!cat.parent_id && !cat.children.length" mat-button routerLink="/"

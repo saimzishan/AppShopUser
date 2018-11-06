@@ -55,8 +55,14 @@ export class AppService {
         return this.http.get<any>(this.apiUrl + 'products?' + type);
     }
 
-    public getAllProductsNew(): Observable<any> {
-        return this.http.get<any>(this.apiUrl + 'products?with_suppliers');
+    public getAllProductsNew(page?, count?): Observable<any> {
+        console.log(count);
+        console.log(page);
+        if (!page) {
+        return this.http.get<any>(this.apiUrl + 'products?with_suppliers&count=' + count);
+        } else {
+            return this.http.get<any>(this.apiUrl + 'products?count=' + count + '&page=' + page + '&with_suppliers');
+        }
     }
 
     public getAllProductsByCat(catId): Observable<any> {

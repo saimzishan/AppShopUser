@@ -2,12 +2,12 @@
   <div class="swiper-container h-100" [swiper]="config">
     <div class="swiper-wrapper h-100">      
       <div *ngFor="let slide of slides" class="swiper-slide">
-        <div [attr.data-background]="slide.images[0]?.small" class="slide-item swiper-lazy">
+        <div [attr.data-background]="slide.product_images[0]?.large.startsWith('http') ? slide.product_images[0]?.large : this.appService.imgUrl + slide.product_images[0]?.large" class="slide-item swiper-lazy">
             <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
             <div class="mask"></div>  
             <div fxLayout="column" fxLayoutAlign="center center" class="content">
-              <h1>{{slide.title}}</h1>
-              <h3>{{slide.subtitle}}</h3>
+              <h1>{{slide.name}}</h1>
+              <!--<h3>{{slide.short_description}}</h3>-->
               <button mat-raised-button color="primary">Shop now</button>
             </div> 
         </div>

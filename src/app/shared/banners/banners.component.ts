@@ -23,7 +23,7 @@ export class BannersComponent implements OnInit {
     public getBgImage(index) {
         // console.log(this.banners[index].images[0].small);
         let bgImage = {
-            'background-image': this.banners[index] != null ? 'url(' + this.banners[index].images[0].small + ')' : 'url(https://via.placeholder.com/600x400/ff0000/fff/)'
+            'background-image': this.banners[index] != null ? 'url(' + this.banners[index].product_images[0].large + ')' : 'url(https://via.placeholder.com/600x400/ff0000/fff/)'
         };
         // console.log(bgImage);
         return bgImage;

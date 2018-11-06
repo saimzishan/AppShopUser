@@ -1,5 +1,6 @@
 import {Component, OnInit, Input, AfterViewInit} from '@angular/core';
 import {SwiperConfigInterface, SwiperPaginationInterface} from 'ngx-swiper-wrapper';
+import {AppService} from "../../app.service";
 
 @Component({
     selector: 'app-main-carousel',
@@ -16,11 +17,11 @@ export class MainCarouselComponent implements OnInit, AfterViewInit {
         clickable: true
     };
 
-    constructor() {
+    constructor(public appService: AppService) {
     }
 
     ngOnInit() {
-        // console.log(this.slides);
+        console.log(this.slides);
     }
 
     ngAfterViewInit() {
