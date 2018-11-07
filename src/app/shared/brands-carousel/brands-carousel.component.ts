@@ -1,18 +1,27 @@
-import {AfterViewInit, Component, Input} from '@angular/core';
+import {AfterViewInit, Component, DoCheck, Input} from '@angular/core';
 import {SwiperConfigInterface} from 'ngx-swiper-wrapper';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-brands-carousel',
     templateUrl: './brands-carousel.component.html',
     styleUrls: ['./brands-carousel.component.scss']
 })
-export class BrandsCarouselComponent implements AfterViewInit {
+export class BrandsCarouselComponent implements DoCheck, AfterViewInit {
 
     @Input('brands') brands: Array<any> = [];
 
     public config: SwiperConfigInterface = {};
 
-    constructor() {
+    loadBrands = false;
+
+    constructor(private router: Router) {
+    }
+
+    ngDoCheck() {
+        if (this.brands.length) {
+            this.loadBrands = true;
+        }
     }
 
     ngAfterViewInit() {
@@ -23,7 +32,7 @@ export class BrandsCarouselComponent implements AfterViewInit {
             navigation: true,
             pagination: false,
             grabCursor: true,
-            loop: true,
+            loop: false,
             preloadImages: false,
             lazy: true,
             autoplay: {
@@ -53,6 +62,11 @@ export class BrandsCarouselComponent implements AfterViewInit {
                 }
             }
         };
+    }
+
+    public getBrandProducts(brandId) {
+        console.log(brandId);
+        this.router.navigate(['/products/brand', brandId]);
     }
 
 }

@@ -46,9 +46,9 @@ export class HomeComponent implements OnInit {
 
     public getSlides() {
         this.appService.getSlides().subscribe(data => {
-            console.log(data.data);
+            // console.log(data.data);
             this.slides = data.data;
-            console.log(this.slides);
+            // console.log(this.slides);
             /*if (this.slides) {
             this.slides.map(item => {
                // console.log(item);
@@ -114,10 +114,10 @@ export class HomeComponent implements OnInit {
 
     public createProductsArray(productArray) {
         const newProductArray = [];
-        console.log(productArray);
+        // console.log(productArray);
         if (productArray.length) {
             productArray.forEach(value => {
-                console.log(value);
+                // console.log(value);
                 if (value) {
                     value.suppliers.forEach(item => {
                         // console.log(item.images);
@@ -139,13 +139,13 @@ export class HomeComponent implements OnInit {
                 }
             });
         }
-        console.log(newProductArray);
+        // console.log(newProductArray);
         return newProductArray;
     }
 
     public getBanners() {
         this.appService.getBanners().subscribe(data => {
-            console.log(data.data);
+            // console.log(data.data);
             this.banners = data.data;
             /*if (this.banners) {
             this.banners.map(item => {
@@ -154,7 +154,7 @@ export class HomeComponent implements OnInit {
                 item.subtitle = 'Special for today';
             });
             }*/
-            // console.log(this.banners);
+            console.log(this.banners);
         });
     }
 
@@ -168,6 +168,14 @@ export class HomeComponent implements OnInit {
         // this.brands = this.appService.getBrandsNew();
         this.appService.getBrandsNew().subscribe(data => {
             this.brands = data.data;
+            // console.log(this.brands);
+            this.brands.map(item => {
+                item.image = !item.image
+                    ? 'assets/images/img_not_available.png'
+                    : item.image.small.startsWith('http')
+                        ? item.image.small
+                        : this.appService.imgUrl + item.image.small;
+            });
             console.log(this.brands);
         });
     }

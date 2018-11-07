@@ -21,6 +21,13 @@ export class CartComponent implements OnInit {
         });
     }
 
+    getImageSrc(product) {
+        return product.images.length && product.images[0].small.startsWith('http') ? product.images[0].small :
+            product.images.length && !product.images[0].small.startsWith('http') ? this.appService.imgUrl + product.images[0].small :
+                !product.images.length && product.product_images.length && product.product_images[0].small.startsWith('http') ? product.product_images[0].small :
+                    this.appService.imgUrl + product.product_images[0].small;
+    }
+
     public getTotalPrice(value) {
         console.log(value);
         if (value) {

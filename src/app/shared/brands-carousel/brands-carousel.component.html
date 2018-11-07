@@ -1,13 +1,13 @@
-<div class="brands-carousel">
+<div *ngIf="loadBrands" class="brands-carousel">
     <div class="swiper-container h-100" [swiper]="config">
         <div class="swiper-wrapper h-100">      
             <div *ngFor="let brand of brands" class="swiper-slide">
                 <div class="p-0">
-                    <a [routerLink]="['/brands', brand.name]" class="brand-item">
-                        <img [src]="brand.image" alt="" height="216" width="250">
-                        <!--<img [attr.data-src]="brand.image?.small" class="swiper-lazy">-->
+                    <a style="cursor: pointer" (click)="getBrandProducts(brand.id)" class="brand-item">
+                        <!--<img [src]="brand.image" alt="" class="swiper-lazy">-->
+                        <img [attr.data-src]="brand.image" class="swiper-lazy">
                     </a>
-                    <div class="swiper-lazy-preloader"></div>
+                    <!--<div class="swiper-lazy-preloader"></div>-->
                 </div>
             </div>
         </div> 

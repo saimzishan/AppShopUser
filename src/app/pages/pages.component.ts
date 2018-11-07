@@ -65,6 +65,13 @@ export class PagesComponent implements OnInit, AfterViewInit {
         this.appService.Data.cartList.length = 0;
     }
 
+    public getImageSrc(product) {
+        console.log(product);
+        return product.images.length && product.images[0].small.startsWith('http') ? product.images[0].small :
+            product.images.length && !product.images[0].small.startsWith('http') ? this.appService.imgUrl + product.images[0].small :
+                !product.images.length && product.product_images.length && product.product_images[0].small.startsWith('http') ? product.product_images[0].small :
+                    this.appService.imgUrl + product.product_images[0].small;
+    }
 
     public changeTheme(theme) {
         this.settings.theme = theme;

@@ -81,7 +81,8 @@
                                     <p matLine class="text-muted">
                                         <span> {{product.count}} x ${{product.price | number : '1.2-2'}} </span>
                                     </p>
-                                    <img [src]="product.images.length ? this.appService.imgUrl + product.images[0].small : this.appService.imgUrl + product.product_images[0].small" alt="image">
+                                    <!--<img [src]="product.images.length ? this.appService.imgUrl + product.images[0].small : this.appService.imgUrl + product.product_images[0].small" alt="image">-->
+                                    <img [src]="getImageSrc(product)" alt="image">
                                     <button mat-icon-button color="warn" class="remove" (click)="remove(product);stopClickPropagate($event)" matTooltip="Remove" matTooltipPosition="before">
                                         <mat-icon class="mat-icon-sm">close</mat-icon>
                                     </button>

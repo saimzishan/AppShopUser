@@ -1,13 +1,14 @@
-import {Component, OnInit, Input, AfterViewInit} from '@angular/core';
+import {Component, OnInit, Input, AfterViewInit, DoCheck} from '@angular/core';
 import {SwiperConfigInterface, SwiperPaginationInterface} from 'ngx-swiper-wrapper';
 import {AppService} from "../../app.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-main-carousel',
     templateUrl: './main-carousel.component.html',
     styleUrls: ['./main-carousel.component.scss']
 })
-export class MainCarouselComponent implements OnInit, AfterViewInit {
+export class MainCarouselComponent implements OnInit, AfterViewInit, DoCheck {
     @Input() slides: Array<any> = [];
 
     public config: SwiperConfigInterface = {};
@@ -17,11 +18,19 @@ export class MainCarouselComponent implements OnInit, AfterViewInit {
         clickable: true
     };
 
-    constructor(public appService: AppService) {
+    loadSlider = false;
+
+    constructor(public appService: AppService, private router: Router) {
     }
 
     ngOnInit() {
         console.log(this.slides);
+    }
+
+    ngDoCheck() {
+        if (this.slides.length) {
+            this.loadSlider = true;
+        }
     }
 
     ngAfterViewInit() {
@@ -42,5 +51,12 @@ export class MainCarouselComponent implements OnInit, AfterViewInit {
             speed: 500,
             effect: 'slide'
         };
+    }
+
+    public productDetail(product) {
+        console.log(product);
+        this.router.navigate(['/products', product.id, product.name, {supplier_id: product.suppliers[0].id}]);
+        // ['/products', product.id, product.name, {supplier_id: product.supplier_id}]
+
     }
 }

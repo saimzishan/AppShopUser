@@ -1,4 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-banners',
@@ -8,7 +9,7 @@ import {Component, OnInit, Input} from '@angular/core';
 export class BannersComponent implements OnInit {
     @Input('banners') banners: Array<any> = [];
 
-    constructor() {
+    constructor(private router: Router) {
     }
 
     ngOnInit() {
@@ -16,6 +17,7 @@ export class BannersComponent implements OnInit {
 
     public getBanner(index) {
         if (this.banners[index]) {
+            // console.log(this.banners[0]);
             return this.banners[index];
         }
     }
@@ -27,6 +29,13 @@ export class BannersComponent implements OnInit {
         };
         // console.log(bgImage);
         return bgImage;
+    }
+
+    public productDetail(index) {
+        console.log(this.banners[index]);
+        this.router.navigate(['/products', this.banners[index].id, this.banners[index].name, {supplier_id: this.banners[index].suppliers[0].id}]);
+        // ['/products', product.id, product.name, {supplier_id: product.supplier_id}]
+
     }
 
 }

@@ -85,8 +85,8 @@ export class SignInComponent implements OnInit {
                             option: 'loggedIn',
                             value: true
                         });
-                        console.log(data);
-                        this.router.navigate(['/checkout']);*/
+                        console.log(data);*/
+                        this.router.navigate(['/sign-in']);
                     } else {
                         this.snackBar.open('User Creation Failed', '×', {
                             panelClass: 'failure',

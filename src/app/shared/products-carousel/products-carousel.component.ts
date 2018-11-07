@@ -21,7 +21,7 @@ export class ProductsCarouselComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        console.log(this.products);
+        // console.log(this.products);
     }
 
     ngAfterViewInit() {

@@ -1,4 +1,4 @@
-<div class="main-slider">
+<div *ngIf="loadSlider" class="main-slider">
   <div class="swiper-container h-100" [swiper]="config">
     <div class="swiper-wrapper h-100">      
       <div *ngFor="let slide of slides" class="swiper-slide">
@@ -8,7 +8,7 @@
             <div fxLayout="column" fxLayoutAlign="center center" class="content">
               <h1>{{slide.name}}</h1>
               <!--<h3>{{slide.short_description}}</h3>-->
-              <button mat-raised-button color="primary">Shop now</button>
+              <button mat-raised-button color="primary" (click)="productDetail(slide)">Shop now</button>
             </div> 
         </div>
       </div>
