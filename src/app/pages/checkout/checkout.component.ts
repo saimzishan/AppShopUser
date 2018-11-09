@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {Order} from '../../app.models';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 declare let paypal: any;
 
@@ -39,6 +40,7 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     order_id;
     bTree: any;
     public currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    public guestUser = JSON.parse(localStorage.getItem('guestUser'));
 
     paypalConfig = {
         env: 'sandbox', // sandbox | production
@@ -83,18 +85,6 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
                             // invoice_number: '0000897',
                             item_list: {
                                 items: this.checkoutItems,
-                                // billing_address: this.billingAddress,
-                                /*billing_address: {
-                                    recipient_name: 'Brian Robinson',
-                                    line1: '4th Floor',
-                                    line2: 'Unit #34',
-                                    city: 'San Jose',
-                                    country_code: 'US',
-                                    postal_code: '95131',
-                                    phone: '011862212345678',
-                                    state: 'CA'
-                                },*/
-                                // shipping_address: this.shippingAddress
                             }
                         },
                     ]
@@ -106,28 +96,10 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
 
             console.log(data);
 
-            // return actions.payment.get().then(data1 => {
-            // console.log(data1);
             // Make a call to the REST api to execute the payment
             return actions.payment.execute().then((paymentData) => {
                 console.log(paymentData);
                 this.order.payment_id = paymentData.id;
-                /*this.order.billing_address = this.billingAddress;
-                this.order.shipping_address = this.shippingAddress;*/
-                // let orderObj;
-                // console.log(this.appService.Data.cartList);
-                /*this.appService.createOrder(this.order).then(order => {
-                    console.log(order);
-                });*/
-                /*this.appService.Data.cartList.forEach(item => {
-                    console.log(item);
-                    orderObj.sku = item.sku;
-                    orderObj.quantity = item.count;
-                    orderObj.price_paid = item.price;
-                    orderObj.line_item_printing_infos = item.line_item_printing_infos;
-                    this.order.line_items.push(orderObj);
-                });*/
-                // this.order.line_items = data1.line_items;
                 console.log(this.order);
                 this.confirmation = true;
                 this.horizontalStepper.next();
@@ -135,25 +107,16 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
                 this.verticalStepper._steps.forEach(step => step.editable = false);
                 this.appService.Data.cartList.length = 0;
             });
-            // });
         }
     };
 
-    // public payPalConfig?: PayPalConfig;
-
     constructor(public http: HttpClient, public router: Router, public appService: AppService, public formBuilder: FormBuilder) {
-        const currUser = JSON.parse(localStorage.getItem('currentUser'));
-        if (!currUser) {
+        /*if (this.guestUser || !this.currentUser) {
             this.router.navigate(['/sign-in']);
-        }
+        }*/
     }
 
     ngOnInit() {
-
-        /*this.appService.getClientToken()
-            .subscribe((res: any) => {
-                this.bTree = res.data; // This should return a string
-            });*/
 
         console.log(this.order);
         this.appService.Data.cartList.forEach(product => {
@@ -204,12 +167,7 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
             cvv: ['', Validators.required]
         });
 
-        // this.order = new Order();
-
-        // console.log(this.order);
-
-        // this.checkoutItems =
-        // console.log(this.appService.Data.cartList);
+        console.log(this.appService.Data.cartList);
         this.appService.Data.cartList.forEach(item => {
             // console.log(item);
             let obj = {
@@ -218,59 +176,25 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
                 description: item.short_description,
                 quantity: item.count,
                 price: item.price,
-                currency: 'USD',
-                // line_item_printing_infos: item.line_item_printing_infos
+                currency: 'CAD',
             };
             this.checkoutItems.push(obj);
         });
-        // console.log(this.checkoutItems);
-        // this.initConfig();
-        // this.getClientToken();
     }
 
     ngAfterViewChecked() {
-        /*if (!this.addScript) {
-            this.addPaypalScript().then(() => {
-                // this.paypalConfig.payment().transactions[0].amount.total = this.grandTotal;
-                paypal.Button.render(this.paypalConfig, '#paypal-checkout-button');
-            });
-        }*/
     }
 
-    /*getClientTokenFunction(): Observable<string> {
-        console.log(this.bTree);
-        console.log(of(this.bTree));
-        return of(this.bTree);
-    }
-*/
     public getClientToken(): Observable<string> {
-
         return this.appService.getClientToken();
+    }
 
-        /*
-        let httpOptions;
-        if (this.currentUser) {
-            httpOptions = {
-                headers: new HttpHeaders({
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${this.currentUser.access_token}`
-                })
-            };
-        }
-        return this.http
-            .get('http://124.109.39.22:18089/onlineappshopapi/public/api/auth/cashiers', httpOptions)
-            .pipe(
-            map((response: any) => {
-                // console.log(response);
-                // console.log(response.data);
-                return response.data;
-            }));*/
-        /*.subscribe(token => {
-            console.log(token);
-            return token.data;
-        }, err => {
-            console.log(err);
-        });*/
+    getImageSrc(product) {
+        // console.log(product);
+        return product.images.length && product.images[0].small.startsWith('http') ? product.images[0].small :
+            product.images.length && !product.images[0].small.startsWith('http') ? this.appService.imgUrl + product.images[0].small :
+                !product.images.length && product.product_images.length && product.product_images[0].small.startsWith('http') ? product.product_images[0].small :
+                    this.appService.imgUrl + product.product_images[0].small;
     }
 
     public createPurchase(nonce: string, chargeAmount: number): Observable<any> {
@@ -278,7 +202,7 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
             nonce: nonce,
             chargeAmount: chargeAmount,
             amount: this.grandTotal,
-          order_uuid: this.order_id
+            order_uuid: this.order_id
         };
         return this.appService.createPurchase(purchaseObj);
     }
@@ -292,48 +216,6 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
             this.verticalStepper._steps.forEach(step => step.editable = false);
         }
     }
-
-    /*addPaypalScript() {
-        this.addScript = true;
-        return new Promise((resolve, reject) => {
-            let scriptElement = document.createElement('script');
-            scriptElement.src = 'https://www.paypalobjects.com/api/checkout.js';
-            scriptElement.onload = resolve;
-            document.body.appendChild(scriptElement);
-        });
-    }*/
-
-    /*private initConfig(): void {
-        this.payPalConfig = new PayPalConfig(PayPalIntegrationType.ClientSideREST, PayPalEnvironment.Sandbox, {
-            commit: true,
-            client: {
-                sandbox: 'AXQDCvOuxxjOA0YnBfcsdQ238zS2YjlQHcNVvxstSryNKTvdpgPUx07ehBSGsWIE0Z6_T09Il40cmwzX',
-            },
-            button: {
-                label: 'checkout',
-                layout: 'horizontal',
-                fundingicons: false
-            },
-            onPaymentComplete: (data, actions) => {
-                console.log('OnPaymentComplete');
-            },
-            onCancel: (data, actions) => {
-                console.log('OnCancel');
-            },
-            onError: (err) => {
-                console.log('OnError');
-            },
-            /!*validate: (actions) => {
-                console.log('validate');
-            },*!/
-            transactions: [{
-                amount: {
-                    currency: 'USD',
-                    total: 1
-                }
-            }]
-        });
-    }*/
 
     public placeOrder() {
         if (!this.billlingAddressFlag) {
@@ -393,6 +275,12 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
         // console.log(this.orderObj);
         this.order = this.orderObj;
         this.order.payment_id = 0;
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (currentUser) {
+            const helper = new JwtHelperService();
+            const decodedToken = helper.decodeToken(currentUser.access_token);
+            console.log(decodedToken);
+        }
         console.log(this.order);
         this.appService.createOrder(this.order).subscribe(data => {
             console.log(data);

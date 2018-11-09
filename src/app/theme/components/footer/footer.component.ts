@@ -6,9 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
-  public lat: number = 40.678178;
-  public lng: number = -73.944158;
-  public zoom: number = 12;
+  public lat = 43.735911;
+  public lng = -79.778323;
+  public zoom = 12;
+  // 43.735911, -79.778323
 
   constructor() { }
 

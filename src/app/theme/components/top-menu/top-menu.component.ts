@@ -9,7 +9,7 @@ import {Subscription} from 'rxjs/Subscription';
   templateUrl: './top-menu.component.html'
 })
 export class TopMenuComponent implements OnInit, OnDestroy {
-  public currencies = ['USD', 'EUR'];
+  public currencies = ['CAD', 'USD', 'EUR'];
   public currency: any;
   public flags = [
     { name: 'English', image: 'assets/images/flags/gb.svg' },
@@ -49,7 +49,7 @@ export class TopMenuComponent implements OnInit, OnDestroy {
             option: 'loggedIn',
             value: false
         });
-        this.router.navigate(['/products']);
+        this.router.navigate(['/']);
     }
 
     /*public callRelatedFunctions(res) {

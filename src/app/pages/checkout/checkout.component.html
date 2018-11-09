@@ -271,7 +271,8 @@
             <div class="mat-header-cell">Total</div>
           </div>
           <div *ngFor="let product of appService.Data.cartList" class="mat-row">
-            <div class="mat-cell"><img [src]="product.images.length ? this.appService.imgUrl + product.images[0].small : this.appService.imgUrl + product.product_images[0].small"></div>
+            <!--<div class="mat-cell"><img [src]="product.images.length ? this.appService.imgUrl + product.images[0].small : this.appService.imgUrl + product.product_images[0].small"></div>-->
+              <div class="mat-cell"><img [src]="getImageSrc(product)"></div>
             <div class="mat-cell">{{product.name}}</div>
             <div class="mat-cell">${{product.price | number : '1.2-2'}}</div>
             <div class="mat-cell text-muted"> {{product.count}} </div>
@@ -453,8 +454,9 @@
                 (paymentStatus)="onPaymentStatus($event)"
                 [showCardholderName]="false"
                 [enablePaypalCheckout] = "false"
-                [currency]="'USD'"
-                [enablePaypalVault] = "true">
+                [currency]="'CAD'"
+                [enablePaypalVault] = "true"
+                [buttonText]="'Purchase'">
         </ngx-braintree>
     </mat-step>
   <mat-step [stepControl]="confirmation" label="Confirmation">
@@ -733,7 +735,8 @@
             <div class="mat-header-cell">Total</div>
           </div>
           <div *ngFor="let product of appService.Data.cartList" class="mat-row">
-            <div class="mat-cell"><img [src]="product.images.length ? this.appService.imgUrl + product.images[0].small : this.appService.imgUrl + product.product_images[0].small"></div>
+            <!--<div class="mat-cell"><img [src]="product.images.length ? this.appService.imgUrl + product.images[0].small : this.appService.imgUrl + product.product_images[0].small"></div>-->
+              <div class="mat-cell"><img [src]="getImageSrc(product)"></div>
             <div class="mat-cell">{{product.name}}</div>
             <div class="mat-cell">${{product.price | number : '1.2-2'}}</div>
               <div class="mat-cell text-muted"> {{product.count}} </div>

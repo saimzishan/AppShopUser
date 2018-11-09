@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AppService} from '../../app.service';
 import {Product} from '../../app.models';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
     selector: 'app-home',
@@ -30,7 +31,7 @@ export class HomeComponent implements OnInit {
     public topRatedProductsArray = [];*/
 
 
-    constructor(public appService: AppService) {
+    constructor(public appService: AppService, private spinner: NgxSpinnerService) {
     }
 
     ngOnInit() {
@@ -48,7 +49,9 @@ export class HomeComponent implements OnInit {
         this.appService.getSlides().subscribe(data => {
             // console.log(data.data);
             this.slides = data.data;
-            // console.log(this.slides);
+            console.log(this.slides);
+            this.slides = this.slides.slice(1, 6);
+            console.log(this.slides);
             /*if (this.slides) {
             this.slides.map(item => {
                // console.log(item);
@@ -61,14 +64,18 @@ export class HomeComponent implements OnInit {
     }
 
     public getProductsNew(type) {
+        this.spinner.show();
         if (type === 'featured' && !this.featuredProducts) {
             this.appService.getProductsNew('featured').subscribe(data => {
+                this.spinner.hide();
                 this.featuredProducts = data.data;
+                console.log(this.featuredProducts);
                 this.featuredProducts = this.createProductsArray(this.featuredProducts);
             });
         }
         if (type === 'on sale' && !this.onSaleProducts) {
             this.appService.getProductsNew('on-sale').subscribe(data => {
+                this.spinner.hide();
                 this.onSaleProducts = data.data;
                 this.onSaleProducts = this.createProductsArray(this.onSaleProducts);
             });

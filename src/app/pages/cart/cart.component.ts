@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Data, AppService} from '../../app.service';
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-cart',
@@ -9,8 +10,10 @@ import {Data, AppService} from '../../app.service';
 export class CartComponent implements OnInit {
     total = [];
     grandTotal = 0;
+    public currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    public guestUser = JSON.parse(localStorage.getItem('guestUser'));
 
-    constructor(public appService: AppService) {
+    constructor(public appService: AppService, private router: Router) {
     }
 
     ngOnInit() {
@@ -19,6 +22,14 @@ export class CartComponent implements OnInit {
             this.total[product.id] = +product.price * product.count;
             this.grandTotal += +product.price * product.count;
         });
+    }
+
+    checkOut() {
+        if (this.currentUser) {
+            this.router.navigate(['/checkout']);
+        } else {
+            this.router.navigate(['/sign-in']);
+        }
     }
 
     getImageSrc(product) {

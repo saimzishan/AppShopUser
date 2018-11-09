@@ -58,8 +58,8 @@ export class AppService {
     }
 
     public getAllProductsNew(page?, count?): Observable<any> {
-        console.log(count);
-        console.log(page);
+        // console.log(count);
+        // console.log(page);
         if (!page) {
             return this.http.get<any>(this.apiUrl + 'products?with_suppliers&count=' + count);
         } else {

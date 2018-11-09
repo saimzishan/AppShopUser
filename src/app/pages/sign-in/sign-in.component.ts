@@ -6,7 +6,7 @@ import {emailValidator, matchingPasswords} from '../../theme/utils/app-validator
 import {SignInService} from './sign-in.service';
 import {User} from '../../app.models';
 import {DetectChangesService} from '../../shared/detectchanges.service';
-import {NgxSpinnerService} from "ngx-spinner";
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
     selector: 'app-sign-in',
@@ -16,7 +16,9 @@ import {NgxSpinnerService} from "ngx-spinner";
 export class SignInComponent implements OnInit {
     loginForm: FormGroup;
     registerForm: FormGroup;
+    guestForm: FormGroup;
     errMessage = '';
+    guestUser = JSON.parse(localStorage.getItem('guestUser'));
 
     constructor(public formBuilder: FormBuilder,
                 public router: Router,
@@ -32,11 +34,16 @@ export class SignInComponent implements OnInit {
             'password': ['', Validators.compose([Validators.required, Validators.minLength(6)])]
         });
 
+        this.guestForm = this.formBuilder.group({
+            'email': [this.guestUser ? this.guestUser.email : '', Validators.compose([Validators.required, emailValidator])]
+        });
+
         this.registerForm = this.formBuilder.group({
             'name': ['', Validators.compose([Validators.required, Validators.minLength(3)])],
             'email': ['', Validators.compose([Validators.required, emailValidator])],
             'password': ['', Validators.required],
-            'confirmPassword': ['', Validators.required]
+            'confirmPassword': ['', Validators.required],
+            'phone': ['', Validators.compose([Validators.required])],
         }, {validator: matchingPasswords('password', 'confirmPassword')});
 
     }
@@ -48,6 +55,8 @@ export class SignInComponent implements OnInit {
                     console.log(data);
                     if (data.error === false) {
                         localStorage.setItem('currentUser', JSON.stringify(data));
+                        console.log(JSON.parse(localStorage.getItem('guestUser')));
+                        localStorage.removeItem('guestUser');
                         // const currUser = JSON.parse(localStorage.getItem('currentUser'));
                         // localStorage.removeItem('currentUser');
                         console.log('logged in');
@@ -66,6 +75,14 @@ export class SignInComponent implements OnInit {
         }
     }
 
+    public onGuestFormSubmit(values: Object): void {
+        console.log(values);
+        if (this.guestForm.valid) {
+            localStorage.setItem('guestUser', JSON.stringify(values));
+            this.router.navigate(['/checkout']);
+        }
+    }
+
     public onRegisterFormSubmit(values: User): void {
         console.log(values);
         if (this.registerForm.valid) {
@@ -75,23 +92,27 @@ export class SignInComponent implements OnInit {
             this.signInService.registerUser(values).subscribe(data => {
                     console.log(data);
                     if (!data.error) {
-                        // localStorage.setItem('currentUser', JSON.stringify(data));
+                        localStorage.setItem('currentUser', JSON.stringify(data));
+                        // const currUser = JSON.parse(localStorage.getItem('currentUser'));
+                        localStorage.removeItem(JSON.parse(localStorage.getItem('guestUser')));
                         this.snackBar.open('User Created Successfully', '×', {
                             panelClass: 'success',
                             verticalPosition: 'top',
-                            // duration: 3000
+                            duration: 1000
                         });
-                        /*this.detectChanges.notifyOther({
+                        this.detectChanges.notifyOther({
                             option: 'loggedIn',
                             value: true
                         });
-                        console.log(data);*/
-                        this.router.navigate(['/sign-in']);
+                        console.log(data);
+                        setTimeout(() => {
+                            this.router.navigate(['/checkout']);
+                        }, 3000);
                     } else {
                         this.snackBar.open('User Creation Failed', '×', {
                             panelClass: 'failure',
                             verticalPosition: 'top',
-                            duration: 3000
+                            duration: 1000
                         });
                     }
                 },

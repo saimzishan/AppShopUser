@@ -1,5 +1,6 @@
 <mat-card>
     <div fxLayout="row wrap">
+        <div fxLayout="column" fxFlex="1 1 50%">
         <div fxFlex="100" fxFlex.gt-sm="50" class="p-2">
             <h2 class="text-muted text-center">Sign In</h2>
             <mat-error class="text-danger">{{errMessage}}</mat-error>
@@ -14,9 +15,10 @@
                     <mat-error *ngIf="loginForm.controls.password.errors?.required">Password is required</mat-error>
                     <mat-error *ngIf="loginForm.controls.password.hasError('minlength')">Password isn't long enough, minimum of 6 characters</mat-error>
                 </mat-form-field> 
-                <div class="text-center mt-2">
-                    <button mat-fab color="primary" class="mat-elevation-z6">
-                        <mat-icon>exit_to_app</mat-icon>
+                <div class="text-center mt-1">
+                    <button mat-raised-button color="primary" class="mat-elevation-z6">
+                        <!--<mat-icon>exit_to_app</mat-icon>-->
+                        Login
                     </button>
                 </div> 
 
@@ -39,6 +41,21 @@
                 </div> -->
 
             </form>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-2">
+            <form [formGroup]="guestForm" (ngSubmit)="onGuestFormSubmit(guestForm.value)">
+                <mat-form-field class="w-100 mt-2">
+                    <input matInput placeholder="Email" formControlName="email" required>
+                    <mat-error *ngIf="guestForm.controls.email.errors?.required">Email is required</mat-error>
+                    <mat-error *ngIf="guestForm.controls.email.hasError('invalidEmail')">Invalid email address</mat-error>
+                </mat-form-field>
+                <div class="text-center mt-1">
+                    <button mat-raised-button color="primary" class="mat-elevation-z6">
+                        Continue as Guest
+                    </button>
+                </div>
+            </form>
+        </div>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="50" class="p-2" ngClass.sm="mt-2" ngClass.xs="mt-2">
             <h2 class="text-muted text-center">Don't have an account? Sign up now!</h2>
@@ -63,9 +80,17 @@
                   <mat-error *ngIf="registerForm.controls.confirmPassword.errors?.required">Confirm Password is required</mat-error>
                   <mat-error *ngIf="registerForm.controls.confirmPassword.hasError('mismatchedPasswords')">Passwords do not match</mat-error>
                 </mat-form-field>
-                <div class="text-center mt-2">
-                    <button mat-fab color="primary" class="mat-elevation-z6" >
+                <mat-form-field class="w-100 mt-1">
+                    <input matInput placeholder="Phone Number" formControlName="phone" required>
+                    <mat-error *ngIf="registerForm.controls.phone.errors?.required">Phone is required</mat-error>
+                    <!--<mat-error *ngIf="registerForm.controls.phone.hasError('invalidPhone')">Invalid Phone Number</mat-error>-->
+                </mat-form-field>
+                <div class="text-center mt-1">
+                    <!--<button mat-fab color="primary" class="mat-elevation-z6" >
                         <mat-icon>person_add</mat-icon>
+                    </button>-->
+                    <button mat-raised-button color="primary" class="mat-elevation-z6" >
+                        Sign up
                     </button>
                 </div>
             </form>

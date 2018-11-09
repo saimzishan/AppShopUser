@@ -20,6 +20,8 @@ export class PagesComponent implements OnInit, AfterViewInit {
     @ViewChild('sidenav') sidenav: any;
 
     public settings: Settings;
+    public currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    public guestUser = JSON.parse(localStorage.getItem('guestUser'));
 
     constructor(public appSettings: AppSettings,
                 public appService: AppService,
@@ -65,8 +67,16 @@ export class PagesComponent implements OnInit, AfterViewInit {
         this.appService.Data.cartList.length = 0;
     }
 
+    checkOut() {
+        if (this.currentUser) {
+            this.router.navigate(['/checkout']);
+        } else {
+            this.router.navigate(['/sign-in']);
+        }
+    }
+
     public getImageSrc(product) {
-        console.log(product);
+        // console.log(product);
         return product.images.length && product.images[0].small.startsWith('http') ? product.images[0].small :
             product.images.length && !product.images[0].small.startsWith('http') ? this.appService.imgUrl + product.images[0].small :
                 !product.images.length && product.product_images.length && product.product_images[0].small.startsWith('http') ? product.product_images[0].small :
