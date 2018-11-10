@@ -144,7 +144,7 @@
                         <!--<img *ngIf="product.image" src="assets/images/img_not_available.jpg">-->
                     </a>
                     <h4 class="category text-muted">{{ ( appService.Data.categories | filterById : product.category_id )?.name }}</h4>
-                    <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]" class="title text-truncate">
+                    <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]" matTooltip="{{product.name}}" class="title text-truncate">
                         {{product.name}}
                     </a>
 
@@ -182,7 +182,7 @@
                         </div>
                         <div fxFlex="100" fxFlex.gt-xs="60" class="p-2">
                             <h4 class="category text-muted">{{ ( appService.Data.categories | filterById : product.category_id )?.name }}</h4>
-                            <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]" class="title">
+                            <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]" class="title" mat-raised-button matTooltip="{{product.name}}" matTooltipPosition="above">
                                 {{product.name}}
                             </a>
                             <!--<p class="py-1 text-muted lh">{{product.short_description}}</p>-->
