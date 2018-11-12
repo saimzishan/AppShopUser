@@ -11,6 +11,7 @@ import { ProductDialogComponent } from "../../shared/products-carousel/product-d
 import { AppService } from "../../app.service";
 import { Product, Category } from "../../app.models";
 import { Observable } from "rxjs/Observable";
+import { SpinnerService } from "../../shared/spinner/spinner.service";
 
 @Component({
   selector: "app-products",
@@ -80,7 +81,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     public appService: AppService,
     public dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private spinnerService: SpinnerService
   ) {}
 
   ngOnInit() {
@@ -122,7 +124,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
     }*/
 
   public getProductsByCat(catId) {
+    this.spinnerService.requestInProcess(true);
     this.appService.getAllProductsByCat(catId).subscribe(data => {
+    this.spinnerService.requestInProcess(false);
       this.products = data.data.products.data;
       this.productsCatArray = [];
       // if (this.products.length > 0) {
@@ -156,7 +160,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   public getProductsByBrand(brandId) {
+    this.spinnerService.requestInProcess(true);
     this.appService.getAllProductsByBrand(brandId).subscribe(data => {
+    this.spinnerService.requestInProcess(false);
       this.products = data.data.products.data;
       this.itemPerPage = data.data.per_page;
       this.productsBrandArray = [];
@@ -188,7 +194,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
     if (this.productsArray.length) {
       this.productsArray = [];
     }
+    this.spinnerService.requestInProcess(true);
     this.appService.getAllProductsNew(page, count).subscribe(data => {
+    this.spinnerService.requestInProcess(false);
       this.totalProducts = data.data.total;
       this.products = data.data.data;
       this.products.forEach(value => {
@@ -221,12 +229,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   public getCategories() {
+    this.spinnerService.requestInProcess(true);
     if (this.appService.Data.categories.length === 0) {
       this.appService.getCategories().subscribe(data => {
+    this.spinnerService.requestInProcess(false);
         this.categories = data.data;
         this.appService.Data.categories = data.data;
       });
     } else {
+    this.spinnerService.requestInProcess(false);
       this.categories = this.appService.Data.categories;
     }
   }
@@ -237,8 +248,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   public getBrandsNew() {
     // this.brands = this.appService.getBrandsNew();
+    this.spinnerService.requestInProcess(true);
     this.appService.getBrandsNew().subscribe(data => {
       this.brands = data.data;
+    this.spinnerService.requestInProcess(false);
     });
   }
 

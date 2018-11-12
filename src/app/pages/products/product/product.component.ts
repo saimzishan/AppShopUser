@@ -19,6 +19,7 @@ import { Product } from "../../../app.models";
 import { emailValidator } from "../../../theme/utils/app-validators";
 import { ProductZoomComponent } from "./product-zoom/product-zoom.component";
 import { PrintingOptionsComponent } from "../../../dialogs/printing-options.component";
+import { SpinnerService } from "../../../shared/spinner/spinner.service";
 
 @Component({
   selector: "app-product",
@@ -48,12 +49,15 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
     public appService: AppService,
     private activatedRoute: ActivatedRoute,
     public dialog: MatDialog,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    private spinnerService: SpinnerService
   ) {}
 
   ngOnInit() {
+    this.spinnerService.requestInProcess(true);
     this.sub = this.activatedRoute.params.subscribe(params => {
       this.getProductByIdNew(params["id"], params["supplier_id"]);
+      // this.spinnerService.requestInProcess(false);
     });
     this.form = this.formBuilder.group({
       review: [null, Validators.required],
@@ -64,6 +68,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
       email: [null, Validators.compose([Validators.required, emailValidator])]
     });
     this.getRelatedProducts();
+      // this.spinnerService.requestInProcess(false);
   }
 
   ngAfterViewInit() {
@@ -101,12 +106,14 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
     }*/
 
   public getProductByIdNew(id, supId) {
+    this.spinnerService.requestInProcess(true);
     this.appService.getProductByIdNew(id, supId).subscribe(data => {
       this.product = data.data;
       this.product.availibilityCount = 100;
 
       // showing product images
       if (!this.product.images.length) {
+    this.spinnerService.requestInProcess(false);
         this.product.product_images[0].medium = this.product.product_images[0]
           .medium
           ? this.product.product_images[0].medium
@@ -143,6 +150,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
             : this.appService.imgUrl + img.large;
         });
       } else {
+    this.spinnerService.requestInProcess(false);
         this.product.images[0].medium = this.product.images[0].medium
           ? this.product.images[0].medium
           : this.product.images[0].small;
@@ -179,11 +187,13 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       if (!this.product.images.length && !this.product.product_images.length) {
+    this.spinnerService.requestInProcess(false);
         this.image = "assets/images/img_not_available.png";
         this.zoomImage = "assets/images/img_not_available.png";
       }
 
       this.basePrice = this.product.price;
+    this.spinnerService.requestInProcess(false);
 
       // showing product images when product variants does not exist
       /*if (!this.product.product_variants.length) {
@@ -206,6 +216,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 
             } else {*/
       if (this.product.product_supplier_attributes.length) {
+    this.spinnerService.requestInProcess(false);
         this.product.product_supplier_attributes.forEach(variants => {
           if (
             this.optionsArray.length &&
@@ -228,6 +239,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         });
       } else {
+    this.spinnerService.requestInProcess(false);
         this.addToCart = true;
       }
 
@@ -437,8 +449,10 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public getRelatedProducts() {
+    this.spinnerService.requestInProcess(true);
     this.appService.getProducts("related").subscribe(data => {
       this.relatedProducts = data;
+    this.spinnerService.requestInProcess(false);
     });
   }
 
