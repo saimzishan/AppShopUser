@@ -1,29 +1,51 @@
-import {Component, ChangeDetectionStrategy, AfterViewInit, OnInit} from '@angular/core';
-import {Router, NavigationEnd} from '@angular/router';
-import {Settings, AppSettings} from './app.settings';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  AfterViewInit,
+  OnInit
+} from "@angular/core";
+import { Router, NavigationEnd } from "@angular/router";
+import { Settings, AppSettings } from "./app.settings";
+import { SpinnerService } from "./shared/spinner/spinner.service";
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"]
 })
 export class AppComponent implements OnInit, AfterViewInit {
-    loading = false;
-    public settings: Settings;
+  loading = false;
+  public settings: Settings;
+  public isRequesting = false;
+  private sub: any;
 
-    constructor(public appSettings: AppSettings, public router: Router) {
-        this.settings = this.appSettings.settings;
-    }
+  constructor(
+    public appSettings: AppSettings,
+    public router: Router,
+    public spinnerService: SpinnerService
+  ) {
+    this.settings = this.appSettings.settings;
+    this.sub = this.spinnerService.requestInProcess$.subscribe(isDone => {
+      this.isRequesting = isDone;
+    });
+  }
 
-    ngOnInit() {
-        // this.router.navigate(['']);  // redirect other pages to homepage on browser refresh
-    }
+  ngOnInit() {
+    // this.router.navigate(['']);  // redirect other pages to homepage on browser refresh
+  }
 
-    ngAfterViewInit() {
-        this.router.events.subscribe(event => {
-            if (event instanceof NavigationEnd) {
-                window.scrollTo(0, 0);
-            }
-        });
-    }
+  ngAfterViewInit() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        window.scrollTo(0, 0);
+      }
+    });
+  }
+  showProgress(val: boolean) {
+    this.isRequesting = val;
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
 }

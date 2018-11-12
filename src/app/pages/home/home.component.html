@@ -41,15 +41,15 @@
 
 <app-banners [banners]="banners"></app-banners>
 
-<div class="products-tabs">  
+<div class="products-tabs">
 
     <mat-tab-group mat-stretch-tabs (selectedTabChange)="onLinkClick($event)">
-       
-        <mat-tab label="Featured">           
-           <app-products-carousel [products]="featuredProducts"></app-products-carousel>
+
+        <mat-tab label="Featured">
+            <app-products-carousel [products]="featuredProducts"></app-products-carousel>
         </mat-tab>
         <mat-tab label="On Sale">
-           <app-products-carousel [products]="onSaleProducts"></app-products-carousel>
+            <app-products-carousel [products]="onSaleProducts"></app-products-carousel>
         </mat-tab>
         <!--<mat-tab label="Top Rated">
             <app-products-carousel [products]="topRatedProducts"></app-products-carousel>
@@ -57,8 +57,8 @@
         <mat-tab label="New Arrivals">
             <app-products-carousel [products]="newArrivalsProducts"></app-products-carousel>
         </mat-tab>
-    </mat-tab-group> 
+    </mat-tab-group>
 
 </div>
 
-<app-brands-carousel [brands]="brands"></app-brands-carousel> 
+<app-brands-carousel [brands]="brands"></app-brands-carousel>
