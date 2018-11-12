@@ -68,11 +68,11 @@ export class PagesComponent implements OnInit, AfterViewInit {
     }
 
     checkOut() {
-        if (this.currentUser) {
+        /*if (this.currentUser) {
             this.router.navigate(['/checkout']);
         } else {
             this.router.navigate(['/sign-in']);
-        }
+        }*/
     }
 
     public getImageSrc(product) {

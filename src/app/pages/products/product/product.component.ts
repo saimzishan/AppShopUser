@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 import {SwiperConfigInterface, SwiperDirective} from 'ngx-swiper-wrapper';
@@ -32,21 +32,33 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
     public addToCart = false;
     public basePrice;
     public httpImg = false;
+    public supplier_id;
+    public currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    public reviews;
 
     constructor(public appService: AppService,
                 private activatedRoute: ActivatedRoute,
+                public router: Router,
                 public dialog: MatDialog,
                 public formBuilder: FormBuilder) {
     }
 
     ngOnInit() {
         this.sub = this.activatedRoute.params.subscribe(params => {
+            this.supplier_id = params['supplier_id'];
             this.getProductByIdNew(params['id'], params['supplier_id']);
         });
-        this.form = this.formBuilder.group({
+        /*this.reviews = this.activatedRoute.params.subscribe(params => {
+            this.supplier_id = params['supplier_id'];
+            this.getProductReviews(params['id'], params['supplier_id']);
+        });*/
+        /*this.form = this.formBuilder.group({
             'review': [null, Validators.required],
             'name': [null, Validators.compose([Validators.required, Validators.minLength(4)])],
             'email': [null, Validators.compose([Validators.required, emailValidator])]
+        });*/
+        this.form = this.formBuilder.group({
+            'review': [null, Validators.required]
         });
         this.getRelatedProducts();
     }
@@ -109,7 +121,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.zoomImage = this.product.product_images[0].large.startsWith('http') ? this.product.product_images[0].large : this.appService.imgUrl + this.product.product_images[0].large;
                 this.variantImages = this.product.product_images;
                 this.variantImages.map(img => {
-                   console.log(img);
+                    console.log(img);
                     img.small = img.small.startsWith('http') ? img.small : this.appService.imgUrl + img.small;
                     img.medium = img.medium.startsWith('http') ? img.medium : this.appService.imgUrl + img.medium;
                     img.large = img.large.startsWith('http') ? img.large : this.appService.imgUrl + img.large;
@@ -229,6 +241,12 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.config.observer = true;
                 // this.directiveRef.setIndex(0);
             });
+        });
+    }
+
+    public getProductReviews(id, supId) {
+        this.appService.getProductReviews(id, supId).subscribe(data => {
+            console.log(data);
         });
     }
 
@@ -391,6 +409,10 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
         this.zoomImage = image.large;
     }
 
+    public login() {
+        this.router.navigate(['/sign-in', {pId: this.product.id, pName: this.product.name, sId: this.supplier_id} ]);
+    }
+
     public onMouseMove(e) {
         if (window.innerWidth >= 1280) {
             let image, offsetX, offsetY, x, y, zoomer;
@@ -457,7 +479,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public onSubmit(values: Object): void {
         if (this.form.valid) {
-            // email sent
+            console.log(this.form.value);
         }
     }
 }

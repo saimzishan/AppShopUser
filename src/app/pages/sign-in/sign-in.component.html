@@ -42,7 +42,7 @@
 
             </form>
         </div>
-        <div fxFlex="100" fxFlex.gt-sm="50" class="p-2">
+        <div *ngIf="!supplier_id" fxFlex="100" fxFlex.gt-sm="50" class="p-2">
             <form [formGroup]="guestForm" (ngSubmit)="onGuestFormSubmit(guestForm.value)">
                 <mat-form-field class="w-100 mt-2">
                     <input matInput placeholder="Email" formControlName="email" required>

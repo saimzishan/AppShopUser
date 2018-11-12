@@ -214,6 +214,7 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
             this.horizontalStepper.next();
             this.horizontalStepper._steps.forEach(step => step.editable = false);
             this.verticalStepper._steps.forEach(step => step.editable = false);
+            this.appService.Data.cartList.length = 0;
         }
     }
 
@@ -288,9 +289,9 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
             console.log(this.order_id);
         });
 
-        this.horizontalStepper._steps.forEach(step => step.editable = false);
-        this.verticalStepper._steps.forEach(step => step.editable = false);
-        this.appService.Data.cartList.length = 0;
+        /*this.horizontalStepper._steps.forEach(step => step.editable = false);
+        this.verticalStepper._steps.forEach(step => step.editable = false);*/
+        // this.appService.Data.cartList.length = 0;
     }
 
     onChange(evt) {

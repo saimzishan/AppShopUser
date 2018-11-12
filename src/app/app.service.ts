@@ -25,13 +25,18 @@ export class AppService {
         // null, // order
         null // totalPrice
     );
+
+    public loginRedirect = false;
+
     public url = 'assets/data/';
 
     // public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
     /*public apiUrl = 'http://18.217.12.17/api/public/api/auth/';*/
     public apiUrl = 'http://www.econowholesale.com/api/public/api/auth/';
+    // public apiUrl = 'http://83c21f5e.ngrok.io/api/auth/';
     // public imgUrl = 'http://124.109.39.22:18089/onlineappshopapi';
     public imgUrl = 'http://www.econowholesale.com/api';
+    // public imgUrl = 'http://83c21f5e.ngrok.io/api/';
 
     public httpOptions = {
         headers: new HttpHeaders({
@@ -81,6 +86,10 @@ export class AppService {
 
     public getProductByIdNew(id, supId): Observable<any> {
         return this.http.get<any>(this.apiUrl + 'products?product_id=' + id + '&supplier_id=' + supId);
+    }
+
+    public getProductReviews(id, supId): Observable<any> {
+        return this.http.get<any>(this.apiUrl + 'detailedRatings?product_id=' + id + '&supplier_id=' + supId);
     }
 
     public getBanners(): Observable<any> {

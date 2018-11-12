@@ -206,7 +206,7 @@
                     </div>
 
 
-                </mat-tab>
+                </mat-tab>-->
                 <mat-tab label="Reviews">
                     <div class="full-desc lh">
                         <mat-list class="reviews">
@@ -269,9 +269,9 @@
 
                         <h3 class="mt-2">LEAVE YOUR REVIEW</h3>
                         <div class="divider"></div>
-                        <p class="mt-2 text-muted">Your email address will not be published. Required fields are marked
-                            *</p>
-                        <h3 fxLayoutAlign="start center" class="mt-2">
+                        <p *ngIf="!currentUser" class="mt-2 text-muted">Please login to submit your review</p>
+                        <button *ngIf="!currentUser" mat-raised-button color="primary" class="mt-2" (click)="login()">Login</button>
+                        <h3 *ngIf="currentUser" fxLayoutAlign="start center" class="mt-2">
                             <span>Your Rating:</span>
                             <button mat-icon-button matTooltip="Very Dissatisfied" matTooltipPosition="above">
                                 <mat-icon class="mat-icon-lg">sentiment_very_dissatisfied</mat-icon>
@@ -290,7 +290,7 @@
                             </button>
                         </h3>
 
-                        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" fxLayout="row wrap">
+                        <form *ngIf="currentUser" [formGroup]="form" (ngSubmit)="onSubmit(form.value)" fxLayout="row wrap">
                             <div fxFlex="100" class="px-1 mt-1">
                                 <mat-form-field class="w-100">
                                     <textarea matInput placeholder="Your review" formControlName="review"
@@ -299,7 +299,7 @@
                                     </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div fxFlex="100" fxFlex.gt-sm="50" class="px-1 mt-2">
+                            <!--<div fxFlex="100" fxFlex.gt-sm="50" class="px-1 mt-2">
                                 <mat-form-field class="w-100">
                                     <input matInput placeholder="Your name" formControlName="name" required>
                                     <mat-error *ngIf="form.controls.name.errors?.required">Name is required</mat-error>
@@ -317,15 +317,15 @@
                                         address
                                     </mat-error>
                                 </mat-form-field>
-                            </div>
-                            <div fxFlex="100" class="mt-2 text-center w-100">
+                            </div>-->
+                            <div *ngIf="currentUser" fxFlex="100" class="mt-2 text-center w-100">
                                 <button mat-raised-button color="primary" type="submit">SUBMIT REVIEW</button>
                             </div>
                         </form>
 
 
                     </div>
-                </mat-tab>-->
+                </mat-tab>
             </mat-tab-group>
         </mat-card>
     </div>

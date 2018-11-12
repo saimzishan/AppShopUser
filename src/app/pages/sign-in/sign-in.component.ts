@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 import {emailValidator, matchingPasswords} from '../../theme/utils/app-validators';
@@ -19,9 +19,14 @@ export class SignInComponent implements OnInit {
     guestForm: FormGroup;
     errMessage = '';
     guestUser = JSON.parse(localStorage.getItem('guestUser'));
+    currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    public supplier_id;
+    public product_id;
+    public product_name;
 
     constructor(public formBuilder: FormBuilder,
                 public router: Router,
+                private activatedRoute: ActivatedRoute,
                 public snackBar: MatSnackBar,
                 public signInService: SignInService,
                 private detectChanges: DetectChangesService,
@@ -29,6 +34,17 @@ export class SignInComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.activatedRoute.params.subscribe(params => {
+            this.supplier_id = params['sId'];
+            this.product_id = params['pId'];
+            this.product_name = params['pName'];
+            console.log(params);
+        });
+
+        if (this.currentUser) {
+            this.router.navigate(['/checkout']);
+        }
+
         this.loginForm = this.formBuilder.group({
             'email': ['', Validators.compose([Validators.required, emailValidator])],
             'password': ['', Validators.compose([Validators.required, Validators.minLength(6)])]
@@ -64,7 +80,14 @@ export class SignInComponent implements OnInit {
                             option: 'loggedIn',
                             value: true
                         });
-                        this.router.navigate(['/checkout']);
+                        if (this.supplier_id) {
+                            console.log(this.product_id);
+                            console.log(this.product_name);
+                            console.log(this.supplier_id);
+                            this.router.navigate(['/products', this.product_id, this.product_name, {supplier_id: this.supplier_id}]);
+                        } else {
+                            this.router.navigate(['/checkout']);
+                        }
                     }
                 },
                 err => {
@@ -78,8 +101,12 @@ export class SignInComponent implements OnInit {
     public onGuestFormSubmit(values: Object): void {
         console.log(values);
         if (this.guestForm.valid) {
-            localStorage.setItem('guestUser', JSON.stringify(values));
-            this.router.navigate(['/checkout']);
+            if (this.guestUser) {
+                this.router.navigate(['/checkout']);
+            } else {
+                localStorage.setItem('guestUser', JSON.stringify(values));
+                this.router.navigate(['/checkout']);
+            }
         }
     }
 
@@ -106,7 +133,12 @@ export class SignInComponent implements OnInit {
                         });
                         console.log(data);
                         setTimeout(() => {
-                            this.router.navigate(['/checkout']);
+                            // this.router.navigate(['/checkout']);
+                            if (this.supplier_id) {
+                                this.router.navigate(['/products', this.product_id, this.product_name, {supplier_id: this.supplier_id}]);
+                            } else {
+                                this.router.navigate(['/checkout']);
+                            }
                         }, 3000);
                     } else {
                         this.snackBar.open('User Creation Failed', '×', {
