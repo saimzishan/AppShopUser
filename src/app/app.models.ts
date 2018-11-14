@@ -310,3 +310,17 @@ export class Product {
         // this.categoryId = 0;
     }
 }
+
+export class Rating {
+    public ratingsValue: number;
+    public user_id: number;
+    public product_id: number;
+    public supplier_id: number;
+
+    constructor(rating?) {
+        this.ratingsValue = rating.ratingsValue || 0;
+        this.user_id = rating.user_id || '';
+        this.product_id = rating.product_id || '';
+        this.supplier_id = rating.supplier_id || '';
+    }
+}

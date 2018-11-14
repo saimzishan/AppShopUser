@@ -14,8 +14,8 @@ export const routes = [
     {path: '', component: ProductsComponent, pathMatch: 'full'},
     // { path: ':name', component: ProductsComponent },
     {path: ':name', component: ProductsComponent},
-    {path: 'brand/:id', component: ProductsComponent},
-    {path: 'category/:id', component: ProductsComponent},
+    {path: 'brand/:id/:name', component: ProductsComponent, data: {breadcrumb: 'Brands'}},
+    {path: 'category/:id/:name', component: ProductsComponent, data: {breadcrumb: 'Categories'}},
     {path: ':id/:name', component: ProductComponent}
 ];
 

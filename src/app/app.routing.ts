@@ -56,7 +56,7 @@ export const routes: Routes = [
             {
                 path: 'products',
                 loadChildren: 'app/pages/products/products.module#ProductsModule',
-                data: {breadcrumb: 'All Products'}
+                data: {breadcrumb: 'Products'}
             }
         ]
     },

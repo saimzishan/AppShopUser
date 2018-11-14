@@ -57,13 +57,13 @@ export class MainCarouselComponent implements OnInit, AfterViewInit, DoCheck {
         disableOnInteraction: false
       },
       speed: 500,
-      effect: "slide"
+      effect: 'slide'
     };
   }
 
   public productDetail(product) {
     this.router.navigate([
-      "/products",
+      '/products',
       product.id,
       product.name,
       { supplier_id: product.suppliers[0].id }

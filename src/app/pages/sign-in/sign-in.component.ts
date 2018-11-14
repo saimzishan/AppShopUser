@@ -66,7 +66,7 @@ export class SignInComponent implements OnInit {
 
     public onLoginFormSubmit(values: Object): void {
         if (this.loginForm.valid) {
-
+            console.log(values);
             this.signInService.loginUser(values).subscribe(data => {
                     console.log(data);
                     if (data.error === false) {
@@ -119,27 +119,37 @@ export class SignInComponent implements OnInit {
             this.signInService.registerUser(values).subscribe(data => {
                     console.log(data);
                     if (!data.error) {
-                        localStorage.setItem('currentUser', JSON.stringify(data));
-                        // const currUser = JSON.parse(localStorage.getItem('currentUser'));
-                        localStorage.removeItem(JSON.parse(localStorage.getItem('guestUser')));
-                        this.snackBar.open('User Created Successfully', '×', {
-                            panelClass: 'success',
-                            verticalPosition: 'top',
-                            duration: 1000
-                        });
-                        this.detectChanges.notifyOther({
-                            option: 'loggedIn',
-                            value: true
-                        });
-                        console.log(data);
-                        setTimeout(() => {
-                            // this.router.navigate(['/checkout']);
-                            if (this.supplier_id) {
-                                this.router.navigate(['/products', this.product_id, this.product_name, {supplier_id: this.supplier_id}]);
-                            } else {
-                                this.router.navigate(['/checkout']);
+                        let loginData = {email: values.email, password: values.password};
+                        this.signInService.loginUser(loginData).subscribe(result => {
+                            if (!result.error) {
+                                localStorage.setItem('currentUser', JSON.stringify(result));
+                                console.log(JSON.parse(localStorage.getItem('guestUser')));
+                                localStorage.removeItem('guestUser');
+
+                                this.snackBar.open('User Created Successfully', '×', {
+                                    panelClass: 'success',
+                                    verticalPosition: 'top',
+                                    duration: 1000
+                                });
+                                this.detectChanges.notifyOther({
+                                    option: 'loggedIn',
+                                    value: true
+                                });
+                                console.log(result);
+                                setTimeout(() => {
+                                    // this.router.navigate(['/checkout']);
+                                    if (this.supplier_id) {
+                                        this.router.navigate(['/products', this.product_id, this.product_name, {supplier_id: this.supplier_id}]);
+                                    } else {
+                                        this.router.navigate(['/checkout']);
+                                    }
+                                }, 3000);
                             }
-                        }, 3000);
+                        });
+                        // localStorage.setItem('currentUser', JSON.stringify(data));
+                        // const currUser = JSON.parse(localStorage.getItem('currentUser'));
+                        // localStorage.removeItem(JSON.parse(localStorage.getItem('guestUser')));
+
                     } else {
                         this.snackBar.open('User Creation Failed', '×', {
                             panelClass: 'failure',

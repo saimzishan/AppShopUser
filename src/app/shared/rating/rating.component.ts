@@ -29,7 +29,7 @@ export class RatingComponent implements DoCheck {
     }
 
     calculateAvgValue() {
-        this.avg = this.ratingsValue / this.ratingsCount;
+        this.avg = (this.ratingsValue * 20) / this.ratingsCount;
         switch (true) {
             case this.avg > 0 && this.avg < 20 : {
                 this.stars = ['star_half', 'star_border', 'star_border', 'star_border', 'star_border'];

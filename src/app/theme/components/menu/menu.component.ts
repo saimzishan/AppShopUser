@@ -37,19 +37,21 @@ export class MenuComponent implements OnInit {
             this.appService.getCategories().subscribe(data => {
                 // console.log(data);
                 this.categories = data.data;
+                this.categories = this.categories.slice(0, 10);
                 this.appService.Data.categories = data.data;
                 this.mainCategories = this.categories.filter(category => category.parent_id === null);
-                console.log(this.categories);
+                // console.log(this.categories);
             });
         } else {
             this.categories = this.appService.Data.categories;
+            this.categories = this.categories.slice(0, 10);
             this.mainCategories = this.categories.filter(category => category.parent_id === null);
-            console.log(this.categories);
+            // console.log(this.categories);
         }
     }
 
     public checkChildren(child) {
-        console.log(child);
+        // console.log(child);
         return this.categories.find(item => item.id === child.parent_id).children.length;
     }
 

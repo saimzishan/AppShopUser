@@ -29,6 +29,7 @@ export class CategoryListComponent implements DoCheck {
     }
 
     public changeCategory(event) {
+        console.log(event);
         this.change.emit(event);
     }
 

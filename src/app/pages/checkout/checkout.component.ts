@@ -39,6 +39,31 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     orderObj: any = {};
     order_id;
     bTree: any;
+    enabledStyle = {
+        'background-color': 'rgb(211, 47, 47)',
+        'color': '#ffffff',
+        'border': 'none',
+        'border-radius': '4px',
+        'height': '40px',
+        'line-height': '40px',
+        'font-size': '16px',
+        'cursor': 'pointer',
+        'padding-left': '10px',
+        'padding-right': '10px'
+    };
+
+    disabledStyle = {
+        'background-color': 'lightgrey',
+        'color': '#ffffff',
+        'border': 'none',
+        'border-radius': '4px',
+        'height': '40px',
+        'line-height': '40px',
+        'font-size': '16px',
+        'cursor': 'not-allowed',
+        'padding-left': '10px',
+        'padding-right': '10px'
+    };
     public currentUser = JSON.parse(localStorage.getItem('currentUser'));
     public guestUser = JSON.parse(localStorage.getItem('guestUser'));
 

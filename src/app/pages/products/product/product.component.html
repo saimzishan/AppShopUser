@@ -51,7 +51,7 @@
         <!--<div class="py-1">-->
             <div fxLayout="row" fxLayoutAlign="space-between center">
             <!--<app-rating [ratingsCount]="product?.ratingsCount" [ratingsValue]="product?.ratingsValue" [direction]="'row'"></app-rating>-->
-            <app-rating [ratingsCount]="4" [ratingsValue]="300" [direction]="'row'"></app-rating>
+            <app-rating [ratingsCount]="product?.rating ? product?.rating[0].ratingsCount : 0" [ratingsValue]="product?.rating ? product?.rating[0].ratingsValue : 0" [direction]="'row'"></app-rating>
             <button *ngIf="product?.printing_option === 1" (click)="openPrintingOptionsDialog(product)"  mat-raised-button color="primary" matTooltip="Printing options available" >Printing options available
                 <mat-icon>print</mat-icon>
             </button>
@@ -209,26 +209,25 @@
                 </mat-tab>-->
                 <mat-tab label="Reviews">
                     <div class="full-desc lh">
-                        <mat-list class="reviews">
+                        <mat-list *ngFor="let review of reviews" class="reviews">
                             <mat-list-item class="h-100 py-1">
-                                <img matListAvatar [src]="'assets/images/avatars/avatar-1.png'" alt="image"
-                                     class="review-author">
+                                <!--<img matListAvatar [src]="'assets/images/avatars/avatar-1.png'" alt="image"
+                                     class="review-author">-->
                                 <p matLine fxLayoutAlign="start center">
-                                    <span class="fw-500">Bruno Vespa</span>
-                                    <mat-icon class="text-muted px-1" matTooltip="Dissatisfied"
-                                              matTooltipPosition="after">sentiment_dissatisfied
-                                    </mat-icon>
+                                    <span class="fw-500">{{review?.user.name}}</span>
                                 </p>
-                                <p matLine class="text-muted">
+                                <p matLine fxLayoutAlign="start center">
+                                    <ng-template ngFor let-star [ngForOf]="getRating(review?.rating)"; let-i = index>
+                                        <mat-icon style="color: #fbc02d" class="mat-icon-xs">{{star}}
+                                        </mat-icon>
+                                    </ng-template>
+                                </p>
+                                <!--<p matLine class="text-muted">
                                     <small>13 January, 2018 at 7:09</small>
-                                </p>
-                                <p matLine class="text">Integer id eros et mi fringilla imperdiet. In dictum turpis eget
-                                    magna viverra condimentum. Ut malesuada interdum ultrices. Proin tristique sem
-                                    pellentesque, posuere dui in, maximus magna. Aenean vehicula, tortor gravida
-                                    elementum tincidunt, justo lorem vestibulum ex, eget egestas arcu tellus in
-                                    magna.</p>
+                                </p>-->
+                                <p matLine class="text">{{review?.review}}</p>
                             </mat-list-item>
-                            <mat-list-item class="h-100 py-1">
+                            <!--<mat-list-item class="h-100 py-1">
                                 <img matListAvatar [src]="'assets/images/avatars/avatar-2.png'" alt="image"
                                      class="review-author">
                                 <p matLine fxLayoutAlign="start center">
@@ -264,7 +263,7 @@
                                     Pellentesque vehicula lobortis dolor, ac pretium dolor maximus quis. Fusce vitae
                                     iaculis mauris, quis posuere ex. Mauris vitae convallis nibh. Etiam eget enim at
                                     orci interdum maximus nec in ante.</p>
-                            </mat-list-item>
+                            </mat-list-item>-->
                         </mat-list>
 
                         <h3 class="mt-2">LEAVE YOUR REVIEW</h3>
@@ -273,21 +272,26 @@
                         <button *ngIf="!currentUser" mat-raised-button color="primary" class="mt-2" (click)="login()">Login</button>
                         <h3 *ngIf="currentUser" fxLayoutAlign="start center" class="mt-2">
                             <span>Your Rating:</span>
-                            <button mat-icon-button matTooltip="Very Dissatisfied" matTooltipPosition="above">
+                            <ng-template ngFor let-star [ngForOf]="stars"; let-i = index>
+                            <button class="ratings" mat-icon-button (click)="rating(i+1)">
+                                <mat-icon style="color: #fbc02d" class="">{{star}}</mat-icon>
+                            </button>
+                            </ng-template>
+                            <!--<button mat-icon-button matTooltip="Very Dissatisfied" matTooltipPosition="above" (click)="rating(1)">
                                 <mat-icon class="mat-icon-lg">sentiment_very_dissatisfied</mat-icon>
                             </button>
-                            <button mat-icon-button matTooltip="Dissatisfied" matTooltipPosition="above">
+                            <button mat-icon-button matTooltip="Dissatisfied" matTooltipPosition="above" (click)="rating(2)">
                                 <mat-icon class="mat-icon-lg">sentiment_dissatisfied</mat-icon>
                             </button>
-                            <button mat-icon-button matTooltip="Neutral" matTooltipPosition="above">
+                            <button mat-icon-button matTooltip="Neutral" matTooltipPosition="above" (click)="rating(3)">
                                 <mat-icon class="mat-icon-lg">sentiment_neutral</mat-icon>
                             </button>
-                            <button mat-icon-button matTooltip="Satisfied" matTooltipPosition="above">
+                            <button mat-icon-button matTooltip="Satisfied" matTooltipPosition="above" (click)="rating(4)">
                                 <mat-icon class="mat-icon-lg">sentiment_satisfied</mat-icon>
                             </button>
-                            <button mat-icon-button matTooltip="Very Satisfied" matTooltipPosition="above">
+                            <button mat-icon-button matTooltip="Very Satisfied" matTooltipPosition="above" (click)="rating(5)">
                                 <mat-icon class="mat-icon-lg">sentiment_very_satisfied</mat-icon>
-                            </button>
+                            </button>-->
                         </h3>
 
                         <form *ngIf="currentUser" [formGroup]="form" (ngSubmit)="onSubmit(form.value)" fxLayout="row wrap">

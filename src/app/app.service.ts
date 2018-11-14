@@ -44,9 +44,10 @@ export class AppService {
         })
     };
 
-    public currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    public currentUser;
 
     constructor(public http: HttpClient, public snackBar: MatSnackBar) {
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
 
     public getCategories(): Observable<any> {
@@ -89,7 +90,7 @@ export class AppService {
     }
 
     public getProductReviews(id, supId): Observable<any> {
-        return this.http.get<any>(this.apiUrl + 'detailedRatings?product_id=' + id + '&supplier_id=' + supId);
+        return this.http.get<any>('http://www.econowholesale.com/api/public/api/detailedRatings?product_id=' + id + '&supplier_id=' + supId);
     }
 
     public getBanners(): Observable<any> {
@@ -167,6 +168,22 @@ export class AppService {
                     console.log(response);
                     return response;
                 }));
+    }
+
+    public postRating(ratingObj): Observable<any> {
+        let httpOptions;
+        // console.log(this.currentUser);
+        if (this.currentUser) {
+            httpOptions = {
+                headers: new HttpHeaders({
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${this.currentUser.access_token}`
+                })
+            };
+        }
+        // console.log(httpOptions);
+        // console.log(ratingObj);
+        return this.http.post<any>(this.apiUrl + 'detailedRatings', ratingObj, httpOptions);
     }
 
     /*public updateOrder(orderId): Observable<any> {

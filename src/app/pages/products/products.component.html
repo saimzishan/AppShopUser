@@ -72,8 +72,8 @@
                 </mat-expansion-panel-header>
                 <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-brands">
                     <ng-template ngFor let-brand [ngForOf]="brands">
-                        <button mat-raised-button matTooltip="{{brand.name}}" matTooltipPosition="above" (click)="getBrandProducts(brand.id)">
-                            <img [src]="this.appService.imgUrl + brand.image?.small"/>
+                        <button mat-raised-button matTooltip="{{brand.name}}" matTooltipPosition="above" (click)="getBrandProducts(brand)">
+                            <img [src]="getImgSrc(brand)"/>
                         </button>
                     </ng-template>
                 </div>
@@ -134,6 +134,7 @@
         </div>
 
         <div *ngIf="viewType == 'grid'" fxLayout="row wrap" class="products-wrapper">
+            <h4 class="mt-1" *ngIf="!products.length">Products not available</h4>
             <div *ngFor="let product of products | paginate: { itemsPerPage: count, currentPage: page, totalItems: totalProducts }" fxFlex="100" [fxFlex.gt-sm]="viewCol" fxFlex.sm="50" class="col">
                 <mat-card class="product-item text-center">
                     <mat-chip-list *ngIf="product.discount">
@@ -169,6 +170,7 @@
         </div>
 
         <div *ngIf="viewType == 'list'" fxLayout="row wrap" class="products-wrapper">
+            <h4 class="mt-1" *ngIf="!products.length">Products not available</h4>
             <div  *ngFor="let product of products | paginate: { itemsPerPage: count, currentPage: page, totalItems: totalProducts }" fxFlex="100" class="col">
                 <mat-card class="product-item">
                     <div fxLayout="row wrap">
