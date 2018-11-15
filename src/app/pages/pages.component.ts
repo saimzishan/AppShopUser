@@ -5,6 +5,9 @@ import {Settings, AppSettings} from '../app.settings';
 import {AppService} from '../app.service';
 import {Category} from '../app.models';
 import {SidenavMenuService} from '../theme/components/sidenav-menu/sidenav-menu.service';
+import {JwtHelperService} from "@auth0/angular-jwt";
+import {DetectChangesService} from "../shared/detectchanges.service";
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
     selector: 'app-pages',
@@ -13,7 +16,7 @@ import {SidenavMenuService} from '../theme/components/sidenav-menu/sidenav-menu.
     providers: [SidenavMenuService]
 })
 export class PagesComponent implements OnInit, AfterViewInit {
-    public showBackToTop: boolean = false;
+    public showBackToTop = false;
     public categories: Category[];
     public category: Category;
     public sidenavMenuItems: Array<any>;
@@ -22,12 +25,24 @@ export class PagesComponent implements OnInit, AfterViewInit {
     public settings: Settings;
     public currentUser = JSON.parse(localStorage.getItem('currentUser'));
     public guestUser = JSON.parse(localStorage.getItem('guestUser'));
+    public cartSubscription: Subscription;
 
     constructor(public appSettings: AppSettings,
                 public appService: AppService,
                 public sidenavMenuService: SidenavMenuService,
-                public router: Router) {
+                public router: Router, private detectChanges: DetectChangesService) {
         this.settings = this.appSettings.settings;
+
+        this.cartSubscription = this.detectChanges.notifyObservable$.subscribe(
+            res => {
+                // console.log(res);
+                if (res) {
+                    this.appService.Data.cartList = JSON.parse(localStorage.getItem('cartList'));
+                    this.appService.Data.totalPrice = JSON.parse(localStorage.getItem('totalPrice'));
+                    // console.log(this.appService.Data.totalPrice);
+                }
+            }
+        );
     }
 
     ngOnInit() {
@@ -61,10 +76,32 @@ export class PagesComponent implements OnInit, AfterViewInit {
             this.appService.Data.cartList.splice(index, 1);
             this.appService.Data.totalPrice = this.appService.Data.totalPrice - product.price;
         }
+        if (localStorage.getItem('cartList')) {
+            localStorage.removeItem('cartList');
+        }
+        localStorage.setItem('cartList', JSON.stringify(this.appService.Data.cartList));
+        if (localStorage.getItem('totalPrice')) {
+            localStorage.removeItem('totalPrice');
+        }
+        localStorage.setItem('totalPrice', JSON.stringify(this.appService.Data.totalPrice));
+        this.detectChanges.cartSync({
+            option: 'cartChanged',
+            value: true
+        });
     }
 
     public clear() {
         this.appService.Data.cartList.length = 0;
+        if (localStorage.getItem('cartList')) {
+            localStorage.removeItem('cartList');
+        }
+        if (localStorage.getItem('totalPrice')) {
+            localStorage.removeItem('totalPrice');
+        }
+        this.detectChanges.cartSync({
+            option: 'cartChanged',
+            value: true
+        });
     }
 
     checkOut() {

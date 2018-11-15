@@ -62,7 +62,7 @@ export class BrandsCarouselComponent implements DoCheck, AfterViewInit {
     };
   }
 
-  public getBrandProducts(brandId) {
-    this.router.navigate(["/products/brand", brandId]);
+  public getBrandProducts(id, name) {
+    this.router.navigate(["/products/brand", id, name]);
   }
 }

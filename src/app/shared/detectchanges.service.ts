@@ -14,4 +14,9 @@ export class DetectChangesService {
             this.notify.next(data);
         }
     }
+    public cartSync(data: any) {
+        if (data) {
+            this.notify.next(data);
+        }
+    }
 }

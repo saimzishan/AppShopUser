@@ -43,7 +43,7 @@ export class ControlsComponent implements OnInit {
     public increment(count) {
         if (this.count < this.product.availibilityCount) {
             this.count++;
-            let obj = {
+            const obj = {
                 productId: this.product.id,
                 soldQuantity: this.count,
                 total: this.count * +(this.product.price)
@@ -61,7 +61,7 @@ export class ControlsComponent implements OnInit {
     public decrement(count) {
         if (this.count > 1) {
             this.count--;
-            let obj = {
+            const obj = {
                 productId: this.product.id,
                 soldQuantity: this.count,
                 total: this.count * +(this.product.price)
@@ -79,7 +79,7 @@ export class ControlsComponent implements OnInit {
     }
 
     public addToCart(product: Product) {
-        // console.log(this.count);
+        console.log(product);
         /*this.appService.addToCart(product, this.count);*/
         this.appService.addToCart(product, this.count);
     }

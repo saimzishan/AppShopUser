@@ -1,5 +1,6 @@
 <mat-sidenav-container>
-    <mat-sidenav #sidenav [opened]="sidenavOpen" [mode]="sidenavOpen ? 'side' : 'over'" class="filter-sidenav" perfectScrollbar>
+    <mat-sidenav #sidenav [opened]="sidenavOpen" [mode]="sidenavOpen ? 'side' : 'over'" class="filter-sidenav"
+                 perfectScrollbar>
 
         <mat-accordion displayMode="flat" multi="true">
             <mat-expansion-panel expanded>
@@ -9,7 +10,8 @@
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div class="categories-wrapper categories-dropdown" perfectScrollbar>
-                    <app-category-list [categories]="categories" [categoryParentId]="null" (change)="onChangeCategory($event)"></app-category-list>
+                    <app-category-list [categories]="categories" [categoryParentId]="null"
+                                       (change)="onChangeCategory($event)"></app-category-list>
                 </div>
             </mat-expansion-panel>
 
@@ -72,7 +74,8 @@
                 </mat-expansion-panel-header>
                 <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-brands">
                     <ng-template ngFor let-brand [ngForOf]="brands">
-                        <button mat-raised-button matTooltip="{{brand.name}}" matTooltipPosition="above" (click)="getBrandProducts(brand)">
+                        <button mat-raised-button matTooltip="{{brand.name}}" matTooltipPosition="above"
+                                (click)="getBrandProducts(brand)">
                             <img [src]="getImgSrc(brand)"/>
                         </button>
                     </ng-template>
@@ -94,13 +97,15 @@
 
     </mat-sidenav>
     <mat-sidenav-content class="all-products" ngClass.gt-sm="p-left">
-        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" class="filter-row mat-elevation-z1 text-muted">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
+             class="filter-row mat-elevation-z1 text-muted">
             <button *ngIf="!sidenavOpen" mat-icon-button (click)="sidenav.toggle()">
                 <mat-icon>more_vert</mat-icon>
             </button>
             <div>
                 <a mat-button [matMenuTriggerFor]="sortMenu" #sortMenuTrigger="matMenuTrigger">
-                    {{sort}}<mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+                    {{sort}}
+                    <mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
                 </a>
                 <mat-menu #sortMenu="matMenu" xPosition="before" class="app-dropdown">
                     <span (mouseleave)="sortMenuTrigger.closeMenu()">
@@ -112,7 +117,8 @@
             </div>
             <div>
                 <a mat-button [matMenuTriggerFor]="countsMenu" #countsMenuTrigger="matMenuTrigger">
-                    Show {{count}}<mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+                    Show {{count}}
+                    <mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
                 </a>
                 <mat-menu #countsMenu="matMenu" xPosition="before" class="app-dropdown">
                     <span (mouseleave)="countsMenuTrigger.closeMenu()">
@@ -135,17 +141,21 @@
 
         <div *ngIf="viewType == 'grid'" fxLayout="row wrap" class="products-wrapper">
             <h4 class="mt-1" *ngIf="!products.length">Products not available</h4>
-            <div *ngFor="let product of products | paginate: { itemsPerPage: count, currentPage: page, totalItems: totalProducts }" fxFlex="100" [fxFlex.gt-sm]="viewCol" fxFlex.sm="50" class="col">
+            <div *ngFor="let product of products | paginate: { itemsPerPage: count, currentPage: page, totalItems: totalProducts }"
+                 fxFlex="100" [fxFlex.gt-sm]="viewCol" fxFlex.sm="50" class="col">
                 <mat-card class="product-item text-center">
                     <mat-chip-list *ngIf="product.discount">
                         <mat-chip color="warn" selected="true">{{product.discount}}% OFF</mat-chip>
                     </mat-chip-list>
-                    <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]" class="image-link">
+                    <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]"
+                       class="image-link">
                         <img [src]="product.image" alt="" height="216" width="250">
                         <!--<img *ngIf="product.image" src="assets/images/img_not_available.jpg">-->
                     </a>
-                    <h4 class="category text-muted">{{ ( appService.Data.categories | filterById : product.category_id )?.name }}</h4>
-                    <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]" matTooltip="{{product.name}}" class="title text-truncate">
+                    <h4 class="category text-muted">{{ ( appService.Data.categories | filterById : product.category_id
+                        )?.name }}</h4>
+                    <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]"
+                       matTooltip="{{product.name}}" class="title text-truncate">
                         {{product.name}}
                     </a>
 
@@ -159,7 +169,10 @@
                             <!--<p class="new-price">${{product.newPrice | number : '1.2-2'}}</p>-->
                             <p class="new-price">${{product.price}}</p>
                         </div>
-                        <app-rating [ratingsCount]="4" [ratingsValue]="200" [direction]="'column'"></app-rating>
+                        <!--<app-rating [ratingsCount]="4" [ratingsValue]="200" [direction]="'column'"></app-rating>-->
+                        <app-rating [ratingsCount]="product?.ratingsCount"
+                                    [ratingsValue]="product?.ratingsValue"
+                                    [direction]="'column'"></app-rating>
                     </div>
                     <!--<div class="divider mt-2"></div>
                     <div class="icons">
@@ -171,20 +184,24 @@
 
         <div *ngIf="viewType == 'list'" fxLayout="row wrap" class="products-wrapper">
             <h4 class="mt-1" *ngIf="!products.length">Products not available</h4>
-            <div  *ngFor="let product of products | paginate: { itemsPerPage: count, currentPage: page, totalItems: totalProducts }" fxFlex="100" class="col">
+            <div *ngFor="let product of products | paginate: { itemsPerPage: count, currentPage: page, totalItems: totalProducts }"
+                 fxFlex="100" class="col">
                 <mat-card class="product-item">
                     <div fxLayout="row wrap">
                         <div fxFlex="100" fxFlex.gt-xs="40" class="p-2">
                             <mat-chip-list *ngIf="product.discount" class="list-view">
                                 <mat-chip color="warn" selected="true">{{product.discount}}% OFF</mat-chip>
                             </mat-chip-list>
-                            <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]" class="image-link">
+                            <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]"
+                               class="image-link">
                                 <img [src]="product.image" alt="">
                             </a>
                         </div>
                         <div fxFlex="100" fxFlex.gt-xs="60" class="p-2">
-                            <h4 class="category text-muted">{{ ( appService.Data.categories | filterById : product.category_id )?.name }}</h4>
-                            <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]" class="title" mat-raised-button matTooltip="{{product.name}}" matTooltipPosition="above">
+                            <h4 class="category text-muted">{{ ( appService.Data.categories | filterById :
+                                product.category_id )?.name }}</h4>
+                            <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]"
+                               class="title" mat-raised-button matTooltip="{{product.name}}" matTooltipPosition="above">
                                 {{product.name}}
                             </a>
                             <!--<p class="py-1 text-muted lh">{{product.short_description}}</p>-->
@@ -198,7 +215,10 @@
                                     <!--<p class="new-price">${{product.newPrice | number : '1.2-2'}}</p>-->
                                     <p class="new-price">${{product.price}}</p>
                                 </div>
-                                <app-rating [ratingsCount]="4" [ratingsValue]="200" [direction]="'column'"></app-rating>
+                                <!--<app-rating [ratingsCount]="4" [ratingsValue]="200" [direction]="'column'"></app-rating>-->
+                                <app-rating [ratingsCount]="product?.ratingsCount"
+                                            [ratingsValue]="product?.ratingsValue"
+                                            [direction]="'column'"></app-rating>
                             </div>
                             <!--<div class="divider"></div>
                             <div class="icons">
@@ -213,7 +233,8 @@
         <div *ngIf="products?.length > 0" fxLayout="row wrap">
             <div fxFlex="100">
                 <mat-card class="p-0 text-center">
-                    <pagination-controls class="product-pagination" autoHide="true" maxSize="5" (pageChange)="onPageChanged($event)"></pagination-controls>
+                    <pagination-controls class="product-pagination" autoHide="true" maxSize="5"
+                                         (pageChange)="onPageChanged($event)"></pagination-controls>
                 </mat-card>
             </div>
         </div>

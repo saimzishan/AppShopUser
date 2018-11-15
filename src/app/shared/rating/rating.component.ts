@@ -16,8 +16,13 @@ export class RatingComponent implements DoCheck {
     }
 
     ngDoCheck() {
+        // console.log(this.ratingsCount);
+        // console.log(this.ratingsValue);
         if (this.ratingsCount && this.ratingsValue && !this.avg) {
             this.calculateAvgValue();
+        }
+        if (!this.ratingsCount && !this.ratingsValue) {
+            this.stars = ['star_border', 'star_border', 'star_border', 'star_border', 'star_border'];
         }
     }
 

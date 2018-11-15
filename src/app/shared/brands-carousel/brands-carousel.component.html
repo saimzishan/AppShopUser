@@ -3,7 +3,7 @@
         <div class="swiper-wrapper h-100">      
             <div *ngFor="let brand of brands" class="swiper-slide">
                 <div class="p-0">
-                    <a style="cursor: pointer" (click)="getBrandProducts(brand.id)" class="brand-item">
+                    <a style="cursor: pointer" (click)="getBrandProducts(brand.id, brand.name)" class="brand-item">
                         <!--<img [src]="brand.image" alt="" class="swiper-lazy">-->
                         <img [attr.data-src]="brand.image" class="swiper-lazy">
                     </a>

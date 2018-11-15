@@ -1,4 +1,4 @@
-<div *ngIf="appService.Data.cartList.length == 0">
+<div *ngIf="appService.Data.cartList?.length == 0">
   <mat-chip-list>
       <mat-chip color="warn" selected="true">YOU HAVE NO ITEMS IN YOUR SHOPPING CART.</mat-chip>
   </mat-chip-list>

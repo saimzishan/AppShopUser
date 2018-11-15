@@ -442,7 +442,7 @@
     <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1"> 
       <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before" class="mr-1"><mat-icon>navigate_before</mat-icon></button>
 
-        <button [disabled]="this.appService.Data.cartList.length < 1" mat-raised-button matStepperNext color="primary" (click)="placeOrder()">Place order now</button>
+        <button [disabled]="this.appService.Data.cartList?.length < 1" mat-raised-button matStepperNext color="primary" (click)="placeOrder()">Place order now</button>
     </div>     
   </mat-step>
     <mat-step [stepControl]="billingForm" label="Payment">

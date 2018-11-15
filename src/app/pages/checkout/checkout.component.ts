@@ -7,7 +7,7 @@ import {Router} from '@angular/router';
 import {Order} from '../../app.models';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
 declare let paypal: any;
 
@@ -67,74 +67,6 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     public currentUser = JSON.parse(localStorage.getItem('currentUser'));
     public guestUser = JSON.parse(localStorage.getItem('guestUser'));
 
-    paypalConfig = {
-        env: 'sandbox', // sandbox | production
-
-        /*intent: 'sale',
-        orderID: '90048630024435',*/
-
-        // Specify the style of the button
-
-        style: {
-            label: 'checkout',
-            size: 'medium',    // small | medium | large | responsive
-            shape: 'pill',     // pill | rect
-            color: 'gold'      // gold | blue | silver | black
-        },
-
-        // PayPal Client IDs - replace with your own
-        // Create a PayPal app: https://developer.paypal.com/developer/applications/create
-        client: {
-            sandbox: 'AXQDCvOuxxjOA0YnBfcsdQ238zS2YjlQHcNVvxstSryNKTvdpgPUx07ehBSGsWIE0Z6_T09Il40cmwzX',
-            production: '<insert production client id>'
-        },
-
-        // Show the buyer a 'Pay Now' button in the checkout flow
-        commit: true,
-
-        // payment() is called when the button is clicked
-        payment: (data, actions) => {
-
-            // Make a call to the REST api to create the payment
-            return actions.payment.create({
-                payment: {
-                    /*payer: {
-                        payment_method: 'paypal'
-                    },*/
-                    transactions: [
-                        {
-                            amount: {total: this.grandTotal, currency: 'USD'},
-                            description: 'The payment transaction description.',
-                            // order_id: this.order_id,
-                            custom: this.order_id,
-                            // invoice_number: '0000897',
-                            item_list: {
-                                items: this.checkoutItems,
-                            }
-                        },
-                    ]
-                }
-            });
-        },
-        // onAuthorize() is called when the buyer approves the payment
-        onAuthorize: (data, actions) => {
-
-            console.log(data);
-
-            // Make a call to the REST api to execute the payment
-            return actions.payment.execute().then((paymentData) => {
-                console.log(paymentData);
-                this.order.payment_id = paymentData.id;
-                console.log(this.order);
-                this.confirmation = true;
-                this.horizontalStepper.next();
-                this.horizontalStepper._steps.forEach(step => step.editable = false);
-                this.verticalStepper._steps.forEach(step => step.editable = false);
-                this.appService.Data.cartList.length = 0;
-            });
-        }
-    };
-
     constructor(public http: HttpClient, public router: Router, public appService: AppService, public formBuilder: FormBuilder) {
         /*if (this.guestUser || !this.currentUser) {
             this.router.navigate(['/sign-in']);
@@ -143,7 +75,7 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
 
     ngOnInit() {
 
-        console.log(this.order);
+        // console.log(this.order);
         this.appService.Data.cartList.forEach(product => {
             this.grandTotal += +product.price * product.count;
         });
@@ -192,7 +124,7 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
             cvv: ['', Validators.required]
         });
 
-        console.log(this.appService.Data.cartList);
+        // console.log(this.appService.Data.cartList);
         this.appService.Data.cartList.forEach(item => {
             // console.log(item);
             let obj = {
@@ -233,13 +165,19 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     }
 
     onPaymentStatus(evt) {
-        console.log(evt);
+        // console.log(evt);
         if (!evt.error) {
             this.confirmation = true;
             this.horizontalStepper.next();
             this.horizontalStepper._steps.forEach(step => step.editable = false);
             this.verticalStepper._steps.forEach(step => step.editable = false);
             this.appService.Data.cartList.length = 0;
+            if (localStorage.getItem('cartList')) {
+                localStorage.removeItem('cartList');
+            }
+            if (localStorage.getItem('totalPrice')) {
+                localStorage.removeItem('totalPrice');
+            }
         }
     }
 
@@ -284,19 +222,19 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
         this.orderObj.shipping_address = this.shippingAddress;
         this.orderObj.line_items = [];
         let newOrder: any = {};
-        console.log(this.appService.Data.cartList);
+        // console.log(this.appService.Data.cartList);
         this.appService.Data.cartList.forEach(item => {
-            console.log(item);
+            // console.log(item);
             newOrder = {
                 sku: item.sku,
                 quantity: item.count,
                 price_paid: item.price,
                 line_item_printing_infos: item.line_item_printing_infos
             };
-            console.log(newOrder);
+            // console.log(newOrder);
             this.orderObj.line_items.push(newOrder);
         });
-        console.log(this.orderObj);
+        // console.log(this.orderObj);
         // this.orderObj.line_items = newArr;
         // console.log(this.orderObj);
         this.order = this.orderObj;
@@ -305,13 +243,18 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
         if (currentUser) {
             const helper = new JwtHelperService();
             const decodedToken = helper.decodeToken(currentUser.access_token);
-            console.log(decodedToken);
+            // console.log(decodedToken);
+            this.order.user_id = decodedToken.id;
+            this.order.email = decodedToken.email;
+        } else {
+            const guestUser = JSON.parse(localStorage.getItem('guestUser'));
+            this.order.email = guestUser.email;
         }
-        console.log(this.order);
+        // console.log(this.order);
         this.appService.createOrder(this.order).subscribe(data => {
-            console.log(data);
+            // console.log(data);
             this.order_id = data.data.order_uuid;
-            console.log(this.order_id);
+            // console.log(this.order_id);
         });
 
         /*this.horizontalStepper._steps.forEach(step => step.editable = false);
@@ -324,3 +267,72 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     }
 
 }
+
+/*
+paypalConfig = {
+    env: 'sandbox', // sandbox | production
+
+    /!*intent: 'sale',
+    orderID: '90048630024435',*!/
+
+    // Specify the style of the button
+
+    style: {
+        label: 'checkout',
+        size: 'medium',    // small | medium | large | responsive
+        shape: 'pill',     // pill | rect
+        color: 'gold'      // gold | blue | silver | black
+    },
+
+    // PayPal Client IDs - replace with your own
+    // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+    client: {
+        sandbox: 'AXQDCvOuxxjOA0YnBfcsdQ238zS2YjlQHcNVvxstSryNKTvdpgPUx07ehBSGsWIE0Z6_T09Il40cmwzX',
+        production: '<insert production client id>'
+    },
+
+    // Show the buyer a 'Pay Now' button in the checkout flow
+    commit: true,
+
+    // payment() is called when the button is clicked
+    payment: (data, actions) => {
+
+        // Make a call to the REST api to create the payment
+        return actions.payment.create({
+            payment: {
+                /!*payer: {
+                    payment_method: 'paypal'
+                },*!/
+                transactions: [
+                    {
+                        amount: {total: this.grandTotal, currency: 'USD'},
+                        description: 'The payment transaction description.',
+                        // order_id: this.order_id,
+                        custom: this.order_id,
+                        // invoice_number: '0000897',
+                        item_list: {
+                            items: this.checkoutItems,
+                        }
+                    },
+                ]
+            }
+        });
+    },
+    // onAuthorize() is called when the buyer approves the payment
+    onAuthorize: (data, actions) => {
+
+        console.log(data);
+
+        // Make a call to the REST api to execute the payment
+        return actions.payment.execute().then((paymentData) => {
+            console.log(paymentData);
+            this.order.payment_id = paymentData.id;
+            console.log(this.order);
+            this.confirmation = true;
+            this.horizontalStepper.next();
+            this.horizontalStepper._steps.forEach(step => step.editable = false);
+            this.verticalStepper._steps.forEach(step => step.editable = false);
+            this.appService.Data.cartList.length = 0;
+        });
+    }
+};*/

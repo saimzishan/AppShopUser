@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {MatSnackBar} from '@angular/material';
 import {Category, Order, Product} from './app.models';
 import {map} from 'rxjs/operators';
+import {DetectChangesService} from "./shared/detectchanges.service";
 
 export class Data {
     constructor(public categories: Category[],
@@ -46,8 +47,14 @@ export class AppService {
 
     public currentUser;
 
-    constructor(public http: HttpClient, public snackBar: MatSnackBar) {
+    constructor(public http: HttpClient, public snackBar: MatSnackBar, private detectChanges: DetectChangesService) {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (localStorage.getItem('cartList')) {
+            this.Data.cartList = JSON.parse(localStorage.getItem('cartList'));
+        }
+        if (localStorage.getItem('totalPrice')) {
+            this.Data.totalPrice = JSON.parse(localStorage.getItem('totalPrice'));
+        }
     }
 
     public getCategories(): Observable<any> {
@@ -154,7 +161,7 @@ export class AppService {
         }*/
         return this.http.get<any>(this.apiUrl + 'cashiers', this.httpOptions)
             .pipe(map((token: any) => {
-                console.log(token.data);
+                // console.log(token.data);
                 return token.data;
                 // console.log(token);
             }));
@@ -218,9 +225,13 @@ export class AppService {
 
     public addToCart(product: Product, count: number) {
         /*public addToCart(product: Product) {*/
-        console.log(product);
+        // console.log(product);
+        // console.log(this.Data.cartList);
+        if (!this.Data.cartList) {
+            this.Data.cartList = [];
+        }
         let message, status;
-        if (this.Data.cartList.filter(item => item.id === product.id)[0]) {
+        if (this.Data.cartList.length && this.Data.cartList.filter(item => item.id === product.id)[0]) {
             message = 'The product ' + product.name + ' already added to cart.';
             status = 'error';
         } else {
@@ -231,6 +242,18 @@ export class AppService {
             this.Data.cartList.forEach(cartProduct => {
                 /*this.Data.totalPrice = this.Data.totalPrice + cartProduct.newPrice;*/
                 this.Data.totalPrice = this.Data.totalPrice + (+cartProduct.price * cartProduct.count);
+            });
+            if (localStorage.getItem('cartList')) {
+                localStorage.removeItem('cartList');
+            }
+            localStorage.setItem('cartList', JSON.stringify(this.Data.cartList));
+            if (localStorage.getItem('totalPrice')) {
+                localStorage.removeItem('totalPrice');
+            }
+            localStorage.setItem('totalPrice', JSON.stringify(this.Data.totalPrice));
+            this.detectChanges.cartSync({
+                option: 'cartChanged',
+                value: true
             });
             message = 'The product ' + product.name + ' has been added to cart.';
             status = 'success';

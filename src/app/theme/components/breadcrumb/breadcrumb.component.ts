@@ -71,6 +71,12 @@ export class BreadcrumbComponent {
                     }
 
                 } else {
+                    if (url.indexOf('cart') !== -1) {
+                        this.breadcrumbs.push({
+                            name: ' products ',
+                            url: '/products'
+                        });
+                    }
                     this.breadcrumbs.push({
                         name: node.data['breadcrumb'],
                         url: '/' + url

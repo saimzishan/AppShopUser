@@ -206,6 +206,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
             // console.log(this.products);
             this.products.forEach(value => {
                 value.suppliers.forEach(item => {
+                    // console.log(item);
                     const newProduct = {
                         id: value.id,
                         name: value.name,
@@ -213,6 +214,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
                         supplier_id: item.id,
                         supplier_name: item.name,
                         price: item.price,
+                        ratingsCount: item.product_rating.length ? item.product_rating[0].ratingsCount : null,
+                        ratingsValue: item.product_rating.length ? item.product_rating[0].ratingsValue : null,
                         // image: item.images.length > 0 ? item.images[0].small : ''
                         image: !value.product_images.length && !item.product_images.length
                             ? 'assets/images/img_not_available.png'

@@ -113,24 +113,12 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
         };
     }
 
-    /*public getProductById(id) {
-          this.appService.getProductById(id).subscribe(data => {
-              this.product = data;
-              this.image = data.images[0].medium;
-              this.zoomImage = data.images[0].big;
-              setTimeout(() => {
-                  this.config.observer = true;
-                  // this.directiveRef.setIndex(0);
-              });
-          });
-      }*/
-
     public getProductByIdNew(id, supId) {
         this.spinnerService.requestInProcess(true);
         this.appService.getProductByIdNew(id, supId).subscribe(data => {
             this.product = data.data;
-            // console.log(this.product);
-            this.product.availibilityCount = 100;
+            console.log(this.product);
+            this.product.availibilityCount = this.product.stock;
 
             // showing product images
             if (!this.product.images.length) {
@@ -629,6 +617,9 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
             // console.log(values);
             this.appService.postRating(values).subscribe(data => {
                 console.log(data);
+                if (!data.error) {
+                    this.getProductReviews(this.product.id, this.supplier_id);
+                }
             });
         }
     }

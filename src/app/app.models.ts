@@ -36,7 +36,7 @@ export class Supplier {
     public name: string;
     public type: string;
     public price: number;
-    public rating: { id: number, rating: number };
+    public product_rating: [{ id: number, ratingsCount: number, ratingsValue: number }];
     public product_images: [
         {
             id: number,
@@ -51,13 +51,15 @@ export class Supplier {
         this.name = supplier.name || '';
         this.type = supplier.type || '';
         this.price = supplier.price || 0;
-        this.rating = supplier.rating || {};
+        this.product_rating = supplier.product_rating || [];
         this.product_images = supplier.product_images || [];
     }
 }
 
 export class Order {
     public payment_id: number;
+    public user_id: number;
+    public email: string;
     public billing_address: {
         no: number,
         street: string,
@@ -94,6 +96,8 @@ export class Order {
 
     constructor() {
         this.payment_id = -1;
+        this.user_id = -1;
+        this.email = '';
         this.billing_address = {
             no: -1,
             street: '',
@@ -144,7 +148,7 @@ export class Product {
     public category_id: number;
     public printing_option: number;
     public sides: string;
-    public rating: { id: number, rating: number };
+    public product_rating: [{ id: number, ratingsCount: number, ratingsValue: number }];
     public suppliers: Supplier[];
     public images: [{ id: number, small: string, medium: string, large: string }];
     public product_images: [{ id: number, small: string, medium: string, large: string }];
@@ -227,7 +231,7 @@ export class Product {
         this.printing_option = 0;
         this.sides = '';
         this.category = new Category();
-        this.rating = {id: 0, rating: 0};
+        this.product_rating = [{id: 0, ratingsCount: 0, ratingsValue: 0}];
         this.suppliers = [new Supplier()];
         this.images = [
             {
@@ -316,11 +320,13 @@ export class Rating {
     public user_id: number;
     public product_id: number;
     public supplier_id: number;
+    public review: string;
 
     constructor(rating?) {
         this.ratingsValue = rating.ratingsValue || 0;
         this.user_id = rating.user_id || '';
         this.product_id = rating.product_id || '';
         this.supplier_id = rating.supplier_id || '';
+        this.review = rating.review || '';
     }
 }

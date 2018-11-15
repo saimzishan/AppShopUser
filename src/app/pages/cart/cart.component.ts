@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Data, AppService} from '../../app.service';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
+import {DetectChangesService} from '../../shared/detectchanges.service';
 
 @Component({
     selector: 'app-cart',
@@ -13,12 +14,12 @@ export class CartComponent implements OnInit {
     public currentUser = JSON.parse(localStorage.getItem('currentUser'));
     public guestUser = JSON.parse(localStorage.getItem('guestUser'));
 
-    constructor(public appService: AppService, private router: Router) {
+    constructor(public appService: AppService, private router: Router, private detectChanges: DetectChangesService) {
     }
 
     ngOnInit() {
         this.appService.Data.cartList.forEach(product => {
-            console.log(product);
+            // console.log(product);
             this.total[product.id] = +product.price * product.count;
             this.grandTotal += +product.price * product.count;
         });
@@ -40,18 +41,30 @@ export class CartComponent implements OnInit {
     }
 
     public getTotalPrice(value) {
-        console.log(value);
+        // console.log(value);
         if (value) {
             this.appService.Data.cartList.forEach(item => {
                 if (value.productId === item.id) {
                     item.count = value.soldQuantity;
                 }
             });
-            console.log(this.appService.Data.cartList);
+            // console.log(this.appService.Data.cartList);
             this.total[value.productId] = value.total;
             this.grandTotal = 0;
             this.total.forEach(price => {
                 this.grandTotal += price;
+            });
+            if (localStorage.getItem('cartList')) {
+                localStorage.removeItem('cartList');
+            }
+            localStorage.setItem('cartList', JSON.stringify(this.appService.Data.cartList));
+            if (localStorage.getItem('totalPrice')) {
+                localStorage.removeItem('totalPrice');
+            }
+            localStorage.setItem('totalPrice', JSON.stringify(this.grandTotal));
+            this.detectChanges.cartSync({
+                option: 'cartChanged',
+                value: true
             });
         }
     }
@@ -67,10 +80,34 @@ export class CartComponent implements OnInit {
                 }
             });
         }
+        if (localStorage.getItem('cartList')) {
+            localStorage.removeItem('cartList');
+        }
+        localStorage.setItem('cartList', JSON.stringify(this.appService.Data.cartList));
+        if (localStorage.getItem('totalPrice')) {
+            localStorage.removeItem('totalPrice');
+        }
+        localStorage.setItem('totalPrice', JSON.stringify(this.grandTotal));
+        this.detectChanges.cartSync({
+            option: 'cartChanged',
+            value: true
+        });
     }
 
     public clear() {
         this.appService.Data.cartList.length = 0;
+        if (localStorage.getItem('cartList')) {
+            localStorage.removeItem('cartList');
+            localStorage.setItem('cartList', JSON.stringify([]));
+        }
+        if (localStorage.getItem('totalPrice')) {
+            localStorage.removeItem('totalPrice');
+            localStorage.setItem('totalPrice', JSON.stringify(0));
+        }
+        this.detectChanges.cartSync({
+            option: 'cartChanged',
+            value: true
+        });
     }
 
 }
