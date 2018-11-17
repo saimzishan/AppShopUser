@@ -34,7 +34,7 @@ export class AppService {
     // public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
     /*public apiUrl = 'http://18.217.12.17/api/public/api/auth/';*/
     public apiUrl = 'http://www.econowholesale.com/api/public/api/auth/';
-    // public apiUrl = 'http://83c21f5e.ngrok.io/api/auth/';
+    // public apiUrl = 'http://446b127c.ngrok.io/api/auth/';
     // public imgUrl = 'http://124.109.39.22:18089/onlineappshopapi';
     public imgUrl = 'http://www.econowholesale.com/api';
     // public imgUrl = 'http://83c21f5e.ngrok.io/api/';
@@ -78,6 +78,12 @@ export class AppService {
         } else {
             return this.http.get<any>(this.apiUrl + 'products?count=' + count + '&page=' + page + '&with_suppliers');
         }
+    }
+
+    public getFilteredProduct(search , page?, count?): Observable<any> {
+        // console.log(count);
+        // console.log(page);
+        return this.http.get<any>(this.apiUrl + 'products?search=' + search );
     }
 
     public getAllProductsByCat(catId): Observable<any> {

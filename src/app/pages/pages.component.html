@@ -51,7 +51,7 @@
                                                (change)="changeCategory($event)"></app-category-list>
                         </span>
                     </mat-menu>
-                    <input type="text" placeholder="Type to search..." fxFlex>
+                    <input type="text" placeholder="Type to search..." fxFlex (keyup)="searchProduct($event , $event.target.value)">
                     <button mat-mini-fab (click)="search()" type="button"
                             class="search-btn mat-elevation-z0 text-muted">
                         <mat-icon>search</mat-icon>

@@ -1,13 +1,13 @@
-import {Component, OnInit, HostListener, ViewChild, AfterViewInit} from '@angular/core';
-import {DecimalPipe} from '@angular/common';
-import {Router, NavigationEnd} from '@angular/router';
-import {Settings, AppSettings} from '../app.settings';
-import {AppService} from '../app.service';
-import {Category} from '../app.models';
-import {SidenavMenuService} from '../theme/components/sidenav-menu/sidenav-menu.service';
-import {JwtHelperService} from "@auth0/angular-jwt";
-import {DetectChangesService} from "../shared/detectchanges.service";
-import {Subscription} from "rxjs/Subscription";
+import { Component, OnInit, HostListener, ViewChild, AfterViewInit } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { Router, NavigationEnd } from '@angular/router';
+import { Settings, AppSettings } from '../app.settings';
+import { AppService } from '../app.service';
+import { Category } from '../app.models';
+import { SidenavMenuService } from '../theme/components/sidenav-menu/sidenav-menu.service';
+import { JwtHelperService } from "@auth0/angular-jwt";
+import { DetectChangesService } from "../shared/detectchanges.service";
+import { Subscription } from "rxjs/Subscription";
 
 @Component({
     selector: 'app-pages',
@@ -28,9 +28,9 @@ export class PagesComponent implements OnInit, AfterViewInit {
     public cartSubscription: Subscription;
 
     constructor(public appSettings: AppSettings,
-                public appService: AppService,
-                public sidenavMenuService: SidenavMenuService,
-                public router: Router, private detectChanges: DetectChangesService) {
+        public appService: AppService,
+        public sidenavMenuService: SidenavMenuService,
+        public router: Router, private detectChanges: DetectChangesService) {
         this.settings = this.appSettings.settings;
 
         this.cartSubscription = this.detectChanges.notifyObservable$.subscribe(
@@ -169,6 +169,29 @@ export class PagesComponent implements OnInit, AfterViewInit {
         if (window.innerWidth < 960) {
             this.sidenavMenuService.closeAllSubMenus();
         }
+    }
+
+    searchProduct(event, value) {
+        if (event.key === 'Enter') {
+            this.detectChanges.notifyOther({
+                option: 'searching',
+                value: value
+            });
+
+        }
+        if (value === '') {
+            this.detectChanges.notifyOther({
+                option: 'all',
+                value: value
+            });
+        }
+        // if (this.router.url !== '/products') {
+        //     this.router.navigate(['/products']);
+        //     this.detectChanges.notifyOther({
+        //         option: 'searching',
+        //         value: value
+        //     });
+        // }
     }
 
 }

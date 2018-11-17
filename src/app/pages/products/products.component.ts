@@ -5,12 +5,14 @@ import {
     HostListener,
     OnDestroy
 } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {MatDialog} from '@angular/material';
-import {ProductDialogComponent} from '../../shared/products-carousel/product-dialog/product-dialog.component';
-import {AppService} from '../../app.service';
-import {Product, Category} from '../../app.models';
-import {SpinnerService} from '../../shared/spinner/spinner.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { ProductDialogComponent } from '../../shared/products-carousel/product-dialog/product-dialog.component';
+import { AppService } from '../../app.service';
+import { Product, Category } from '../../app.models';
+import { SpinnerService } from '../../shared/spinner/spinner.service';
+import { DetectChangesService } from "../../shared/detectchanges.service";
+
 
 @Component({
     selector: 'app-products',
@@ -75,13 +77,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
     public param;
     public totalProducts;
     public itemPerPage;
+    searching;
 
     constructor(
         private activatedRoute: ActivatedRoute,
         public appService: AppService,
         public dialog: MatDialog,
         private router: Router,
-        private spinnerService: SpinnerService
+        private spinnerService: SpinnerService,
+        private detectChangesService: DetectChangesService
     ) {
     }
 
@@ -111,6 +115,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
         this.getCategories();
         this.getBrandsNew();
         // this.getAllProducts();
+        this.searching = this.detectChangesService.notifyObservable$.subscribe(
+            res => {
+                if (res.option === 'searching') {
+                    this.getFilteredProduct(res.value);
+                } else if (res.option === 'all') {
+                    this.ngOnInit();
+                }
+            }
+        );
     }
 
     public getProductsByCat(catId) {
@@ -119,8 +132,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
             this.spinnerService.requestInProcess(false);
             this.products = data.data.products.data;
             this.productsCatArray = [];
-            // if (this.products.length > 0) {
-            // console.log(this.products);
             this.products.forEach(value => {
                 value.suppliers.forEach(item => {
                     const newProduct = {
@@ -356,5 +367,56 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
     public getBrandProducts(brand) {
         this.router.navigate(['/products/brand', brand.id, brand.name]);
+    }
+
+    public getFilteredProduct(word) {
+        // if (this.productsArray.length) {
+        this.productsArray = [];
+        // }
+
+        this.spinnerService.requestInProcess(true);
+        this.appService.getFilteredProduct(word).subscribe(data => {
+            this.spinnerService.requestInProcess(false);
+            this.totalProducts = data.data.total;
+            this.products = data.data.data;
+            this.products.forEach(value => {
+                value.suppliers.forEach(item => {
+                    // console.log(item);
+                    const newProduct = {
+                        id: value.id,
+                        name: value.name,
+                        category_id: value.category_id,
+                        supplier_id: item.id,
+                        supplier_name: item.name,
+                        price: item.price,
+                        ratingsCount: item.product_rating.length ? item.product_rating[0].ratingsCount : null,
+                        ratingsValue: item.product_rating.length ? item.product_rating[0].ratingsValue : null,
+                        // image: item.images.length > 0 ? item.images[0].small : ''
+                        image: !value.product_images.length && !item.product_images.length
+                            ? 'assets/images/img_not_available.png'
+                            : value.product_images.length && !item.product_images.length && value.product_images[0].small.startsWith('http')
+                                ? value.product_images[0].small
+                                : value.product_images.length && !item.product_images.length && !value.product_images[0].small.startsWith('http')
+                                    ? this.appService.imgUrl + value.product_images[0].small
+                                    : !value.product_images.length && item.product_images.length && item.product_images[0].small.startsWith('http')
+                                        ? item.product_images[0].small
+                                        : this.appService.imgUrl + item.product_images[0].small
+                        /*image: !item.product_images.length
+                            ? value.product_images[0].small
+                            : item.product_images[0].small.startsWith('http')
+                                ? item.product_images[0].small
+                                : this.appService.imgUrl + item.product_images[0].small*/
+                    };
+                    // 'assets/images/img_not_available.png'
+                    this.productsArray.push(newProduct);
+                });
+            });
+            this.products = this.productsArray;
+
+            // for show more product
+            /*for (let index = 0; index < 3; index++) {
+                      this.productsArray = this.productsArray.concat(this.productsArray);
+                  }*/
+        });
     }
 }
