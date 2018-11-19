@@ -266,3 +266,4 @@ export class PagesComponent implements OnInit, AfterViewInit {
       }
     }
   }
+}

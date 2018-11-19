@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {AppService} from "../../app.service";
-import {Product} from "../../app.models";
-import {NgxSpinnerService} from "ngx-spinner";
-import {SpinnerService} from "../../shared/spinner/spinner.service";
+import { Component, OnInit } from "@angular/core";
+import { AppService } from "../../app.service";
+import { Product } from "../../app.models";
+import { NgxSpinnerService } from "ngx-spinner";
+import { SpinnerService } from "../../shared/spinner/spinner.service";
 
 @Component({
     selector: "app-home",
@@ -40,6 +40,8 @@ export class HomeComponent implements OnInit {
     ngOnInit() {
         this.getBanners();
         this.getProductsNew("featured");
+        this.getProductsNew("on sale");
+        this.getProductsNew("new arrivals");
         this.getBrandsNew();
         this.getSlides();
     }
