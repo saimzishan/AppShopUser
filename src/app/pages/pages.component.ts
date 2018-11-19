@@ -33,6 +33,9 @@ export class PagesComponent implements OnInit, AfterViewInit {
   public guestUser = JSON.parse(localStorage.getItem("guestUser"));
   public cartSubscription: Subscription;
 
+  searchVariable;
+  categoryid = null;
+
   constructor(
     public appSettings: AppSettings,
     public appService: AppService,
@@ -66,22 +69,24 @@ export class PagesComponent implements OnInit, AfterViewInit {
 
   public getCategories() {
     this.appService.getCategories().subscribe(data => {
-      // console.log(data.data);
       this.categories = data.data;
-      this.category = data.data[0];
+      const obj = {
+        id: 0,
+        parent_id: null,
+        name: 'All',
+        notes: '',
+        children: [],
+      };
+      this.categories.push(obj);
+      this.categories = this.categories.reverse();
       this.appService.Data.categories = data.data;
     });
   }
 
   public changeCategory(event) {
-    if (event.target) {
-      this.category = this.categories.filter(
-        category => category.name === event.target.innerText
-      )[0];
-      // console.log(this.category);
-    }
-    if (window.innerWidth < 960) {
-      this.stopClickPropagate(event);
+    if (event) {
+      this.searchVariable = event.name;
+      this.categoryid = event.id;
     }
   }
 
@@ -139,12 +144,12 @@ export class PagesComponent implements OnInit, AfterViewInit {
     return product.images.length && product.images[0].small.startsWith("http")
       ? product.images[0].small
       : product.images.length && !product.images[0].small.startsWith("http")
-      ? this.appService.imgUrl + product.images[0].small
-      : !product.images.length &&
-        product.product_images.length &&
-        product.product_images[0].small.startsWith("http")
-      ? product.product_images[0].small
-      : this.appService.imgUrl + product.product_images[0].small;
+        ? this.appService.imgUrl + product.images[0].small
+        : !product.images.length &&
+          product.product_images.length &&
+          product.product_images[0].small.startsWith("http")
+          ? product.product_images[0].small
+          : this.appService.imgUrl + product.product_images[0].small;
   }
 
   public changeTheme(theme) {
@@ -156,7 +161,7 @@ export class PagesComponent implements OnInit, AfterViewInit {
     event.preventDefault();
   }
 
-  public search() {}
+  public search() { }
 
   public scrollToTop() {
     var scrollDuration = 200;
@@ -203,7 +208,7 @@ export class PagesComponent implements OnInit, AfterViewInit {
     if (
       this.router.url === "/products" &&
       event.key === "Enter" &&
-      value !== ""
+      value !== "" && this.categoryid === null
     ) {
       this.detectChanges.notifyOther({
         option: "searching",
@@ -213,22 +218,51 @@ export class PagesComponent implements OnInit, AfterViewInit {
     if (
       this.router.url !== "/products" &&
       event.key === "Enter" &&
-      value !== ""
+      value !== "" && this.categoryid === null
     ) {
       localStorage.setItem("searching", value);
       this.router.navigate(["/products"]);
-      //   this.detectChanges.notifyOther({
-      //     option: "searching",
-      //     value: value
-      //   });
     }
-    if (value === "") {
+    if (value === "" && this.categoryid === null) {
       this.detectChanges.notifyOther({
         option: "all",
         value: value
       });
       //   localStorage.removeItem("searching");
       this.router.navigate(["/products"]);
+    } if (this.categoryid !== null && event.key === "Enter" && value !== "") {
+      if (this.categoryid !== 0) {
+        this.detectChanges.notifyOther({
+          option: "?category_id=" + this.categoryid + "&search=",
+          value: value
+        });
+      } else {
+        if (
+          this.router.url === "/products" &&
+          event.key === "Enter" &&
+          value !== ""
+        ) {
+          this.detectChanges.notifyOther({
+            option: "searching",
+            value: value
+          });
+        }
+        if (
+          this.router.url !== "/products" &&
+          event.key === "Enter" &&
+          value !== ""
+        ) {
+          localStorage.setItem("searching", value);
+          this.router.navigate(["/products"]);
+        }
+        if (value === "") {
+          this.detectChanges.notifyOther({
+            option: "all",
+            value: value
+          });
+          //   localStorage.removeItem("searching");
+          this.router.navigate(["/products"]);
+        }
+      }
     }
   }
-}

@@ -140,7 +140,7 @@
         </div>
 
         <div *ngIf="viewType == 'grid'" fxLayout="row wrap" class="products-wrapper">
-            <h4 class="mt-1" *ngIf="!products.length">Products not available</h4>
+            <h1 *ngIf="!products.length" style="padding-top: 10% ; padding-left: 35% ; color: rgb(104, 104, 104)">Product(s) Not Available</h1>
             <div *ngFor="let product of products | paginate: { itemsPerPage: count, currentPage: page, totalItems: totalProducts }"
                  fxFlex="100" [fxFlex.gt-sm]="viewCol" fxFlex.sm="50" class="col">
                 <mat-card class="product-item text-center">
