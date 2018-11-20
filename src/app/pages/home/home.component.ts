@@ -25,6 +25,11 @@ export class HomeComponent implements OnInit {
     public onSaleProducts: Array<Product>;
     public topRatedProducts: Array<Product>;
     public newArrivalsProducts: Array<Product>;
+    public hotProducts: Array<Product>;
+    nofeaturedProducts = false;
+    noonsaleProducts = false;
+    nonewarrivalProducts = false;
+    nohotProducts = false;
 
     /*public featuredProductsArray = [];
       public onSaleProductsArray = [];
@@ -42,6 +47,7 @@ export class HomeComponent implements OnInit {
         this.getProductsNew("featured");
         this.getProductsNew("on sale");
         this.getProductsNew("new arrivals");
+        this.getProductsNew("hot");
         this.getBrandsNew();
         this.getSlides();
     }
@@ -74,6 +80,9 @@ export class HomeComponent implements OnInit {
 
             this.appService.getProductsNew("featured").subscribe(data => {
                 this.featuredProducts = data.data;
+                if (data.length === 0) {
+                    this.nofeaturedProducts = true;
+                }
                 this.featuredProducts = this.createProductsArray(this.featuredProducts);
                 this.spinnerService.requestInProcess(false);
             });
@@ -84,6 +93,9 @@ export class HomeComponent implements OnInit {
             this.appService.getProductsNew("on-sale").subscribe(data => {
                 this.spinnerService.requestInProcess(false);
                 this.onSaleProducts = data.data;
+                if (data.length === 0) {
+                    this.noonsaleProducts = true;
+                }
                 this.onSaleProducts = this.createProductsArray(this.onSaleProducts);
                 this.spinnerService.requestInProcess(false);
             });
@@ -102,10 +114,28 @@ export class HomeComponent implements OnInit {
 
             this.appService.getProductsNew("new-arrival").subscribe(data => {
                 this.newArrivalsProducts = data.data;
+                if (data.length === 0) {
+                    this.nonewarrivalProducts = true;
+                }
                 this.spinnerService.requestInProcess(false);
 
                 this.newArrivalsProducts = this.createProductsArray(
                     this.newArrivalsProducts
+                );
+            });
+        }
+        if (type === "hot" && !this.hotProducts) {
+            this.spinnerService.requestInProcess(true);
+
+            this.appService.getProductsNew("hot").subscribe(data => {
+                this.hotProducts = data.data;
+                if (data.length === 0) {
+                    this.nohotProducts = true;
+                }
+                this.spinnerService.requestInProcess(false);
+
+                this.hotProducts = this.createProductsArray(
+                    this.hotProducts
                 );
             });
         }
