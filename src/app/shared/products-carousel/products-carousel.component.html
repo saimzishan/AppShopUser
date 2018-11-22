@@ -1,5 +1,5 @@
 <div *ngIf="products" class="swiper-container" [swiper]="config">
-    <div class="swiper-wrapper h-100">      
+    <div class="swiper-wrapper h-100">
         <div *ngFor="let product of products" class="swiper-slide">
             <mat-card class="product-item">
                 <!--<mat-chip-list *ngIf="product.discount">
@@ -9,7 +9,8 @@
                     <img [src]="product.image" alt="" height="216" width="250">
                     <!--<img *ngIf="product.image" src="assets/images/img_not_available.jpg">-->
                 </a>
-                <h4 class="category text-muted">{{ ( appService.Data.categories | filterById : product.category_id )?.name }}</h4>
+                <h4 class="category text-muted">{{ ( appService.Data.categories | filterById : product.category_id )?.name
+                    }}</h4>
                 <a [routerLink]="['/products', product.id, product.name, {supplier_id: product.supplier_id}]" class="title text-truncate">
                     {{product.name}}
                 </a>
@@ -34,5 +35,5 @@
         </div>
     </div>
     <button mat-mini-fab class="swiper-button-prev swipe-arrow"><mat-icon>keyboard_arrow_left</mat-icon></button>
-    <button mat-mini-fab class="swiper-button-next swipe-arrow"><mat-icon>keyboard_arrow_right</mat-icon></button> 
+    <button mat-mini-fab class="swiper-button-next swipe-arrow"><mat-icon>keyboard_arrow_right</mat-icon></button>
 </div>

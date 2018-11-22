@@ -39,26 +39,53 @@
     </div>
 </div>-->
 
-<app-banners [banners]="banners"></app-banners>
+<!-- <app-banners [banners]="banners"></app-banners> -->
 
 <div class="products-tabs">
 
-    <mat-tab-group mat-stretch-tabs (selectedTabChange)="onLinkClick($event)">
-
+    <!-- <mat-tab-group mat-stretch-tabs (selectedTabChange)="onLinkClick($event)">
         <mat-tab label="Featured">
             <app-products-carousel [products]="featuredProducts"></app-products-carousel>
         </mat-tab>
         <mat-tab label="On Sale">
             <app-products-carousel [products]="onSaleProducts"></app-products-carousel>
         </mat-tab>
-        <!--<mat-tab label="Top Rated">
+        <mat-tab label="Top Rated">
             <app-products-carousel [products]="topRatedProducts"></app-products-carousel>
-        </mat-tab>-->
+        </mat-tab>
         <mat-tab label="New Arrivals">
             <app-products-carousel [products]="newArrivalsProducts"></app-products-carousel>
         </mat-tab>
-    </mat-tab-group>
-
+    </mat-tab-group> -->
+    <!-- <mat-tab-group mat-stretch-tabs (selectedTabChange)="onLinkClick($event)"> -->
+    <!-- <mat-tab label="Featured">
+            <app-products-carousel [products]="featuredProducts"></app-products-carousel>
+        </mat-tab> -->
+    <!-- <mat-tab> -->
+    <ng-container *ngIf="featuredProducts && featuredProducts.length > 0">
+        <label id="tabs">Featured</label>
+        <mat-divider></mat-divider>
+        <app-products-carousel [products]="featuredProducts"></app-products-carousel>
+    </ng-container>
+    <br>
+    <ng-container *ngIf="onSaleProducts && onSaleProducts.length > 0">
+        <label id="tabs">On Sale</label>
+        <mat-divider></mat-divider>
+        <app-products-carousel [products]="onSaleProducts"></app-products-carousel>
+    </ng-container>
+    <br>
+    <ng-container *ngIf="newArrivalsProducts && newArrivalsProducts.length > 0">
+        <label id="tabs">New Arrivals</label>
+        <mat-divider></mat-divider>
+        <app-products-carousel [products]="newArrivalsProducts">
+            <span *ngIf="nonewarrivalProducts"> No Products</span>
+        </app-products-carousel>
+    </ng-container>
+    <br>
+    <ng-container *ngIf="hotProducts && hotProducts.length > 0">
+        <label id="tabs">Hot</label>
+        <mat-divider></mat-divider>
+        <app-products-carousel *ngIf="hotProducts.length > 0" [products]="hotProducts"></app-products-carousel>
+    </ng-container>
 </div>
-
 <app-brands-carousel [brands]="brands"></app-brands-carousel>
