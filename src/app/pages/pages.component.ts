@@ -57,7 +57,7 @@ export class PagesComponent implements OnInit, AfterViewInit {
             this.categories = data.data;
             this.category = data.data[0];
             this.appService.Data.categories = data.data;
-        })
+        });
     }
 
     public changeCategory(event) {

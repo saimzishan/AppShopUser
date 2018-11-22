@@ -257,6 +257,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
             this.spinnerService.requestInProcess(false);
             this.categories = this.appService.Data.categories;
         }
+        console.log(this.categories);
     }
 
     public getBrands() {

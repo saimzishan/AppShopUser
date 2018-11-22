@@ -43,6 +43,7 @@ export class SidenavMenuComponent implements OnInit {
         category => category.parent_id === null
       );
     }
+    console.log(this.categories);
   }
 
   public checkChildren(child) {
