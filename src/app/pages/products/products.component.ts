@@ -296,6 +296,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
       this.appService.getCategories().subscribe(data => {
         this.spinnerService.requestInProcess(false);
         this.categories = data.data;
+        // let rootCat = document.getElementById('rootCat');
+        // rootCat.click();
+
         this.appService.Data.categories = data.data;
       });
     } else {
