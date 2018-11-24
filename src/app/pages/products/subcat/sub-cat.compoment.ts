@@ -1,8 +1,11 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Component, OnInit, ViewChild, Input } from "@angular/core";
+import { Component, OnInit, ViewChild, Input, EventEmitter, Output } from "@angular/core";
 import { MatMenuTrigger } from "@angular/material";
 import { ITreeOptions } from "angular-tree-component";
 import { SpinnerService } from "../../../shared/spinner/spinner.service";
+import { AppService } from "../../../app.service";
+import { DetectChangesService } from "../../../shared/detectchanges.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "cat-sub-cat",
@@ -18,13 +21,18 @@ export class SubCatComponent implements OnInit {
   parentCatId: any;
   @ViewChild("tree") tree;
 
+  @Output() getProductsOfCat = new EventEmitter<string>();
+
   options: ITreeOptions = {
     getChildren: this.getChildren.bind(this)
   };
 
   constructor(
     private spinnerService: SpinnerService,
-    protected http: HttpClient
+    protected http: HttpClient,
+    public appService: AppService,
+    private detectChanges: DetectChangesService,
+    private router: Router
   ) {}
   ngOnInit() {
     this.nodes = this.createNode(this.categories);
@@ -37,10 +45,28 @@ export class SubCatComponent implements OnInit {
     this.parentCat = treeModel.activeNodes[0].data.name;
     this.parentCatId = treeModel.activeNodes[0].data.my_id;
 
+    if (!treeModel.activeNodes[0].data.hasChildren) {
+      this.getProductOfCategory(treeModel.activeNodes[0].data.my_id);
+    }
+
     const someNode = this.tree.treeModel.getNodeById(
       treeModel.activeNodes[0].data.id
     );
     someNode.expand();
+  }
+
+   getProductOfCategory(cat_id) {
+    this.spinnerService.requestInProcess(true);
+    this.appService.getAllProductsByCat(cat_id).subscribe(data => {
+      if (data) {
+    this.spinnerService.requestInProcess(false);
+    this.getProductsOfCat.emit(cat_id);
+    // this.detectChanges.notifyOther({
+    //   option: "cat",
+    //   value: cat_id
+    // });
+      }
+        });
   }
 
   getChildren(node: any) {
