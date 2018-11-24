@@ -46,7 +46,7 @@ export class SubCatComponent implements OnInit {
     this.parentCatId = treeModel.activeNodes[0].data.my_id;
 
     if (!treeModel.activeNodes[0].data.hasChildren) {
-      this.getProductOfCategory(treeModel.activeNodes[0].data.my_id);
+      this.getProductOfCategory(treeModel.activeNodes[0].data);
     }
 
     const someNode = this.tree.treeModel.getNodeById(
@@ -55,16 +55,13 @@ export class SubCatComponent implements OnInit {
     someNode.expand();
   }
 
-   getProductOfCategory(cat_id) {
+   getProductOfCategory(category) {
     this.spinnerService.requestInProcess(true);
-    this.appService.getAllProductsByCat(cat_id).subscribe(data => {
+    this.appService.getAllProductsByCat(category.my_id).subscribe(data => {
       if (data) {
     this.spinnerService.requestInProcess(false);
-    this.getProductsOfCat.emit(cat_id);
-    // this.detectChanges.notifyOther({
-    //   option: "cat",
-    //   value: cat_id
-    // });
+    // this.getProductsOfCat.emit(cat_id);
+    this.router.navigate(['products/category/' + category.my_id + '/' + category.name]);
       }
         });
   }
