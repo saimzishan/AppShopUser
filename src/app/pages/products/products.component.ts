@@ -86,7 +86,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
     private router: Router,
     private spinnerService: SpinnerService,
     private detectChangesService: DetectChangesService
-  ) { }
+  ) {
+    this.categories = new Array<Category>();
+  }
 
   ngOnInit() {
     const tempSearch = localStorage.getItem("searching");
@@ -94,7 +96,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.sort = this.sortings[0];
 
     if (tempSearch) {
-      this.getFilteredProduct(tempSearch, '?search=');
+      this.getFilteredProduct(tempSearch, "?search=");
     }
     this.sub = this.activatedRoute.params.subscribe(params => {
       const currentUrl = this.router.url;
@@ -123,7 +125,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.searching = this.detectChangesService.notifyObservable$.subscribe(
       res => {
         if (res.option === "searching") {
-          this.option = '?search=';
+          this.option = "?search=";
           this.getFilteredProduct(res.value, this.option);
         } else if (res.option === "all") {
           localStorage.removeItem("searching");
@@ -156,16 +158,16 @@ export class ProductsComponent implements OnInit, OnDestroy {
                 : value.product_images.length &&
                   !item.product_images.length &&
                   value.product_images[0].small.startsWith("http")
-                  ? value.product_images[0].small
-                  : value.product_images.length &&
-                    !item.product_images.length &&
-                    !value.product_images[0].small.startsWith("http")
-                    ? this.appService.imgUrl + value.product_images[0].small
-                    : !value.product_images.length &&
-                      item.product_images.length &&
-                      item.product_images[0].small.startsWith("http")
-                      ? item.product_images[0].small
-                      : this.appService.imgUrl + item.product_images[0].small
+                ? value.product_images[0].small
+                : value.product_images.length &&
+                  !item.product_images.length &&
+                  !value.product_images[0].small.startsWith("http")
+                ? this.appService.imgUrl + value.product_images[0].small
+                : !value.product_images.length &&
+                  item.product_images.length &&
+                  item.product_images[0].small.startsWith("http")
+                ? item.product_images[0].small
+                : this.appService.imgUrl + item.product_images[0].small
             // image: item.images[0].small
           };
           this.productsCatArray.push(newProduct);
@@ -204,16 +206,16 @@ export class ProductsComponent implements OnInit, OnDestroy {
                 : value.product_images.length &&
                   !item.product_images.length &&
                   value.product_images[0].small.startsWith("http")
-                  ? value.product_images[0].small
-                  : value.product_images.length &&
-                    !item.product_images.length &&
-                    !value.product_images[0].small.startsWith("http")
-                    ? this.appService.imgUrl + value.product_images[0].small
-                    : !value.product_images.length &&
-                      item.product_images.length &&
-                      item.product_images[0].small.startsWith("http")
-                      ? item.product_images[0].small
-                      : this.appService.imgUrl + item.product_images[0].small
+                ? value.product_images[0].small
+                : value.product_images.length &&
+                  !item.product_images.length &&
+                  !value.product_images[0].small.startsWith("http")
+                ? this.appService.imgUrl + value.product_images[0].small
+                : !value.product_images.length &&
+                  item.product_images.length &&
+                  item.product_images[0].small.startsWith("http")
+                ? item.product_images[0].small
+                : this.appService.imgUrl + item.product_images[0].small
             /*image: !item.product_images.length
                             ? value.product_images[0].small
                             : item.product_images[0].small.startsWith('http')
@@ -261,16 +263,16 @@ export class ProductsComponent implements OnInit, OnDestroy {
                 : value.product_images.length &&
                   !item.product_images.length &&
                   value.product_images[0].small.startsWith("http")
-                  ? value.product_images[0].small
-                  : value.product_images.length &&
-                    !item.product_images.length &&
-                    !value.product_images[0].small.startsWith("http")
-                    ? this.appService.imgUrl + value.product_images[0].small
-                    : !value.product_images.length &&
-                      item.product_images.length &&
-                      item.product_images[0].small.startsWith("http")
-                      ? item.product_images[0].small
-                      : this.appService.imgUrl + item.product_images[0].small
+                ? value.product_images[0].small
+                : value.product_images.length &&
+                  !item.product_images.length &&
+                  !value.product_images[0].small.startsWith("http")
+                ? this.appService.imgUrl + value.product_images[0].small
+                : !value.product_images.length &&
+                  item.product_images.length &&
+                  item.product_images[0].small.startsWith("http")
+                ? item.product_images[0].small
+                : this.appService.imgUrl + item.product_images[0].small
             /*image: !item.product_images.length
                             ? value.product_images[0].small
                             : item.product_images[0].small.startsWith('http')
@@ -325,8 +327,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     return !brand.image
       ? "assets/images/img_not_available.png"
       : brand.image && brand.image.small.startsWith("http")
-        ? brand.image.small
-        : this.appService.imgUrl + brand.image.small;
+      ? brand.image.small
+      : this.appService.imgUrl + brand.image.small;
   }
 
   ngOnDestroy() {
@@ -441,16 +443,16 @@ export class ProductsComponent implements OnInit, OnDestroy {
                 : value.product_images.length &&
                   !item.product_images.length &&
                   value.product_images[0].small.startsWith("http")
-                  ? value.product_images[0].small
-                  : value.product_images.length &&
-                    !item.product_images.length &&
-                    !value.product_images[0].small.startsWith("http")
-                    ? this.appService.imgUrl + value.product_images[0].small
-                    : !value.product_images.length &&
-                      item.product_images.length &&
-                      item.product_images[0].small.startsWith("http")
-                      ? item.product_images[0].small
-                      : this.appService.imgUrl + item.product_images[0].small
+                ? value.product_images[0].small
+                : value.product_images.length &&
+                  !item.product_images.length &&
+                  !value.product_images[0].small.startsWith("http")
+                ? this.appService.imgUrl + value.product_images[0].small
+                : !value.product_images.length &&
+                  item.product_images.length &&
+                  item.product_images[0].small.startsWith("http")
+                ? item.product_images[0].small
+                : this.appService.imgUrl + item.product_images[0].small
             /*image: !item.product_images.length
                             ? value.product_images[0].small
                             : item.product_images[0].small.startsWith('http')
@@ -459,9 +461,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
           };
           // 'assets/images/img_not_available.png'
           this.productsArray.push(newProduct);
-
-        }
-        );
+        });
       });
       this.products = this.productsArray;
       this.spinnerService.requestInProcess(false);

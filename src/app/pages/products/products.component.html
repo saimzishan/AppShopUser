@@ -26,7 +26,10 @@
               </div>
             </mat-list>
           </ng-container> -->
-          <cat-sub-cat></cat-sub-cat>
+          <ng-container *ngIf="categories.length > 0">
+            <cat-sub-cat [categories]="categories"></cat-sub-cat>
+          </ng-container>
+
         </mat-list>
       </mat-expansion-panel>
 

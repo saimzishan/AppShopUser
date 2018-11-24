@@ -62,6 +62,11 @@ export class AppService {
         return this.http.get<any>(this.apiUrl + 'categories');
     }
 
+
+    public getAllCategories(): Observable<any> {
+        /*return this.http.get<Category[]>(this.url + 'categories.json');*/
+        return this.http.get<any>(this.apiUrl + 'categories?all');
+    }
     public getProducts(type): Observable<Product[]> {
         return this.http.get<Product[]>(this.url + type + '-products.json');
     }
