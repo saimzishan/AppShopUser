@@ -1,6 +1,26 @@
 <mat-toolbar class="top-navbar mat-elevation-z2" fxLayoutAlign="center center">
 
-    <ng-template ngFor let-cat [ngForOf]="categories">
+    <a mat-button routerLink="/" routerLinkActive="horizontal-active-link"
+       [routerLinkActiveOptions]="{exact:true}">Home
+    </a>
+    <a mat-button routerLink="/about" routerLinkActive="horizontal-active-link"
+       [routerLinkActiveOptions]="{exact:true}">About Us
+    </a>
+    <a mat-button routerLink="/contact" routerLinkActive="horizontal-active-link"
+       [routerLinkActiveOptions]="{exact:true}">Contact Us
+    </a>
+    <a mat-button routerLink="/faq" routerLinkActive="horizontal-active-link"
+       [routerLinkActiveOptions]="{exact:true}">FAQ
+    </a>
+    <a mat-button routerLink="/browsing-history" routerLinkActive="horizontal-active-link"
+       [routerLinkActiveOptions]="{exact:true}">Browsing History
+    </a>
+    <a mat-button routerLink="/today-deals" routerLinkActive="horizontal-active-link"
+       [routerLinkActiveOptions]="{exact:true}">Today Deals
+    </a>
+
+
+    <!--<ng-template ngFor let-cat [ngForOf]="categories">
         <a *ngIf="!cat.parent_id && !cat.children.length" mat-button [routerLink]="['/products/category', cat.id, cat.name]"
            routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">{{cat.name}}</a>
         <a *ngIf="!cat.parent_id && cat.children.length" mat-button [matMenuTriggerFor]="menuCat"
@@ -29,7 +49,7 @@
                     <a *ngIf="tChild.children?.length" mat-menu-item [routerLink]="['/products/category', tChild.id, tChild.name]"
                        routerLinkActive="horizontal-active-link"
                        [matMenuTriggerFor]="fourth" [matMenuTriggerData]="{thirdChild: getThirdChildren(tChild)}">{{tChild.name}}</a>
-                    <!--<a mat-menu-item routerLink="/products">{{tChild.name}}</a>-->
+                    &lt;!&ndash;<a mat-menu-item routerLink="/products">{{tChild.name}}</a>&ndash;&gt;
                 </ng-template>
             </ng-template>
         </mat-menu>
@@ -43,7 +63,7 @@
         </mat-menu>
 
     </mat-menu>
-
+-->
 
     <!--<mat-menu #menuCat="matMenu" [overlapTrigger]="false" class="app-dropdown">
         <ng-template matMenuContent let-catChildArray="catChildren">

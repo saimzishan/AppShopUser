@@ -78,6 +78,9 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
             this.supplier_id = params['supplier_id'];
             this.getProductReviews(params['id'], params['supplier_id']);
         });
+
+        // localStorage.setItem('history', );
+
         /*this.form = this.formBuilder.group({
                 'review': [null, Validators.required],
                 'name': [null, Validators.compose([Validators.required, Validators.minLength(4)])],
@@ -247,6 +250,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                         });
                     }
                 });
+                console.log(this.optionsArray);
             } else {
                 this.spinnerService.requestInProcess(false);
                 this.addToCart = true;
@@ -310,6 +314,8 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public selectedOption(optionSet, option) {
+        /*console.log(optionSet);
+        console.log(option);*/
         this.selOption = option.id;
         if (
             this.clickOptions.length &&
@@ -332,10 +338,16 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                 // 'option_name': option.value
             });
         }
+        console.log(this.clickOptions);
         if (this.optionsArray.length === this.clickOptions.length) {
-            const nArray = [];
+            let nArray = [];
+            let singleAttr;
+            console.log(this.product.product_variants);
             this.product.product_variants.forEach(variants => {
-                let singleAttr;
+                if (nArray.length < this.clickOptions.length) {
+                    nArray = [];
+                }
+                console.log(variants.product_variant_attributes);
                 this.clickOptions.forEach(item => {
                     singleAttr = variants.product_variant_attributes.find(attr => {
                         return (
@@ -343,6 +355,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                             attr.option_id === item.option_id
                         );
                     });
+                    console.log(singleAttr);
                     if (singleAttr) {
                         if (nArray.length) {
                             if (
@@ -353,9 +366,14 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                             ) {
                                 nArray.push(singleAttr);
                             }
+                            // console.log('nArray length');
                         } else {
                             nArray.push(singleAttr);
+                            // console.log('not narray length');
                         }
+                        // console.log(nArray);
+                    } else {
+                        console.log(nArray);
                     }
                 });
             });
@@ -381,10 +399,27 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
                             this.variantImages = reqVariant.images;
                         }
                         });*/
-                this.image = this.appService.imgUrl + reqVariant.images[0].medium;
-                this.zoomImage = this.appService.imgUrl + reqVariant.images[0].large;
+                // this.image = this.appService.imgUrl + reqVariant.images[0].medium;
+                // this.zoomImage = this.appService.imgUrl + reqVariant.images[0].large;
+                this.image = reqVariant.images[0].medium.startsWith('http')
+                    ? reqVariant.images[0].medium
+                    : this.appService.imgUrl + reqVariant.images[0].medium;
+                this.zoomImage = reqVariant.images[0].large.startsWith('http')
+                    ? reqVariant.images[0].large
+                    : this.appService.imgUrl + reqVariant.images[0].large;
                 this.variantImages = reqVariant.images;
-                this.product.product_variants = [reqVariant];
+                this.variantImages.map(img => {
+                    img.small = img.small.startsWith('http')
+                        ? img.small
+                        : this.appService.imgUrl + img.small;
+                    img.medium = img.medium.startsWith('http')
+                        ? img.medium
+                        : this.appService.imgUrl + img.medium;
+                    img.large = img.large.startsWith('http')
+                        ? img.large
+                        : this.appService.imgUrl + img.large;
+                });
+                // this.product.product_variants = [reqVariant];    commented on 29-11-18
                 // this.product.product_variants[0] = reqVariant;
 
                 // price calculation

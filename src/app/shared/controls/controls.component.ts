@@ -79,7 +79,7 @@ export class ControlsComponent implements OnInit {
     }
 
     public addToCart(product: Product) {
-        console.log(product);
+        // console.log(product);
         /*this.appService.addToCart(product, this.count);*/
         this.appService.addToCart(product, this.count);
     }

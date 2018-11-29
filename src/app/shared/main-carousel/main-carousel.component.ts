@@ -32,7 +32,7 @@ export class MainCarouselComponent implements OnInit, AfterViewInit, DoCheck {
   constructor(public appService: AppService, private router: Router) {}
 
   ngOnInit() {
-    console.log(this.slides);
+    // console.log(this.slides);
   }
 
   ngDoCheck() {
