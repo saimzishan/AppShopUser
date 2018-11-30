@@ -158,7 +158,7 @@
     </div>
 
     <div *ngIf="viewType == 'grid'" fxLayout="row wrap" class="products-wrapper">
-      <h1 *ngIf="!products.length" style="padding-top: 10% ; padding-left: 35% ; color: rgb(104, 104, 104)">
+      <h1 *ngIf="!products?.length" style="padding-top: 10% ; padding-left: 35% ; color: rgb(104, 104, 104)">
         Product(s) Not Available
       </h1>
       <div *ngFor="
@@ -235,7 +235,7 @@
     </div>
 
     <div *ngIf="viewType == 'list'" fxLayout="row wrap" class="products-wrapper">
-      <h4 class="mt-1" *ngIf="!products.length">Products not available</h4>
+      <h4 class="mt-1" *ngIf="!products?.length">Products not available</h4>
       <div *ngFor="
           let product of (products
             | paginate

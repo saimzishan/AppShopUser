@@ -3,6 +3,7 @@ import {ModuleWithProviders} from "@angular/core";
 
 import {PagesComponent} from "./pages/pages.component";
 import {NotFoundComponent} from "./pages/not-found/not-found.component";
+import {BrowsingHistoryModule} from "./pages/browsing-history/browsing-history.module";
 
 export const routes: Routes = [
     {
@@ -52,6 +53,11 @@ export const routes: Routes = [
                 path: 'faq',
                 loadChildren: "app/pages/faq/faq.module#FaqModule",
                 data: {breadcrumb: 'FAQs'}
+            },
+            {
+                path: 'browsing-history',
+                loadChildren: "app/pages/browsing-history/browsing-history.module#BrowsingHistoryModule",
+                data: {breadcrumb: 'Browsing History'}
             },
             {
                 path: "sign-in",

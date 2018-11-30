@@ -330,3 +330,13 @@ export class Rating {
         this.review = rating.review || '';
     }
 }
+
+export class BrowsingHistory {
+    public product_id: number;
+    public supplier_id: number;
+
+    constructor() {
+        this.product_id = -1;
+        this.supplier_id = -1;
+    }
+}

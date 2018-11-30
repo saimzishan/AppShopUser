@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {MatSnackBar} from '@angular/material';
-import {Category, Order, Product} from './app.models';
+import {BrowsingHistory, Category, Order, Product} from './app.models';
 import {map} from 'rxjs/operators';
 import {DetectChangesService} from "./shared/detectchanges.service";
 
@@ -11,6 +11,7 @@ export class Data {
                 public compareList: Product[],
                 public wishList: Product[],
                 public cartList: Product[],
+                public browsingHistory: BrowsingHistory[],
                 // public orderList: Order,
                 public totalPrice: number) {
     }
@@ -23,6 +24,7 @@ export class AppService {
         [], // compareList
         [],  // wishList
         [],  // cartList
+        [], // maintaining viewed products
         // null, // order
         null // totalPrice
     );
@@ -31,12 +33,12 @@ export class AppService {
 
     public url = 'assets/data/';
 
-    // public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
+    public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
     /*public apiUrl = 'http://18.217.12.17/api/public/api/auth/';*/
-    public apiUrl = 'http://www.econowholesale.com/api/public/api/auth/';
+    // public apiUrl = 'http://www.econowholesale.com/api/public/api/auth/';
     // public apiUrl = 'http://f54eda9e.ngrok.io/api/auth/';
-    // public imgUrl = 'http://124.109.39.22:18089/onlineappshopapi';
-    public imgUrl = 'http://www.econowholesale.com/api';
+    public imgUrl = 'http://124.109.39.22:18089/onlineappshopapi';
+    // public imgUrl = 'http://www.econowholesale.com/api';
     // public imgUrl = 'http://83c21f5e.ngrok.io/api/';
 
     public httpOptions = {
@@ -51,6 +53,9 @@ export class AppService {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (localStorage.getItem('cartList')) {
             this.Data.cartList = JSON.parse(localStorage.getItem('cartList'));
+        }
+        if (localStorage.getItem('browsing_history')) {
+            this.Data.browsingHistory = JSON.parse(localStorage.getItem('browsing_history'));
         }
         if (localStorage.getItem('totalPrice')) {
             this.Data.totalPrice = JSON.parse(localStorage.getItem('totalPrice'));
@@ -67,6 +72,7 @@ export class AppService {
         /*return this.http.get<Category[]>(this.url + 'categories.json');*/
         return this.http.get<any>(this.apiUrl + 'categories?all');
     }
+
     public getProducts(type): Observable<Product[]> {
         return this.http.get<Product[]>(this.url + type + '-products.json');
     }
@@ -85,8 +91,8 @@ export class AppService {
         }
     }
 
-    public getFilteredProduct(search , option: string , page?, count?): Observable<any> {
-        return this.http.get<any>(this.apiUrl + 'products' + option + search );
+    public getFilteredProduct(search, option: string, page?, count?): Observable<any> {
+        return this.http.get<any>(this.apiUrl + 'products' + option + search);
     }
 
     public getAllProductsByCat(catId): Observable<any> {
@@ -105,6 +111,14 @@ export class AppService {
         return this.http.get<any>(this.apiUrl + 'products?product_id=' + id + '&supplier_id=' + supId);
     }
 
+    public getTodayDealsProducts(): Observable<any> {
+        return this.http.get<any>(this.apiUrl + 'products?product_id=');
+    }
+
+    public getHistoryProducts(historyProducts): Observable<any> {
+        return this.http.post<any>(this.apiUrl + 'browsingHistory', {historyProducts: historyProducts});
+    }
+
     public getProductReviews(id, supId): Observable<any> {
         return this.http.get<any>('http://www.econowholesale.com/api/public/api/detailedRatings?product_id=' + id + '&supplier_id=' + supId);
     }
@@ -117,8 +131,12 @@ export class AppService {
         return this.http.get<any[]>(this.url + 'banners.json');
     }*/
 
-    public getSlides(): Observable<any> {
+    /*public getSlides(): Observable<any> {
         return this.http.get<any>(this.apiUrl + 'products?slider');
+    }*/
+
+    public getSlides(): Observable<any> {
+        return this.http.get<any>(this.apiUrl + 'sliders');
     }
 
     public getBrandsNew(): Observable<any> {
@@ -136,26 +154,11 @@ export class AppService {
                 })
             };
         }*/
-        // console.log(httpOptions);
         return this.http.post<any>(this.apiUrl + 'orders', order, this.httpOptions);
-        /*return new Promise((resolve, reject) => {
-            let orderObj;
-            console.log(this.Data.cartList);
-            this.Data.cartList.forEach(item => {
-                console.log(item);
-                orderObj.sku = item.sku;
-                orderObj.quantity = item.count;
-                orderObj.price_paid = item.price;
-                orderObj.line_item_printing_infos = item.line_item_printing_infos;
-                order.line_items.push(orderObj);
-            });
-            console.log(this.Data.cartList.length === order.line_items.length);
-            if (this.Data.cartList.length === order.line_items.length) {
-                resolve();
-            } else {
-                reject();
-            }
-        });*/
+    }
+
+    public contactUs(user): Observable<any> {
+        return this.http.post<any>(this.apiUrl + 'contactUs', {user: user});
     }
 
     public getClientToken(): Observable<any> {

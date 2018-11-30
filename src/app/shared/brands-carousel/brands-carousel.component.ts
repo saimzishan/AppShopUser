@@ -17,7 +17,7 @@ export class BrandsCarouselComponent implements DoCheck, AfterViewInit {
   constructor(private router: Router) {}
 
   ngDoCheck() {
-    if (this.brands.length) {
+    if (this.brands && this.brands.length) {
       this.loadBrands = true;
     }
   }

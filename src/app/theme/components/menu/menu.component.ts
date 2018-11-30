@@ -29,7 +29,7 @@ export class MenuComponent implements OnInit {
                 this.getAllProductsNew();
             }*/
         });
-        this.getCategories();
+        // this.getCategories();
     }
 
     public getCategories() {

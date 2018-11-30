@@ -5,9 +5,9 @@ import {Observable} from 'rxjs/Observable';
 @Injectable()
 export class SignInService {
 
-    // public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
+    public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
     /*public apiUrl = 'http://18.217.12.17/api/public/api/auth/';*/
-    public apiUrl = 'http://www.econowholesale.com/api/public/api/auth/';
+    // public apiUrl = 'http://www.econowholesale.com/api/public/api/auth/';
     // public apiUrl = 'http://8026a0a1.ngrok.io/api/auth/';
 
     public httpOptions = {

@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
         this.spinnerService.requestInProcess(true);
         this.appService.getSlides().subscribe(data => {
             this.slides = data.data;
-            this.slides = this.slides.slice(1, 6);
+            // this.slides = this.slides.slice(1, 6);
             this.spinnerService.requestInProcess(false);
 
             /*if (this.slides) {
@@ -129,6 +129,7 @@ export class HomeComponent implements OnInit {
 
             this.appService.getProductsNew("hot").subscribe(data => {
                 this.hotProducts = data.data;
+                console.log(this.hotProducts);
                 if (data.length === 0) {
                     this.nohotProducts = true;
                 }

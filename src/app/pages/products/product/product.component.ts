@@ -9,7 +9,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {
     FormBuilder,
     FormGroup,
-    FormControl,
     Validators
 } from '@angular/forms';
 import {MatDialog} from '@angular/material';
@@ -44,8 +43,8 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
     public clickOptions = [];
     public addToCart = false;
     public basePrice;
-    public httpImg = false;
     public supplier_id;
+    public product_id;
     public currentUser;
     public reviews;
     ratingValue: number;
@@ -71,6 +70,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnInit() {
         this.sub = this.activatedRoute.params.subscribe(params => {
+            this.product_id = params['id'];
             this.supplier_id = params['supplier_id'];
             this.getProductByIdNew(params['id'], params['supplier_id']);
         });
@@ -79,7 +79,22 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
             this.getProductReviews(params['id'], params['supplier_id']);
         });
 
-        // localStorage.setItem('history', );
+        if (!this.appService.Data.browsingHistory.find(product => product.product_id === this.product_id)) {
+
+            this.appService.Data.browsingHistory.unshift({
+                product_id: this.product_id,
+                supplier_id: this.supplier_id
+            });
+        }
+
+        if (this.appService.Data.browsingHistory.length > 10) {
+            this.appService.Data.browsingHistory.pop();
+        }
+
+        localStorage.setItem('browsing_history', JSON.stringify(this.appService.Data.browsingHistory));
+        // localStorage.setItem('browsing_history', );
+        console.log(this.appService.Data.browsingHistory);
+
 
         /*this.form = this.formBuilder.group({
                 'review': [null, Validators.required],
