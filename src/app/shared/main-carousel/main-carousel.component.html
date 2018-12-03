@@ -1,25 +1,51 @@
 <div *ngIf="loadSlider" class="main-slider">
-  <div class="swiper-container h-100" [swiper]="config">
-    <div class="swiper-wrapper h-100">
-      <div *ngFor="let slide of slides" class="swiper-slide">
-        <div [attr.data-background]="slide.image.slider?.startsWith('http') ? slide.image?.slider : this.appService.imgUrl + slide.image?.slider"
-          class="slide-item swiper-lazy">
-          <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-          <div class="mask"></div>
-          <!--<div fxLayout="column" fxLayoutAlign="center center" class="content">
-            <h1>{{slide.name}}</h1>
-            <h3>{{slide.short_description}}</h3>
-            <button mat-raised-button color="primary" (click)="productDetail(slide)">Shop now</button>
-          </div>-->
+    <div class="swiper-container h-100" [swiper]="config">
+        <div class="swiper-wrapper h-100">
+            <div *ngFor="let slide of slides" class="swiper-slide">
+                <div [attr.data-background]="slide.image.slider?.startsWith('http') ? slide.image?.slider : this.appService.imgUrl + slide.image?.slider"
+                     class="slide-item swiper-lazy">
+                    <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                    <div class="mask"></div>
+                    <div fxLayout="column" fxLayoutAlign="end center" class="content">
+                      <h1>{{slide.name}}</h1>
+                      <h3>{{slide.description}}</h3>
+                      <!--<button mat-raised-button color="primary" (click)="productDetail(slide)">Shop now</button>-->
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="swiper-pagination white"></div>
+        <button mat-mini-fab color="primary" class="swiper-button-prev swipe-arrow">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" class="swiper-button-next swipe-arrow">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
     </div>
-    <div class="swiper-pagination white"></div>
-    <button mat-mini-fab color="primary" class="swiper-button-prev swipe-arrow">
-      <mat-icon>keyboard_arrow_left</mat-icon>
-    </button>
-    <button mat-mini-fab color="primary" class="swiper-button-next swipe-arrow">
-      <mat-icon>keyboard_arrow_right</mat-icon>
-    </button>
-  </div>
+</div>
+
+<div *ngIf="loadAppShopSlidesSlider" class="appshop-main-slider">
+    <div class="swiper-container h-100" [swiper]="config">
+        <div class="swiper-wrapper h-100">
+            <div *ngFor="let appSlide of appShopSlides" class="swiper-slide">
+                <div [attr.data-background]="appSlide.product_images[0]?.small.startsWith('http') ? appSlide.product_images[0]?.small : this.appService.imgUrl + appSlide.product_images[0]?.small"
+                     class="slide-item swiper-lazy">
+                    <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+                    <div class="mask"></div>
+                    <!--<div fxLayout="column" fxLayoutAlign="center center" class="content">
+                      <h1>{{slide.name}}</h1>
+                      <h3>{{slide.short_description}}</h3>
+                      <button mat-raised-button color="primary" (click)="productDetail(slide)">Shop now</button>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        <div class="swiper-pagination white"></div>
+        <button mat-mini-fab color="primary" class="swiper-button-prev swipe-arrow">
+            <mat-icon>keyboard_arrow_left</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" class="swiper-button-next swipe-arrow">
+            <mat-icon>keyboard_arrow_right</mat-icon>
+        </button>
+    </div>
 </div>
