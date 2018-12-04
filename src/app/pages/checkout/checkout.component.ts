@@ -38,7 +38,7 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     order: Order;
     orderObj: any = {};
     order_id;
-    bTree: any;
+    trackingUrl;
     enabledStyle = {
         'background-color': 'rgb(211, 47, 47)',
         'color': '#ffffff',
@@ -168,6 +168,9 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
         // console.log(evt);
         if (!evt.error) {
             this.confirmation = true;
+            // http://www.econowholesale.com/api/public/api/auth/b3a02f90-f7c8-11e8-9557-2f28f6bb8aa9
+            // http://www.econowholesale.com/api/public/api/trackingUrl?order_uuid
+            this.trackingUrl = this.appService.apiUrl.slice(0, (this.appService.apiUrl.indexOf('auth'))) + 'trackingUrl?order_uuid=' + this.order_id;
             this.horizontalStepper.next();
             this.horizontalStepper._steps.forEach(step => step.editable = false);
             this.verticalStepper._steps.forEach(step => step.editable = false);

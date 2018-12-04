@@ -365,7 +365,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   public createProductsArray(productArray) {
     const newProductArray = [];
-    console.log(productArray);
+    // console.log(productArray);
     if (productArray.length) {
       productArray.forEach(value => {
         if (value) {

@@ -93,7 +93,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
 
         localStorage.setItem('browsing_history', JSON.stringify(this.appService.Data.browsingHistory));
         // localStorage.setItem('browsing_history', );
-        console.log(this.appService.Data.browsingHistory);
+        // console.log(this.appService.Data.browsingHistory);
 
 
         /*this.form = this.formBuilder.group({
@@ -135,7 +135,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
         this.spinnerService.requestInProcess(true);
         this.appService.getProductByIdNew(id, supId).subscribe(data => {
             this.product = data.data;
-            console.log(this.product);
+            // console.log(this.product);
             this.product.availibilityCount = this.product.stock;
 
             // showing product images

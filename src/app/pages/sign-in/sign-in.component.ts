@@ -38,7 +38,7 @@ export class SignInComponent implements OnInit {
             this.supplier_id = params['sId'];
             this.product_id = params['pId'];
             this.product_name = params['pName'];
-            console.log(params);
+            // console.log(params);
         });
 
         if (this.currentUser) {
@@ -66,24 +66,24 @@ export class SignInComponent implements OnInit {
 
     public onLoginFormSubmit(values: Object): void {
         if (this.loginForm.valid) {
-            console.log(values);
+            // console.log(values);
             this.signInService.loginUser(values).subscribe(data => {
-                    console.log(data);
+                    // console.log(data);
                     if (data.error === false) {
                         localStorage.setItem('currentUser', JSON.stringify(data));
-                        console.log(JSON.parse(localStorage.getItem('guestUser')));
+                        // console.log(JSON.parse(localStorage.getItem('guestUser')));
                         localStorage.removeItem('guestUser');
                         // const currUser = JSON.parse(localStorage.getItem('currentUser'));
                         // localStorage.removeItem('currentUser');
-                        console.log('logged in');
+                        // console.log('logged in');
                         this.detectChanges.notifyOther({
                             option: 'loggedIn',
                             value: true
                         });
                         if (this.supplier_id) {
-                            console.log(this.product_id);
+                            /*console.log(this.product_id);
                             console.log(this.product_name);
-                            console.log(this.supplier_id);
+                            console.log(this.supplier_id);*/
                             this.router.navigate(['/products', this.product_id, this.product_name, {supplier_id: this.supplier_id}]);
                         } else {
                             this.router.navigate(['/checkout']);
@@ -93,13 +93,13 @@ export class SignInComponent implements OnInit {
                 err => {
                     this.spinner.hide();
                     this.errMessage = this.signInService.getErrorMessage(err);
-                    console.log(this.errMessage);
+                    // console.log(this.errMessage);
                 });
         }
     }
 
     public onGuestFormSubmit(values: Object): void {
-        console.log(values);
+        // console.log(values);
         if (this.guestForm.valid) {
             if (this.guestUser) {
                 this.router.navigate(['/checkout']);
@@ -111,19 +111,19 @@ export class SignInComponent implements OnInit {
     }
 
     public onRegisterFormSubmit(values: User): void {
-        console.log(values);
+        // console.log(values);
         if (this.registerForm.valid) {
             delete values.confirmPassword;
-            console.log(values);
+            // console.log(values);
             // values.roles = 'MobileClient';
             this.signInService.registerUser(values).subscribe(data => {
-                    console.log(data);
+                    // console.log(data);
                     if (!data.error) {
                         let loginData = {email: values.email, password: values.password};
                         this.signInService.loginUser(loginData).subscribe(result => {
                             if (!result.error) {
                                 localStorage.setItem('currentUser', JSON.stringify(result));
-                                console.log(JSON.parse(localStorage.getItem('guestUser')));
+                                // console.log(JSON.parse(localStorage.getItem('guestUser')));
                                 localStorage.removeItem('guestUser');
 
                                 this.snackBar.open('User Created Successfully', '×', {
@@ -135,7 +135,7 @@ export class SignInComponent implements OnInit {
                                     option: 'loggedIn',
                                     value: true
                                 });
-                                console.log(result);
+                                // console.log(result);
                                 setTimeout(() => {
                                     // this.router.navigate(['/checkout']);
                                     if (this.supplier_id) {
