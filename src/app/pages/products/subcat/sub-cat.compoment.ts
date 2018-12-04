@@ -1,11 +1,19 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Component, OnInit, ViewChild, Input, EventEmitter, Output } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Input,
+  EventEmitter,
+  Output
+} from "@angular/core";
 import { MatMenuTrigger } from "@angular/material";
 import { ITreeOptions } from "angular-tree-component";
 import { SpinnerService } from "../../../shared/spinner/spinner.service";
 import { AppService } from "../../../app.service";
 import { DetectChangesService } from "../../../shared/detectchanges.service";
 import { Router } from "@angular/router";
+import { Category } from "../../../app.models";
 
 @Component({
   selector: "cat-sub-cat",
@@ -14,11 +22,12 @@ import { Router } from "@angular/router";
 })
 export class SubCatComponent implements OnInit {
   @ViewChild(MatMenuTrigger) notificationMenuBtn: MatMenuTrigger;
-  @Input() categories;
+  categories: Category[];
   parentCat;
   firstLevelChild = [];
   nodes: any[] = [];
   parentCatId: any;
+  cats = [];
   @ViewChild("tree") tree;
 
   @Output() getProductsOfCat = new EventEmitter<string>();
@@ -33,12 +42,46 @@ export class SubCatComponent implements OnInit {
     public appService: AppService,
     private detectChanges: DetectChangesService,
     private router: Router
-  ) {}
-  ngOnInit() {
-    this.nodes = this.createNode(this.categories);
+  ) {
+    this.categories = new Array<Category>();
   }
-  setFirstChild() {
-    this.nodes = this.createNode(this.firstLevelChild);
+  ngOnInit() {
+    // this.nodes = this.createNode(this.categories);
+    this.getCategories();
+  }
+  public getCategories() {
+    this.spinnerService.requestInProcess(true);
+    this.appService.getAllCategories().subscribe(data => {
+      this.spinnerService.requestInProcess(false);
+      this.categories = data.data;
+      const cat = this.createCategoriesWithChild(this.categories);
+      this.nodes = this.createNode(cat);
+    });
+  }
+
+  createCategoriesWithChild(obj) {
+    let res = [];
+    for (const iterator of obj) {
+      if (iterator.parent_id === null) {
+        let myChild = this.getChild(iterator.id);
+        let tempObj: any = [];
+        tempObj = iterator;
+        tempObj["children"] = myChild;
+
+        res.push(tempObj);
+      }
+    }
+    return res;
+  }
+
+  getChild(id) {
+    let myChild = [];
+    for (const x of this.categories) {
+      if (x.parent_id === id) {
+        myChild.push(x);
+      }
+    }
+    return myChild;
   }
 
   activeNodes(treeModel: any) {
@@ -55,39 +98,36 @@ export class SubCatComponent implements OnInit {
     someNode.expand();
   }
 
-   getProductOfCategory(category) {
+  getProductOfCategory(category) {
     this.spinnerService.requestInProcess(true);
     this.appService.getAllProductsByCat(category.my_id).subscribe(data => {
       if (data) {
-    this.spinnerService.requestInProcess(false);
-    // this.getProductsOfCat.emit(cat_id);
-    this.router.navigate(['products/category/' + category.my_id + '/' + category.name]);
+        this.spinnerService.requestInProcess(false);
+        // this.getProductsOfCat.emit(cat_id);
+        this.router.navigate([
+          "products/category/" + category.my_id + "/" + category.name
+        ]);
       }
-        });
-  }
-
-  getChildren(node: any) {
-    return new Promise((resolve, reject) => {
-      this.spinnerService.requestInProcess(true);
-      const httpOptions = {
-        headers: new HttpHeaders({
-          "Content-Type": "application/json"
-        })
-      };
-      this.http
-        .get(
-          "http://www.econowholesale.com/api/public/api/auth/categories/" +
-            node.data.my_id,
-          httpOptions
-        )
-        .subscribe((response: any) => {
-          if (!response.error) {
-            resolve(this.createNode(response.data.children));
-          } else {
-          }
-          this.spinnerService.requestInProcess(false);
-        }, reject);
     });
+  }
+  getCatById(id) {
+    for (const x of this.categories) {
+      if (x.id === id) {
+        return x;
+      }
+    }
+  }
+  getChildren(node: any) {
+    let res: any = this.getCatById(node.data.my_id);
+    res = this.getChild(res.id);
+    let tempRes = [];
+    for (const iterator of res) {
+      let i = this.getChild(iterator.id);
+      let j = iterator;
+      j["children"] = i;
+      tempRes.push(j);
+    }
+    return this.createNode(tempRes);
   }
   createNode(obj) {
     let tempNode = [];
