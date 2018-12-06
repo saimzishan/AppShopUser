@@ -36,6 +36,7 @@ import {NgxBraintreeModule} from "ngx-braintree";
 import {httpInterceptorProviders} from "./interceptor";
 import {SpinnerComponent} from "./shared/spinner/spinner.component";
 import {SpinnerService} from "./shared/spinner/spinner.service";
+import {OrderDetailComponent} from "./dialogs/order-detail.component";
 
 @NgModule({
     imports: [
@@ -63,6 +64,7 @@ import {SpinnerService} from "./shared/spinner/spinner.service";
         OptionsComponent,
         FooterComponent,
         PrintingOptionsComponent,
+        OrderDetailComponent,
         SpinnerComponent
     ],
     providers: [
@@ -74,7 +76,7 @@ import {SpinnerService} from "./shared/spinner/spinner.service";
         {provide: OverlayContainer, useClass: CustomOverlayContainer},
         {provide: DROPZONE_CONFIG, useValue: DEFAULT_DROPZONE_CONFIG}
     ],
-    entryComponents: [PrintingOptionsComponent],
+    entryComponents: [PrintingOptionsComponent, OrderDetailComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {

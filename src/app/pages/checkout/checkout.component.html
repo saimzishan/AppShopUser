@@ -954,7 +954,7 @@
                     class="mr-1">
                 <mat-icon>expand_less</mat-icon>
             </button>
-            <button [disabled]="this.appService.Data.cartList.length < 1" mat-raised-button matStepperNext
+            <button [disabled]="this.appService.Data.cartList?.length < 1" mat-raised-button matStepperNext
                     color="primary" (click)="placeOrder()">Place order now
             </button>
         </div>

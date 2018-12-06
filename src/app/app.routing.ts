@@ -60,6 +60,11 @@ export const routes: Routes = [
                 data: {breadcrumb: 'Browsing History'}
             },
             {
+                path: 'orders',
+                loadChildren: "app/pages/my-orders/my-orders.module#MyOrdersModule",
+                data: {breadcrumb: 'My Orders'}
+            },
+            {
                 path: "sign-in",
                 loadChildren: "app/pages/sign-in/sign-in.module#SignInModule",
                 data: {breadcrumb: "Sign In "}

@@ -1,0 +1,54 @@
+<!--<div class="close-btn-outer">
+    <button mat-mini-fab color="warn" (click)="close()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>-->
+<h2 mat-dialog-title>Order Detail</h2>
+<div mat-dialog-content>
+    <div fxLayout="column">
+
+        <div fxFlex="100" fxLayout="row">
+            <div fxFlex="20"><strong>Order ID:</strong></div>
+            <div>{{order.order_uuid}}</div>
+        </div>
+        <mat-divider></mat-divider>
+        <div fxFlex="100" fxLayout="row">
+            <div fxFlex="20"><strong>Status:</strong></div>
+            <div>{{order.status}}</div>
+        </div>
+        <mat-divider></mat-divider>
+        <div fxFlex="100" fxLayout="row">
+            <div fxFlex="20"><strong>Items Purchased:</strong></div>
+            <div fxLayout="column" fxFlex="80" class="line-items">
+                <ng-container *ngFor="let item of order.line_items; let i = index">
+                    <h3>Item# {{i+1}}:</h3>
+                    <div fxFlex="100" fxLayout="row">
+                        <div fxFlex="30"><strong>Name:</strong></div>
+                        <div>{{item.title}}</div>
+                    </div>
+                    <div fxFlex="100" fxLayout="row">
+                        <div fxFlex="30"><strong>Detail: </strong></div>
+                        <div>{{ item.details }}</div>
+                    </div>
+                    <div fxFlex="100" fxLayout="row">
+                        <div fxFlex="30"><strong>Price:</strong></div>
+                        <div>{{item.price_paid}}</div>
+                    </div>
+                    <div fxFlex="100" fxLayout="row">
+                        <div fxFlex="30"><strong>Quantity:</strong></div>
+                        <div>{{item.quantity}}</div>
+                    </div>
+
+                    <mat-divider></mat-divider>
+                </ng-container>
+
+            </div>
+        </div>
+
+        <div fxLayoutAlign="end center" class="text-muted">
+            <mat-dialog-actions>
+                <button mat-button mat-dialog-close>Close</button>
+            </mat-dialog-actions>
+        </div>
+    </div>
+</div>

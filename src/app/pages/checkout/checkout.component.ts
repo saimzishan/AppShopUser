@@ -251,6 +251,7 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
             this.order.email = decodedToken.email;
         } else {
             const guestUser = JSON.parse(localStorage.getItem('guestUser'));
+            this.order.user_id = -1;
             this.order.email = guestUser.email;
         }
         // console.log(this.order);

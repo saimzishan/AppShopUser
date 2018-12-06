@@ -33,12 +33,12 @@ export class AppService {
 
     public url = 'assets/data/';
 
-    public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
+    // public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
     /*public apiUrl = 'http://18.217.12.17/api/public/api/auth/';*/
-    // public apiUrl = 'http://www.econowholesale.com/api/public/api/auth/';
+    public apiUrl = 'http://www.econowholesale.com/api/public/api/auth/';
     // public apiUrl = 'http://f54eda9e.ngrok.io/api/auth/';
-    public imgUrl = 'http://124.109.39.22:18089/onlineappshopapi';
-    // public imgUrl = 'http://www.econowholesale.com/api';
+    // public imgUrl = 'http://124.109.39.22:18089/onlineappshopapi';
+    public imgUrl = 'http://www.econowholesale.com/api';
     // public imgUrl = 'http://83c21f5e.ngrok.io/api/';
 
     public httpOptions = {
@@ -148,17 +148,27 @@ export class AppService {
     }
 
     public createOrder(order): Observable<any> {
-        /*let httpOptions;
+       let httpOptions;
         // console.log(this.currentUser);
-        if (this.currentUser) {
+        /* if (this.currentUser) {
+           httpOptions = {
+               headers: new HttpHeaders({
+                   'Content-Type': 'application/json',
+                   Authorization: `Bearer ${this.currentUser.access_token}`
+               })
+           };
+       }*/
+        if (order.user_id === -1) {
+            httpOptions = this.httpOptions;
+        } else {
             httpOptions = {
                 headers: new HttpHeaders({
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${this.currentUser.access_token}`
                 })
             };
-        }*/
-        return this.http.post<any>(this.apiUrl + 'orders', order, this.httpOptions);
+        }
+        return this.http.post<any>(this.apiUrl + 'orders', order, httpOptions);
     }
 
     public contactUs(user): Observable<any> {
@@ -191,6 +201,19 @@ export class AppService {
                     console.log(response);
                     return response;
                 }));
+    }
+
+    public getOrders(user_id): Observable<any> {
+        let httpOptions;
+        if (this.currentUser) {
+            httpOptions = {
+                headers: new HttpHeaders({
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${this.currentUser.access_token}`
+                })
+            };
+        }
+        return this.http.get<any>(this.apiUrl + 'orders?user_id=' + user_id, httpOptions);
     }
 
     public postRating(ratingObj): Observable<any> {
