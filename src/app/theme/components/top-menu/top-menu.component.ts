@@ -28,16 +28,18 @@ export class TopMenuComponent implements OnInit, OnDestroy {
         this.changesSubscription = this.detectChanges.notifyObservable$.subscribe(
             res => {
                 // console.log(res);
-                this.loggedIn = res.value;
-                if (this.loggedIn) {
-                    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-                    if (currentUser) {
-                        this.loggedIn = true;
-                        const helper = new JwtHelperService();
-                        this.decodedToken = helper.decodeToken(currentUser.access_token);
+                if (res.option === 'loggedIn') {
+                    this.loggedIn = res.value;
+                    if (this.loggedIn) {
+                        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                        if (currentUser) {
+                            this.loggedIn = true;
+                            const helper = new JwtHelperService();
+                            this.decodedToken = helper.decodeToken(currentUser.access_token);
+                        }
                     }
+                    // this.callRelatedFunctions(res);
                 }
-                // this.callRelatedFunctions(res);
             }
         );
 
