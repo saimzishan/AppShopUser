@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, NavigationEnd} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 import {emailValidator, matchingPasswords} from '../../theme/utils/app-validators';
@@ -23,6 +23,7 @@ export class SignInComponent implements OnInit {
     public supplier_id;
     public product_id;
     public product_name;
+    returnUrl;
 
     constructor(public formBuilder: FormBuilder,
                 public router: Router,
@@ -34,6 +35,11 @@ export class SignInComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        this.activatedRoute.queryParams.subscribe((params) => {
+            this.returnUrl = params.returnUrl;
+        });
+
         this.activatedRoute.params.subscribe(params => {
             this.supplier_id = params['sId'];
             this.product_id = params['pId'];
@@ -85,6 +91,8 @@ export class SignInComponent implements OnInit {
                             console.log(this.product_name);
                             console.log(this.supplier_id);*/
                             this.router.navigate(['/products', this.product_id, this.product_name, {supplier_id: this.supplier_id}]);
+                        } else if (this.returnUrl) {
+                            this.router.navigateByUrl(this.returnUrl);
                         } else {
                             this.router.navigate(['/checkout']);
                         }
@@ -140,6 +148,8 @@ export class SignInComponent implements OnInit {
                                     // this.router.navigate(['/checkout']);
                                     if (this.supplier_id) {
                                         this.router.navigate(['/products', this.product_id, this.product_name, {supplier_id: this.supplier_id}]);
+                                    } else if (this.returnUrl) {
+                                        this.router.navigateByUrl(this.returnUrl);
                                     } else {
                                         this.router.navigate(['/checkout']);
                                     }

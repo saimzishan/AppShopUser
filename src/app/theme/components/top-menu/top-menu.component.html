@@ -1,8 +1,11 @@
 <div class="top-menu">
 
-   <!-- <a *ngIf="!loggedIn" [routerLink]="['/sign-in']" mat-button >
+    <a *ngIf="!loggedIn" [routerLink]="['/sign-in']" [queryParams]="{ returnUrl: this.router.url}" mat-button >
         Sign in
-    </a>-->
+    </a>
+    <a *ngIf="!loggedIn" [routerLink]="['/sign-in']" [queryParams]="{ returnUrl: this.router.url}" mat-button >
+        Sign Up
+    </a>
     <!--<a mat-button [matMenuTriggerFor]="currencyMenu" #currencyMenuTrigger="matMenuTrigger">
         {{currency}}
         <mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
