@@ -34,12 +34,9 @@ export class AppService {
     public url = 'assets/data/';
 
     // public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
-    /*public apiUrl = 'http://18.217.12.17/api/public/api/auth/';*/
     public apiUrl = 'http://www.econowholesale.com/api/public/api/auth/';
-    // public apiUrl = 'http://f54eda9e.ngrok.io/api/auth/';
     // public imgUrl = 'http://124.109.39.22:18089/onlineappshopapi';
     public imgUrl = 'http://www.econowholesale.com/api';
-    // public imgUrl = 'http://83c21f5e.ngrok.io/api/';
 
     public httpOptions = {
         headers: new HttpHeaders({
@@ -99,8 +96,20 @@ export class AppService {
         return this.http.get<any>(this.apiUrl + 'categories/' + catId + '?with_products');
     }
 
-    public getAllProductsByBrand(brandId): Observable<any> {
-        return this.http.get<any>(this.apiUrl + 'brands/' + brandId + '?with_products');
+    public getAllProductsByBrand(brandId, page?, count?): Observable<any> {
+        if (!page) {
+            return this.http.get<any>(this.apiUrl + 'brands/' + brandId + '?with_products&count=' + count);
+        } else {
+            return this.http.get<any>(this.apiUrl + 'brands/' + brandId + '?with_products&count=' + count + '&page=' + page);
+        }
+    }
+
+    public getAllProductsBySupplier(supplierId, page?, count?): Observable<any> {
+        if (!page) {
+            return this.http.get<any>(this.apiUrl + 'suppliers/' + supplierId + '?with_products&count=' + count);
+        } else {
+            return this.http.get<any>(this.apiUrl + 'suppliers/' + supplierId + '?with_products&count=' + count + '&page=' + page);
+        }
     }
 
     public getProductById(id): Observable<Product> {
@@ -145,6 +154,10 @@ export class AppService {
 
     public getBrandsNew(): Observable<any> {
         return this.http.get<any>(this.apiUrl + 'brands');
+    }
+
+    public getSuppliers(): Observable<any> {
+        return this.http.get<any>(this.apiUrl + 'suppliers');
     }
 
     public createOrder(order): Observable<any> {

@@ -22,6 +22,11 @@ export const routes = [
         data: {breadcrumb: "Brands"}
     },
     {
+        path: "supplier/:id/:name",
+        component: ProductsComponent,
+        data: {breadcrumb: "Suppliers"}
+    },
+    {
         path: "category/:id/:name",
         component: ProductsComponent,
         data: {breadcrumb: "Categories"}

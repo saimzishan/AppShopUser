@@ -41,7 +41,8 @@ export class ControlsComponent implements OnInit {
 
 
     public increment(count) {
-        if (this.count < this.product.availibilityCount) {
+        /*if (this.count < this.product.availibilityCount) {*/
+        if (this.count < this.product.stock) {
             this.count++;
             const obj = {
                 productId: this.product.id,
