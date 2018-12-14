@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="de" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="2143f4614591531d04a56ca71369792488bfb735" datatype="html">
+        <source>Welcome to our market!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/pages.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1386baf7d07caa5bac3b9fa80f282a31238d8e57" datatype="html">
+        <source>Shopping Cart</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/pages.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3a9041f1e69206c70ff8f3f816a3376c9be962b7" datatype="html">
+        <source>VIEW
+                                        CART
+                                    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/pages.component.html</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bb2a48d3418e3ee0a0cddfc3123649a498c8310b" datatype="html">
+        <source>You have
+                                no items in your shopping cart.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/pages.component.html</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f5f782cc29ba757a1e2c8bc88bf3a665f7ac0b25" datatype="html">
+        <source>TOTAL:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/pages.component.html</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="554125c0066b9c0b62ea7905d42655e3e54b31fa" datatype="html">
+        <source>Type to search...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/pages.component.html</context>
+          <context context-type="linenumber">136</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7d773bc2735dfbfccffcac984940c3f58b8b8b7f" datatype="html">
+        <source>
+        Sign in
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/top-menu/top-menu.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="507ae1141d8e5eefdccfa0fa8d822cb3fc79e8e8" datatype="html">
+        <source>
+        Sign Up
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/top-menu/top-menu.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fb1239b26363e115afeaeabf0f27c3478b5faaa0" datatype="html">
+        <source>My Orders</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/top-menu/top-menu.component.html</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="640eec093c685babaa3265137215e3cc92ad704d" datatype="html">
+        <source>Sign Out</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/top-menu/top-menu.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ab58e78a269d8f5d5d642decc154e07cf118eba6" datatype="html">
+        <source>Home
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/menu/menu.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d7c8d8c3ce679eed369031c305615934315feb37" datatype="html">
+        <source>All Products
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/menu/menu.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c74c8e27e29d4c39de144bc810123dbe7c44a866" datatype="html">
+        <source>About Us
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/menu/menu.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d3c01a6ecdee8f1c1d2a22a1d0ecd8fc6d14c871" datatype="html">
+        <source>Contact Us
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/menu/menu.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="de8f5c747c62f8cfc6f52f34eaca78b6c1273e5f" datatype="html">
+        <source>FAQ
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/menu/menu.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4da2f43a3e8c87d7dae3c980fc7e52dfa4689a25" datatype="html">
+        <source>Browsing History
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/menu/menu.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7cf22e542230726553374c4b61349e76b7832ec1" datatype="html">
+        <source>Today Deals
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/menu/menu.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8b497493622c3555c17bea321000679e141a4f2b" datatype="html">
+        <source>Subscribe our Newsletter</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/footer/footer.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ac39bdbb1d65d950ed0431a0747a0ce41ea9c861" datatype="html">
+        <source>Stay up to date with our latest new and products</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/footer/footer.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bcddaf5a44a25982886e53bafebcf32fe9519b62" datatype="html">
+        <source>Your email address...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/footer/footer.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="64337ddf058ae9cb32e3d13ac1e9bbbe1d6a0fed" datatype="html">
+        <source>CONTACT INFORMATION</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/footer/footer.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fdd0ca686210841873ef92f1bd0270f10eca7e90" datatype="html">
+        <source>30 Hamburg, Germany</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/footer/footer.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c85b2daa264da680b9caa25a5963c060b8d56b9d" datatype="html">
+        <source>info@appshop.com</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/footer/footer.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f13f08c1000b85b27c36035c3140c2dfd4caf078" datatype="html">
+        <source>Copyright © 2018 All Rights Reserved</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/footer/footer.component.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3621558fb0d56223fa3de5efa29a2c5097ba1f1f" datatype="html">
+        <source>Designed &amp; Developed by <x id="START_LINK" ctype="x-a" equiv-text="&lt;a&gt;"/>XploreBytes<x id="CLOSE_LINK" ctype="x-a" equiv-text="&lt;/a&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/theme/components/footer/footer.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d06e27f7453fcf29134f9e61533ea4eb4b890f5f" datatype="html">
+        <source>Featured</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/home/home.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f4205a1a0f3484d59cf5ed71982e2c2561f7b30f" datatype="html">
+        <source>On Sale</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/home/home.component.html</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6d6feb04c887f48976564ef8eea4a5cbfc31d041" datatype="html">
+        <source>New Arrivals</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/home/home.component.html</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="78a6ad7a52ddef32827698895cd3c1411537d78f" datatype="html">
+        <source> No Products</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/home/home.component.html</context>
+          <context context-type="linenumber">83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="128f952e5e345634ed1024e8614326c38751b51d" datatype="html">
+        <source>Hot</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/pages/home/home.component.html</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

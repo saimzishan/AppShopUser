@@ -42,6 +42,13 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ]
+            },
+            "de": {
+              "aot": true,
+              "outputPath": "dist/emporium-de/",
+              "i18nFile": "src/locale/messages.de.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "de",
             }
           }
         },
@@ -53,6 +60,9 @@
           "configurations": {
             "production": {
               "browserTarget": "emporium:build:production"
+            },
+            "de": {
+              "browserTarget": "emporium:build:de"
             }
           }
         },

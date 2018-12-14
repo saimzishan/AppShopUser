@@ -33,10 +33,10 @@ export class AppService {
 
     public url = 'assets/data/';
 
-    // public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
-    public apiUrl = 'http://www.econowholesale.com/api/public/api/auth/';
-    // public imgUrl = 'http://124.109.39.22:18089/onlineappshopapi';
-    public imgUrl = 'http://www.econowholesale.com/api';
+    public apiUrl = 'http://124.109.39.22:18089/onlineappshopapi/public/api/auth/';
+    // public apiUrl = 'http://www.econowholesale.com/api/public/api/auth/';
+    public imgUrl = 'http://124.109.39.22:18089/onlineappshopapi';
+    // public imgUrl = 'http://www.econowholesale.com/api';
 
     public httpOptions = {
         headers: new HttpHeaders({

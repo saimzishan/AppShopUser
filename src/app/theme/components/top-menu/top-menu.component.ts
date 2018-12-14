@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Data, AppService} from '../../../app.service';
+import {AppService} from '../../../app.service';
 import {Router} from '@angular/router';
 import {DetectChangesService} from '../../../shared/detectchanges.service';
 import {Subscription} from 'rxjs/Subscription';

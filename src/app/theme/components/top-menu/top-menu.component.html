@@ -1,9 +1,9 @@
 <div class="top-menu">
 
-    <a *ngIf="!loggedIn" [routerLink]="['/sign-in']" [queryParams]="{ returnUrl: this.router.url}" mat-button >
+    <a  i18n *ngIf="!loggedIn" [routerLink]="['/sign-in']" [queryParams]="{ returnUrl: this.router.url}" mat-button >
         Sign in
     </a>
-    <a *ngIf="!loggedIn" [routerLink]="['/sign-in']" [queryParams]="{ returnUrl: this.router.url}" mat-button >
+    <a  i18n *ngIf="!loggedIn" [routerLink]="['/sign-in']" [queryParams]="{ returnUrl: this.router.url}" mat-button >
         Sign Up
     </a>
     <!--<a mat-button [matMenuTriggerFor]="currencyMenu" #currencyMenuTrigger="matMenuTrigger">
@@ -74,11 +74,11 @@
             <!--<a mat-menu-item routerLink="/sign-in"> -->
             <a mat-menu-item routerLink="/orders">
                 <mat-icon class="mat-icon-sm">shopping_basket</mat-icon>
-                <span>My Orders</span>
+                <span i18n>My Orders</span>
             </a>
             <a mat-menu-item (click)="logout()">
                 <mat-icon class="mat-icon-sm">power_settings_new</mat-icon>
-                <span>Sign Out</span> 
+                <span i18n>Sign Out</span>
             </a>
         </span>
         </mat-menu>
