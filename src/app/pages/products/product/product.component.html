@@ -40,13 +40,13 @@
         </div>
 
         <div fxLayout="row" fxLayoutAlign="space-between center"><h2>{{product?.name}}</h2>
-            <h2 class="py-2 new-price">${{product?.price | number}}</h2></div>
+            <h2 class="py-2 new-price">€{{product?.price | number}}</h2></div>
 
         <div class="py-1 lh">
             <!--<p><span class="text-muted fw-500">Category: </span><span>{{ ( appService.Data.categories | filterById : product?.category_id )?.name }}</span></p>-->
-            <p><span class="text-muted fw-500">Sku: </span><span>{{ product?.sku }}</span></p>
-            <p><span class="text-muted fw-500">Category: </span><span>{{ product?.category[0].name }}</span></p>
-            <p><span class="text-muted fw-500">Availibility: </span><span>{{ (product?.stock > 0) ? 'In stock':'Unavailable'}}</span>
+            <p><span class="text-muted fw-500" i18n>Sku: </span><span>{{ product?.sku }}</span></p>
+            <p><span class="text-muted fw-500" i18n>Category: </span><span>{{ product?.category[0].name }}</span></p>
+            <p><span class="text-muted fw-500" i18n>Availability: </span><span>{{ (product?.stock > 0) ? 'In stock':'Unavailable'}}</span>
             </p>
         </div>
         <!--<div class="py-1">-->
@@ -162,7 +162,7 @@
     <div fxFlex="100" fxFlex.gt-md="78" fxFlex.md="74">
         <mat-card>
             <mat-tab-group [@.disabled]="true" [selectedIndex]="0">
-                <mat-tab label="Description">
+                <mat-tab i18n-label label="Description">
                     <div class="full-desc lh">
                         {{product?.long_description}}
                     </div>
@@ -217,7 +217,7 @@
 
 
                 </mat-tab>-->
-                <mat-tab label="Reviews">
+                <mat-tab  i18n-label label="Reviews">
                     <div class="full-desc lh">
                         <mat-list *ngFor="let review of reviews" class="reviews">
                             <mat-list-item class="h-100 py-1">
@@ -276,14 +276,14 @@
                             </mat-list-item>-->
                         </mat-list>
 
-                        <h3 class="mt-2">LEAVE YOUR REVIEW</h3>
+                        <h3 class="mt-2" i18n>LEAVE YOUR REVIEW</h3>
                         <div class="divider"></div>
-                        <p *ngIf="!currentUser" class="mt-2 text-muted">Please login to submit your review</p>
-                        <button *ngIf="!currentUser" mat-raised-button color="primary" class="mt-2" (click)="login()">
+                        <p *ngIf="!currentUser" class="mt-2 text-muted" i18n>Please login to submit your review</p>
+                        <button *ngIf="!currentUser" mat-raised-button color="primary" class="mt-2" (click)="login()" i18n>
                             Login
                         </button>
                         <h3 *ngIf="currentUser" fxLayoutAlign="start center" class="mt-2">
-                            <span>Your Rating:</span>
+                            <span i18n>Your Rating:</span>
                             <ng-template ngFor let-star [ngForOf]="stars" ; let-i=index>
                                 <button class="ratings" mat-icon-button (click)="rating(i+1)">
                                     <mat-icon style="color: #fbc02d" class="">{{star}}</mat-icon>
@@ -312,7 +312,7 @@
                                 <mat-form-field class="w-100">
                                     <textarea matInput placeholder="Your review" formControlName="review"
                                               required></textarea>
-                                    <mat-error *ngIf="form.controls.review.errors?.required">Review is required
+                                    <mat-error *ngIf="form.controls.review.errors?.required" i18n>Review is required
                                     </mat-error>
                                 </mat-form-field>
                             </div>
@@ -336,7 +336,7 @@
                                 </mat-form-field>
                             </div>-->
                             <div *ngIf="currentUser" fxFlex="100" class="mt-2 text-center w-100">
-                                <button mat-raised-button color="primary" type="submit">SUBMIT REVIEW</button>
+                                <button mat-raised-button color="primary" type="submit" i18n>SUBMIT REVIEW</button>
                             </div>
                         </form>
 

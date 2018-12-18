@@ -23,7 +23,7 @@
                         <!--<p class="old-price text-muted"><span *ngIf="product.suppliers">${{avgPrice}}</span></p>-->
                         <!--<p class="old-price text-muted"><span *ngIf="product.oldPrice">${{product.oldPrice | number : '1.2-2'}}</span></p>-->
                         <!--<p class="new-price">${{product.newPrice | number : '1.2-2'}}</p>-->
-                        <p class="new-price">${{product.price}}</p>
+                        <p class="new-price">€{{product.price}}</p>
                     </div>
                     <!--<app-rating [ratingsCount]="4" [ratingsValue]="200" [direction]="'column'"></app-rating>-->
                     <app-rating [ratingsCount]="product?.ratingsCount" [ratingsValue]="product?.ratingsValue" [direction]="'column'"></app-rating>

@@ -15,9 +15,9 @@ export class TopMenuComponent implements OnInit, OnDestroy {
     public flags = [
         {name: 'English', image: 'assets/images/flags/gb.svg'},
         {name: 'German', image: 'assets/images/flags/de.svg'},
-        {name: 'French', image: 'assets/images/flags/fr.svg'},
+        /*{name: 'French', image: 'assets/images/flags/fr.svg'},
         {name: 'Russian', image: 'assets/images/flags/ru.svg'},
-        {name: 'Turkish', image: 'assets/images/flags/tr.svg'}
+        {name: 'Turkish', image: 'assets/images/flags/tr.svg'}*/
     ];
     public flag: any;
     public loggedIn = false;
@@ -77,6 +77,7 @@ export class TopMenuComponent implements OnInit, OnDestroy {
 
     public changeLang(flag) {
         this.flag = flag;
+        this.router.navigate(['../en/']);
     }
 
     ngOnDestroy() {

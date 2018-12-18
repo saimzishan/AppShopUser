@@ -5,7 +5,7 @@
             <mat-expansion-panel expanded>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <h4>Categories</h4>
+                        <h4 i18n>Categories</h4>
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <!--
@@ -91,7 +91,7 @@
             <mat-expansion-panel expanded>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <h4>Suppliers</h4>
+                        <h4 i18n>Suppliers</h4>
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-brands">
@@ -107,7 +107,7 @@
             <mat-expansion-panel expanded>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <h4>Brands</h4>
+                        <h4 i18n>Brands</h4>
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-brands">
@@ -155,7 +155,7 @@
             </div>
             <div>
                 <a mat-button [matMenuTriggerFor]="countsMenu" #countsMenuTrigger="matMenuTrigger">
-                    Show {{ count }}
+                  <ng-container i18n>  Show </ng-container>{{ count }}
                     <mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
                 </a>
                 <mat-menu #countsMenu="matMenu" xPosition="before" class="app-dropdown">
@@ -178,7 +178,7 @@
         </div>
 
         <div *ngIf="viewType == 'grid'" fxLayout="row wrap" class="products-wrapper">
-            <h1 *ngIf="!products?.length" style="padding-top: 10% ; padding-left: 35% ; color: rgb(104, 104, 104)">
+            <h1 *ngIf="!products?.length" style="padding-top: 10% ; padding-left: 35% ; color: rgb(104, 104, 104)" i18n>
                 Product(s) Not Available
             </h1>
             <div *ngFor="let product of (products | paginate : { itemsPerPage: count, currentPage: page, totalItems: totalProducts })"
@@ -216,7 +216,7 @@
                             <!--
                               <p class="new-price">${{product.newPrice | number : '1.2-2'}}</p>
                             -->
-                            <p class="new-price">${{ product.price }}</p>
+                            <p class="new-price">€{{ product.price }}</p>
                         </div>
                         <!--
                           <app-rating [ratingsCount]="4" [ratingsValue]="200" [direction]="'column'"></app-rating>
@@ -235,7 +235,7 @@
         </div>
 
         <div *ngIf="viewType == 'list'" fxLayout="row wrap" class="products-wrapper">
-            <h4 class="mt-1" *ngIf="!products?.length">Products not available</h4>
+            <h4 class="mt-1" *ngIf="!products?.length" i18n>Products not available</h4>
             <div *ngFor="let product of (products | paginate : {itemsPerPage: count, currentPage: page, totalItems: totalProducts})"
                  fxFlex="100" class="col">
                 <mat-card class="product-item">
@@ -251,17 +251,9 @@
                         </div>
                         <div fxFlex="100" fxFlex.gt-xs="60" class="p-2">
                             <h4 class="category text-muted">
-                                {{
-                                (appService.Data.categories | filterById: product.category_id)
-                                ?.name
-                                }}
+                                {{(appService.Data.categories | filterById: product.category_id)?.name}}
                             </h4>
-                            <a [routerLink]="[
-                  '/products',
-                  product.id,
-                  product.name,
-                  { supplier_id: product.supplier_id }
-                ]"
+                            <a [routerLink]="['/products', product.id, product.name, { supplier_id: product.supplier_id }]"
                                class="title" mat-raised-button matTooltip="{{product.name}}" matTooltipPosition="above">
                                 {{ product.name }}
                             </a>

@@ -26,7 +26,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     public viewCol: number = 25;
     public counts = [12, 24, 36];
     public count = 12;
-    public sortings = ["Default", "Lowest Price", "Highest Price"];
+    // public sortings = ["Default", "Lowest Price", "Highest Price"];
+    public sortings = ["Standard", "Geringster Preis", "Höchster Preis"];
     public sort: any;
     public products: Array<Product> = [];
     public productsArray = [];

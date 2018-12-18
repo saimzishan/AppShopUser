@@ -1,12 +1,12 @@
 <div fxLayout="row" fxLayout.xs="column" [fxLayoutAlign]="align" class="text-muted">
     <div *ngIf="product?.availibilityCount > 0 && (type=='all' || type=='wish')">
-        <span *ngIf="type!='wish'" class="fw-500">Quantity:</span> 
+        <span *ngIf="type!='wish'" class="fw-500" i18n>Quantity:</span>
         <button [disabled]="!status" mat-icon-button matTooltip="Remove" (click)="decrement()"><mat-icon>remove</mat-icon></button>
         <span> {{count}} </span>
         <button [disabled]="!status" mat-icon-button matTooltip="Add" (click)="increment()"><mat-icon>add</mat-icon></button>
     </div>
     <div *ngIf="product?.availibilityCount > 0 && type==='cart'">
-        <span *ngIf="type!='wish'" class="fw-500">Quantity:</span>
+        <span *ngIf="type!='wish'" class="fw-500" i18n>Quantity:</span>
         <button mat-icon-button matTooltip="Remove" (click)="decrement()"><mat-icon>remove</mat-icon></button>
         <span> {{count}} </span>
         <button mat-icon-button matTooltip="Add" (click)="increment()"><mat-icon>add</mat-icon></button>
@@ -22,10 +22,10 @@
 </div>
 <div class="divider"></div>
 <div *ngIf="type!=='cart' && type!=='list'" fxLayout="row" fxLayout.xs="column" [fxLayoutAlign]="align" class="text-muted p-1">
-<button mat-raised-button color="primary" matTooltip="Add to cart" [disabled]="!status" (click)="addToCart(product)">Add to Cart &nbsp;
+<button mat-raised-button color="primary" matTooltip="Add to cart" [disabled]="!status" (click)="addToCart(product)" i18n>Add to Cart &nbsp;
     <mat-icon>shopping_cart</mat-icon>
 </button>
 </div>
-<div *ngIf="product?.availibilityCount == 0 && type=='all'" class="bg-warn p-1 mt-2">
+<div *ngIf="product?.availibilityCount == 0 && type=='all'" class="bg-warn p-1 mt-2" i18n>
     Sorry, this item is unavailable. Please choose a different one.
 </div>
