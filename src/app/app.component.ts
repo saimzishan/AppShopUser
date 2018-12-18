@@ -7,6 +7,7 @@ import {
 import { Router, NavigationEnd } from "@angular/router";
 import { Settings, AppSettings } from "./app.settings";
 import { SpinnerService } from "./shared/spinner/spinner.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-root",
@@ -22,12 +23,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   constructor(
     public appSettings: AppSettings,
     public router: Router,
-    public spinnerService: SpinnerService
+    public spinnerService: SpinnerService,
+    private translateService: TranslateService
   ) {
     this.settings = this.appSettings.settings;
     this.sub = this.spinnerService.requestInProcess$.subscribe(isDone => {
       this.isRequesting = isDone;
     });
+    translateService.addLangs(["en", "de"]);
+    translateService.setDefaultLang("de");
   }
 
   ngOnInit() {

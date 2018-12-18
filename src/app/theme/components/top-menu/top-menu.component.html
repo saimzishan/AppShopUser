@@ -1,23 +1,30 @@
 <div class="top-menu">
 
-    <a mat-button [matMenuTriggerFor]="langMenu" #langMenuTrigger="matMenuTrigger">
+    <!-- <a mat-button [matMenuTriggerFor]="langMenu" #langMenuTrigger="matMenuTrigger">
         <img [src]="flag.image" width="18">
         <span fxShow="false" fxShow.gt-sm class="flag-menu-title">{{flag.name}}</span>
         <mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
     </a>
     <mat-menu #langMenu="matMenu" [overlapTrigger]="false" xPosition="before" class="app-dropdown">
         <span (mouseleave)="langMenuTrigger.closeMenu()">
-            <button mat-menu-item *ngFor="let flag of flags" (click)="changeLang(flag)">
+            <button mat-menu-item *ngFor="let flag of flags" (click)="switchLanguage(flag.language)">
                 <img [src]="flag.image" width="18"> {{flag.name}}
             </button>
         </span>
-    </mat-menu>
+    </mat-menu> -->
 
-    <a  i18n *ngIf="!loggedIn" [routerLink]="['/sign-in']" [queryParams]="{ returnUrl: this.router.url}" mat-button >
-        Sign in
+    <!-- <mat-form-field> -->
+    <mat-select (selectionChange)="switchLanguage($event.value)">
+        <mat-option *ngFor="let flag of flags" [value]="flag.language">
+            <img [src]="flag.image" width="18"> {{flag.name}}
+        </mat-option>
+    </mat-select>
+    <!-- </mat-form-field> -->
+    <a i18n *ngIf="!loggedIn" [routerLink]="['/sign-in']" [queryParams]="{ returnUrl: this.router.url}" mat-button>
+        {{"Sign_in" | translate }}
     </a>
-    <a  i18n *ngIf="!loggedIn" [routerLink]="['/sign-in']" [queryParams]="{ returnUrl: this.router.url}" mat-button >
-        Sign Up
+    <a i18n *ngIf="!loggedIn" [routerLink]="['/sign-in']" [queryParams]="{ returnUrl: this.router.url}" mat-button>
+        {{"Sign_up"|translate}}
     </a>
     <!--<a mat-button [matMenuTriggerFor]="currencyMenu" #currencyMenuTrigger="matMenuTrigger">
         {{currency}}
@@ -44,19 +51,18 @@
             <span fxShow="false" fxShow.gt-sm>{{decodedToken?.name}}</span>
             <mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
         </a>
-        <mat-menu #accountMenu="matMenu" [overlapTrigger]="false" xPosition="before"
-                  class="app-dropdown account">
-        <span (mouseleave)="accountMenuTrigger.closeMenu()">
-            <!--<div fxLayout="row" fxLayoutAlign="space-around center" class="user-info">
+        <mat-menu #accountMenu="matMenu" [overlapTrigger]="false" xPosition="before" class="app-dropdown account">
+            <span (mouseleave)="accountMenuTrigger.closeMenu()">
+                <!--<div fxLayout="row" fxLayoutAlign="space-around center" class="user-info">
                 <img src="assets/images/others/user.jpg" alt="user-image" width="50">
                 <p>Emilio Verdines <br> <small>emilio_v (152<mat-icon class="mat-icon-xs">star</mat-icon>)</small></p>
             </div>-->
-            <!--<div class="divider"></div>
+                <!--<div class="divider"></div>
             <a mat-menu-item routerLink="/account"> 
                 <mat-icon class="mat-icon-sm">settings</mat-icon>
                 <span>Account Settings</span> 
             </a>-->
-            <!--<a mat-menu-item routerLink="/compare" fxHide="false" fxHide.gt-sm>
+                <!--<a mat-menu-item routerLink="/compare" fxHide="false" fxHide.gt-sm>
                 <mat-icon class="mat-icon-sm">compare</mat-icon>
                 <span>Compare ({{appService.Data.compareList.length}})</span> 
             </a>
@@ -72,18 +78,18 @@
                 <mat-icon class="mat-icon-sm">help</mat-icon>
                 <span>Help</span> 
             </a>-->
-            <div class="divider"></div>
-            <!--<a mat-menu-item routerLink="/sign-in"> -->
-            <a mat-menu-item routerLink="/orders">
-                <mat-icon class="mat-icon-sm">shopping_basket</mat-icon>
-                <span i18n>My Orders</span>
-            </a>
-            <a mat-menu-item (click)="logout()">
-                <mat-icon class="mat-icon-sm">power_settings_new</mat-icon>
-                <span i18n>Sign Out</span>
-            </a>
-        </span>
+                <div class="divider"></div>
+                <!--<a mat-menu-item routerLink="/sign-in"> -->
+                <a mat-menu-item routerLink="/orders">
+                    <mat-icon class="mat-icon-sm">shopping_basket</mat-icon>
+                    <span i18n>{{"My_Orders" | translate}}</span>
+                </a>
+                <a mat-menu-item (click)="logout()">
+                    <mat-icon class="mat-icon-sm">power_settings_new</mat-icon>
+                    <span i18n>"Sign_Out" | translate </span>
+                </a>
+            </span>
         </mat-menu>
     </ng-container>
 
-</div>  
+</div>
