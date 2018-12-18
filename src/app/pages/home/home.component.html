@@ -65,27 +65,27 @@
         </mat-tab> -->
     <!-- <mat-tab> -->
     <ng-container *ngIf="featuredProducts && featuredProducts.length > 0">
-        <label id="tabs" i18n>Featured</label>
+        <label id="tabs" i18n>{{"featured" | translate}}</label>
         <mat-divider></mat-divider>
         <app-products-carousel [products]="featuredProducts"></app-products-carousel>
     </ng-container>
     <br>
     <ng-container *ngIf="onSaleProducts && onSaleProducts.length > 0">
-        <label id="tabs" i18n>On Sale</label>
+        <label id="tabs" i18n>{{"on_sale" | translate}}</label>
         <mat-divider></mat-divider>
         <app-products-carousel [products]="onSaleProducts"></app-products-carousel>
     </ng-container>
     <br>
     <ng-container *ngIf="newArrivalsProducts && newArrivalsProducts.length > 0">
-        <label id="tabs" i18n>New Arrivals</label>
+        <label id="tabs" i18n>{{"new_arrivals" | translate}}</label>
         <mat-divider></mat-divider>
         <app-products-carousel [products]="newArrivalsProducts">
-            <span *ngIf="nonewarrivalProducts" i18n> No Products</span>
+            <span *ngIf="nonewarrivalProducts" i18n> {{"no_products" | translate}}</span>
         </app-products-carousel>
     </ng-container>
     <br>
     <ng-container *ngIf="hotProducts && hotProducts.length > 0">
-        <label id="tabs" i18n>Hot</label>
+        <label id="tabs" i18n>{{"hot" | translate}}</label>
         <mat-divider></mat-divider>
         <app-products-carousel *ngIf="hotProducts.length > 0" [products]="hotProducts"></app-products-carousel>
     </ng-container>

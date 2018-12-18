@@ -50,7 +50,7 @@
                             <app-category-list [categories]="categories" [categoryParentId]="null" (change)="changeCategory($event)"></app-category-list>
                         </span>
                     </mat-menu>
-                    <input type="text" placeholder="Type to search..." fxFlex (keyup)="searchProduct($event , $event.target.value)">
+                    <input type="text" placeholder="{{'Type_to_search' | translate}}..." fxFlex (keyup)="searchProduct($event , $event.target.value)">
                     <button mat-mini-fab (click)="search()" type="button" class="search-btn mat-elevation-z0 text-muted">
                         <mat-icon>search</mat-icon>
                     </button>
@@ -76,16 +76,14 @@
                     <mat-menu #cartMenu="matMenu" [overlapTrigger]="false" xPosition="before" class="top-menu-dropdown cart-dropdown">
                         <span (mouseleave)="cartMenuTrigger.closeMenu()" class="d-block">
                             <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted">
-                                <b><span>{{appService.Data.cartList?.length}} ITEM<span *ngIf="appService.Data.cartList?.length > 1">S</span></span></b>
+                                <b><span>{{appService.Data.cartList?.length}} {{"item" | translate}}<span *ngIf="appService.Data.cartList?.length > 1">S</span></span></b>
                                 <b><a *ngIf="appService.Data.cartList?.length > 0" [routerLink]="['/cart']" class="text-muted"
-                                        i18n>VIEW
-                                        CART
+                                        i18n>{{"view_cart" | translate}}
                                     </a></b>
                             </div>
                             <div class="divider mt-1"></div>
                             <div *ngIf="appService.Data.cartList?.length == 0" class="py-1 text-muted text-center">
-                                <ng-container i18n>You have
-                                    no items in your shopping cart.</ng-container>
+                                <ng-container i18n>{{"no_item_in_cart" | translate}}</ng-container>
                             </div>
                             <mat-list>
                                 <mat-list-item *ngFor="let product of appService.Data.cartList">

@@ -3,5 +3,15 @@
     "main_title": "Welcome to our market!",
     "Sign_up": "Sign up",
     "My_Orders": "My Orders",
-    "Sign_Out": "Sign Out"
+    "Sign_Out": "Sign Out",
+    "Type_to_search": "Type to search",
+    "item": "ITEM",
+    "view_cart": "VIEW CART",
+    "no_item_in_cart": "You have no items in your shopping cart.",
+    "featured": "Featured",
+    "on_sale": "On Sale",
+    "new_arrivals": "New Arrivals",
+    "no_products": "No Products",
+    "hot": "Hot"
+
 }

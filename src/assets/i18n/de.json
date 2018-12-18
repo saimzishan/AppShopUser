@@ -3,5 +3,15 @@
     "main_title": "Willkommen auf unserem Markt!",
     "Sign_up": "Anmelden",
     "My_Orders": "Meine Bestellungen",
-    "Sign_Out": "Ausloggen"
+    "Sign_Out": "Ausloggen",
+    "Type_to_search": "Tippe um zu suchen",
+    "item": "Artikel",
+    "view_cart": "WARENKORB ANSEHEN",
+    "no_item_in_cart": "Sie haben keine Artikel in Ihrem Warenkorb.",
+    "featured": "Vorgestellt",
+    "on_sale": "Im Angebot",
+    "new_arrivals": "Neue Ankünfte",
+    "no_products": "Keine Produkte",
+    "hot": "Heiß"
+
 }
