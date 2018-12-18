@@ -12,6 +12,24 @@
     "on_sale": "Im Angebot",
     "new_arrivals": "Neue Ankünfte",
     "no_products": "Keine Produkte",
-    "hot": "Heiß"
-
+    "hot": "Heiß",
+    "My-Account": "Mein Konto",
+    "Show-All-Brands": "Alle Marken anzeigen",
+    "categories": "Kategorien",
+    "price": "Preis",
+    "from": "Von:",
+    "to": "Zu:",
+    "Color": "Farbe",
+    "Size": "Größe",
+    "Condition": "Bedingung",
+    "New": "Neu",
+    "Used": "Gebraucht",
+    "Not_Specified": "Keine Angabe",
+    "Now_starting_at_$1379": "Jetzt ab 1379 US-Dollar",
+    "Product": "Produkt",
+    "Name": "Name",
+    "Quantity": "Menge",
+    "Total": "Gesamt",
+    "Grand_total": "Gesamt summe",
+    "Billing_Address": "Rechnungs adresse"
 }

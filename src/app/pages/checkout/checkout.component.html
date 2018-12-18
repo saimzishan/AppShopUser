@@ -1,7 +1,7 @@
 <mat-horizontal-stepper #horizontalStepper linear="true" class="mat-elevation-z2" fxShow="false" fxShow.gt-sm>
     <!--<mat-step [stepControl]="billingForm" label="Billing address">-->
     <mat-step [stepControl]="billingForm && (billlingAddressFlag && shippingForm)" i18n-label label="Billing and Shipping address">
-        <h3 i18n>Billing Address</h3>
+        <h3 i18n>{{"Billing_Address" | translate }}</h3>
         <form [formGroup]="billingForm">
             <div fxLayout="row wrap">
                 <!--<div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">

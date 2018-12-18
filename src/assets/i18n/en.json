@@ -12,6 +12,24 @@
     "on_sale": "On Sale",
     "new_arrivals": "New Arrivals",
     "no_products": "No Products",
-    "hot": "Hot"
-
+    "hot": "Hot",
+    "My-Account": "My Account",
+    "Show-All-Brands": "Show All Brands",
+    "categories": "Categories",
+    "price": "Price",
+    "from": "From:",
+    "to": "To:",
+    "Color": "Color",
+    "Size": "Size",
+    "Condition": "Condition",
+    "New": "New",
+    "Used": "Used",
+    "Not_Specified": "Not Specified",
+    "Now_starting_at_$1379": "Now starting at $1379",
+    "Product": "Product",
+    "Name": "Name",
+    "Quantity": "Quantity",
+    "Total": "Total",
+    "Grand_total": "Grand total",
+    "Billing_Address": "Billing Address"
 }
