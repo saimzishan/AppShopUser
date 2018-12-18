@@ -8,7 +8,7 @@
     <div fxLayout="row" fxLayoutAlign="center center">
         <mat-button-toggle-group #group="matButtonToggleGroup" class="letters mt-2">
             <mat-button-toggle value="all" checked="true" class="letter">
-              Show All Brands
+              {{ "Show-All-Brands" | translate }}
             </mat-button-toggle>
             <mat-button-toggle *ngFor="let letter of letters" [value]="letter" class="letter">
               {{letter}}
