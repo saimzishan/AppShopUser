@@ -119,5 +119,11 @@
     "track_order": "You can track your order here:",
     "return_to_shop": "Return to Shop",
     "payment": "Payment",
-    "confirmation": "Confirmation"
+    "confirmation": "Confirmation",
+    "continue_shopping": "Continue shopping",
+    "empty_cart": "YOU HAVE NO ITEMS IN YOUR SHOPPING CART.",
+    "clear_all" : "Clear All",
+    "clear": "Clear",
+    "proceed_to_checkout" : "Proceed To Checkout"
+
 }

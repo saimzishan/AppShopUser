@@ -119,5 +119,10 @@
     "track_order": "Sie können Ihre Bestellung hier verfolgen:",
     "return_to_shop": "Zurück zum Shop",
     "payment": "Zahlung",
-    "confirmation": "Bestätigung"
+    "confirmation": "Bestätigung",
+    "continue_shopping": "Mit dem Einkaufen fortfahren",
+    "empty_cart": "Sie haben keine Gegenstände in Ihrem Warenkorb.",
+    "clear_all" : "Alles löschen",
+    "clear": "klar",
+    "proceed_to_checkout" : "Zur Kasse"
 }

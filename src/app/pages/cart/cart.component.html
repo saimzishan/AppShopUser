@@ -1,8 +1,8 @@
 <div *ngIf="appService.Data.cartList?.length == 0">
   <mat-chip-list>
-      <mat-chip color="warn" selected="true" i18n>YOU HAVE NO ITEMS IN YOUR SHOPPING CART.</mat-chip>
+      <mat-chip color="warn" selected="true" i18n>{{"empty_cart" | translate}}</mat-chip>
   </mat-chip-list>
-  <a [routerLink]="['/']" mat-raised-button color="primary" class="mt-2" i18n>Continue shopping</a>
+  <a [routerLink]="['/']" mat-raised-button color="primary" class="mt-2" i18n>{{"continue_shopping" | translate}}</a>
 </div>
 
 <mat-card *ngIf="appService.Data.cartList?.length > 0" class="p-0">
@@ -16,7 +16,7 @@
       <div class="mat-header-cell" i18n>{{"Total" | translate }}</div>
       <div class="mat-header-cell text-center">
         <div class="px-1">
-          <button mat-raised-button color="warn" (click)="clear()" i18n>Clear All</button>
+          <button mat-raised-button color="warn" (click)="clear()" i18n>{{"clear_all" | translate}}</button>
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
       <div class="mat-cell">${{total[product.id] | number : '1.2-2'}}</div>
       <div class="mat-cell text-center">
         <div class="p-1">
-          <button mat-mini-fab color="warn" (click)="remove(product)" i18n-mat-Tooltip matTooltip="Clear">
+          <button mat-mini-fab color="warn" (click)="remove(product)" i18n-mat-Tooltip matTooltip="{{'clear' | translate}}">
               <mat-icon>close</mat-icon>
           </button>
         </div>
@@ -39,7 +39,7 @@
       
     </div>
     <div class="mat-row">
-      <div class="mat-cell"><a [routerLink]="['/']" mat-raised-button color="primary" i18n>Continue shopping</a></div>
+      <div class="mat-cell"><a [routerLink]="['/']" mat-raised-button color="primary" i18n>{{"continue_shopping" | translate}}</a></div>
       <div class="mat-cell"></div>
       <div class="mat-cell"></div>
       <div class="mat-cell text-right">
@@ -57,7 +57,7 @@
         </div>
       </div>
       <!--<div class="mat-cell text-center"><a [routerLink]="['/checkout']" mat-raised-button color="primary">Proceed To Checkout</a></div>-->
-      <div class="mat-cell text-center"><a (click)="checkOut()" mat-raised-button color="primary" i18n>Proceed To Checkout</a></div>
+      <div class="mat-cell text-center"><a (click)="checkOut()" mat-raised-button color="primary" i18n>{{"proceed_to_checkout" | translate}}</a></div>
     </div>
   </div>
 
