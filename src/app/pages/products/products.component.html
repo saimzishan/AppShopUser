@@ -5,7 +5,7 @@
             <mat-expansion-panel expanded>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <h4 i18n>Categories</h4>
+                        <h4 i18n>{{"categories" | translate}}</h4>
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <!--
@@ -91,7 +91,7 @@
             <mat-expansion-panel expanded>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <h4 i18n>Suppliers</h4>
+                        <h4 i18n>{{"suppliers" | translate}}</h4>
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-brands">
@@ -107,7 +107,7 @@
             <mat-expansion-panel expanded>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        <h4 i18n>Brands</h4>
+                        <h4 i18n>{{"brands" | translate}}</h4>
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-brands">
@@ -155,7 +155,7 @@
             </div>
             <div>
                 <a mat-button [matMenuTriggerFor]="countsMenu" #countsMenuTrigger="matMenuTrigger">
-                  <ng-container i18n>  Show </ng-container>{{ count }}
+                  <ng-container i18n>  {{"show" | translate}} </ng-container>{{ count }}
                     <mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
                 </a>
                 <mat-menu #countsMenu="matMenu" xPosition="before" class="app-dropdown">
@@ -179,7 +179,7 @@
 
         <div *ngIf="viewType == 'grid'" fxLayout="row wrap" class="products-wrapper">
             <h1 *ngIf="!products?.length" style="padding-top: 10% ; padding-left: 35% ; color: rgb(104, 104, 104)" i18n>
-                Product(s) Not Available
+                {{"products_not_available" | translate}}
             </h1>
             <div *ngFor="let product of (products | paginate : { itemsPerPage: count, currentPage: page, totalItems: totalProducts })"
                  fxFlex="100" [fxFlex.gt-sm]="viewCol" fxFlex.sm="50" class="col">
@@ -235,14 +235,14 @@
         </div>
 
         <div *ngIf="viewType == 'list'" fxLayout="row wrap" class="products-wrapper">
-            <h4 class="mt-1" *ngIf="!products?.length" i18n>Products not available</h4>
+            <h4 class="mt-1" *ngIf="!products?.length" i18n>{{"products_not_available" | translate}}</h4>
             <div *ngFor="let product of (products | paginate : {itemsPerPage: count, currentPage: page, totalItems: totalProducts})"
                  fxFlex="100" class="col">
                 <mat-card class="product-item">
                     <div fxLayout="row wrap">
                         <div fxFlex="100" fxFlex.gt-xs="40" class="p-2">
                             <mat-chip-list *ngIf="product.discount" class="list-view">
-                                <mat-chip color="warn" selected="true">{{ product.discount }}% OFF</mat-chip>
+                                <mat-chip color="warn" selected="true">{{ product.discount }}% {{"off" | translate}}</mat-chip>
                             </mat-chip-list>
                             <a [routerLink]="['/products', product.id, product.name, { supplier_id: product.supplier_id }]"
                                class="image-link">

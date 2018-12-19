@@ -8,6 +8,7 @@ import {Order} from '../../app.models';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import { TranslateService } from '@ngx-translate/core';
 
 declare let paypal: any;
 
@@ -67,7 +68,11 @@ export class CheckoutComponent implements OnInit, AfterViewChecked {
     public currentUser = JSON.parse(localStorage.getItem('currentUser'));
     public guestUser = JSON.parse(localStorage.getItem('guestUser'));
 
-    constructor(public http: HttpClient, public router: Router, public appService: AppService, public formBuilder: FormBuilder) {
+    constructor(public http: HttpClient, public router: Router, public appService: AppService, public formBuilder: FormBuilder,
+        private translateService: TranslateService
+    ) {
+        translateService.addLangs(["en", "de"]);
+        translateService.setDefaultLang("de");
         /*if (this.guestUser || !this.currentUser) {
             this.router.navigate(['/sign-in']);
         }*/

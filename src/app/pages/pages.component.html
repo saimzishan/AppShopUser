@@ -30,7 +30,7 @@
             </span>
             <span fxShow="false" fxShow.gt-xs fxLayoutAlign="center center">
                 <mat-icon class="mat-icon-sm">call</mat-icon>
-                Hotline: (+100) 123 456 7890
+                {{"hotline" | translate}}: (+100) 123 456 7890
             </span>
             <span fxShow="false" fxShow.gt-sm i18n>{{"main_title" | translate}}</span>
             <app-top-menu></app-top-menu>
@@ -65,7 +65,7 @@
                         <mat-icon class="mat-icon-lg">shopping_cart</mat-icon>
                         <span *ngIf="appService.Data.cartList?.length > 0" class="cart-items-count">{{appService.Data.cartList.length}}</span>
                         <div fxLayout="column" fxLayoutAlign="center center" fxShow="false" fxShow.gt-xs class="top-cart">
-                            <span i18n>Shopping Cart</span>
+                            <span i18n>{{"cart" | translate}}</span>
                             <span *ngIf="appService.Data.cartList?.length > 0">{{appService.Data.cartList.length}} item<span
                                     *ngIf="appService.Data.cartList.length > 1">s</span> - $
                                 <span>{{appService.Data.totalPrice | number : '1.2-2'}}</span>
@@ -102,7 +102,7 @@
                             <div *ngIf="appService.Data.cartList?.length > 0" class="cart-dropdown-footer">
                                 <div class="divider mt-1"></div>
                                 <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted mt-1">
-                                    <b i18n>TOTAL:</b>
+                                    <b i18n>{{"total" | translate}}:</b>
                                     <b class="new-price">${{appService.Data.totalPrice | number : '1.2-2'}}</b>
                                 </div>
                                 <div class="divider mt-1"></div>
