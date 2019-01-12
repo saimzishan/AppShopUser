@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-footer',
@@ -11,7 +12,12 @@ export class FooterComponent implements OnInit {
   public zoom = 12;
   // 43.735911, -79.778323
 
-  constructor() { }
+  constructor(
+    private translateService: TranslateService
+  ) { 
+    translateService.addLangs(["en", "de"]);
+    translateService.setDefaultLang("de");
+  }
 
   ngOnInit() { }
 

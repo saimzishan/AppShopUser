@@ -5,13 +5,14 @@ import {
     HostListener,
     OnDestroy
 } from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {MatDialog} from "@angular/material";
-import {ProductDialogComponent} from "../../shared/products-carousel/product-dialog/product-dialog.component";
-import {AppService} from "../../app.service";
-import {Product, Category} from "../../app.models";
-import {SpinnerService} from "../../shared/spinner/spinner.service";
-import {DetectChangesService} from "../../shared/detectchanges.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { MatDialog } from "@angular/material";
+import { ProductDialogComponent } from "../../shared/products-carousel/product-dialog/product-dialog.component";
+import { AppService } from "../../app.service";
+import { Product, Category } from "../../app.models";
+import { SpinnerService } from "../../shared/spinner/spinner.service";
+import { DetectChangesService } from "../../shared/detectchanges.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
     selector: "app-products",
@@ -87,9 +88,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
         public dialog: MatDialog,
         private router: Router,
         private spinnerService: SpinnerService,
-        private detectChangesService: DetectChangesService
+        private detectChangesService: DetectChangesService,
+        private translateService: TranslateService
     ) {
         this.categories = new Array<Category>();
+        translateService.addLangs(["en", "de"]);
+        translateService.setDefaultLang("de");
     }
 
     ngOnInit() {
@@ -167,18 +171,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
                             !value.product_images.length && !item.product_images.length
                                 ? "assets/images/img_not_available.png"
                                 : value.product_images.length &&
-                                !item.product_images.length &&
-                                value.product_images[0].small.startsWith("http")
-                                ? value.product_images[0].small
-                                : value.product_images.length &&
-                                !item.product_images.length &&
-                                !value.product_images[0].small.startsWith("http")
-                                    ? this.appService.imgUrl + value.product_images[0].small
-                                    : !value.product_images.length &&
-                                    item.product_images.length &&
-                                    item.product_images[0].small.startsWith("http")
-                                        ? item.product_images[0].small
-                                        : this.appService.imgUrl + item.product_images[0].small
+                                    !item.product_images.length &&
+                                    value.product_images[0].small.startsWith("http")
+                                    ? value.product_images[0].small
+                                    : value.product_images.length &&
+                                        !item.product_images.length &&
+                                        !value.product_images[0].small.startsWith("http")
+                                        ? this.appService.imgUrl + value.product_images[0].small
+                                        : !value.product_images.length &&
+                                            item.product_images.length &&
+                                            item.product_images[0].small.startsWith("http")
+                                            ? item.product_images[0].small
+                                            : this.appService.imgUrl + item.product_images[0].small
                         // image: item.images[0].small
                     };
                     this.productsCatArray.push(newProduct);
@@ -217,18 +221,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
                             !value.product_images.length && !item.product_images.length
                                 ? "assets/images/img_not_available.png"
                                 : value.product_images.length &&
-                                !item.product_images.length &&
-                                value.product_images[0].small.startsWith("http")
-                                ? value.product_images[0].small
-                                : value.product_images.length &&
-                                !item.product_images.length &&
-                                !value.product_images[0].small.startsWith("http")
-                                    ? this.appService.imgUrl + value.product_images[0].small
-                                    : !value.product_images.length &&
-                                    item.product_images.length &&
-                                    item.product_images[0].small.startsWith("http")
-                                        ? item.product_images[0].small
-                                        : this.appService.imgUrl + item.product_images[0].small
+                                    !item.product_images.length &&
+                                    value.product_images[0].small.startsWith("http")
+                                    ? value.product_images[0].small
+                                    : value.product_images.length &&
+                                        !item.product_images.length &&
+                                        !value.product_images[0].small.startsWith("http")
+                                        ? this.appService.imgUrl + value.product_images[0].small
+                                        : !value.product_images.length &&
+                                            item.product_images.length &&
+                                            item.product_images[0].small.startsWith("http")
+                                            ? item.product_images[0].small
+                                            : this.appService.imgUrl + item.product_images[0].small
                         /*image: !item.product_images.length
                                                     ? value.product_images[0].small
                                                     : item.product_images[0].small.startsWith('http')
@@ -267,18 +271,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
                             !value.product_images.length && !item.product_images.length
                                 ? "assets/images/img_not_available.png"
                                 : value.product_images.length &&
-                                !item.product_images.length &&
-                                value.product_images[0].small.startsWith("http")
-                                ? value.product_images[0].small
-                                : value.product_images.length &&
-                                !item.product_images.length &&
-                                !value.product_images[0].small.startsWith("http")
-                                    ? this.appService.imgUrl + value.product_images[0].small
-                                    : !value.product_images.length &&
-                                    item.product_images.length &&
-                                    item.product_images[0].small.startsWith("http")
-                                        ? item.product_images[0].small
-                                        : this.appService.imgUrl + item.product_images[0].small
+                                    !item.product_images.length &&
+                                    value.product_images[0].small.startsWith("http")
+                                    ? value.product_images[0].small
+                                    : value.product_images.length &&
+                                        !item.product_images.length &&
+                                        !value.product_images[0].small.startsWith("http")
+                                        ? this.appService.imgUrl + value.product_images[0].small
+                                        : !value.product_images.length &&
+                                            item.product_images.length &&
+                                            item.product_images[0].small.startsWith("http")
+                                            ? item.product_images[0].small
+                                            : this.appService.imgUrl + item.product_images[0].small
                         /*image: !item.product_images.length
                                                     ? value.product_images[0].small
                                                     : item.product_images[0].small.startsWith('http')
@@ -450,18 +454,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
                                 !value.product_images.length && !item.product_images.length
                                     ? "assets/images/img_not_available.png"
                                     : value.product_images.length &&
-                                    !item.product_images.length &&
-                                    value.product_images[0].small.startsWith("http")
-                                    ? value.product_images[0].small
-                                    : value.product_images.length &&
-                                    !item.product_images.length &&
-                                    !value.product_images[0].small.startsWith("http")
-                                        ? this.appService.imgUrl + value.product_images[0].small
-                                        : !value.product_images.length &&
-                                        item.product_images.length &&
-                                        item.product_images[0].small.startsWith("http")
-                                            ? item.product_images[0].small
-                                            : this.appService.imgUrl + item.product_images[0].small
+                                        !item.product_images.length &&
+                                        value.product_images[0].small.startsWith("http")
+                                        ? value.product_images[0].small
+                                        : value.product_images.length &&
+                                            !item.product_images.length &&
+                                            !value.product_images[0].small.startsWith("http")
+                                            ? this.appService.imgUrl + value.product_images[0].small
+                                            : !value.product_images.length &&
+                                                item.product_images.length &&
+                                                item.product_images[0].small.startsWith("http")
+                                                ? item.product_images[0].small
+                                                : this.appService.imgUrl + item.product_images[0].small
                             /*image: !item.product_images.length
                                                           ? value.product_images[0].small
                                                           : item.product_images[0].small.startsWith('http')
@@ -647,18 +651,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
                             !value.product_images.length && !item.product_images.length
                                 ? "assets/images/img_not_available.png"
                                 : value.product_images.length &&
-                                !item.product_images.length &&
-                                value.product_images[0].small.startsWith("http")
-                                ? value.product_images[0].small
-                                : value.product_images.length &&
-                                !item.product_images.length &&
-                                !value.product_images[0].small.startsWith("http")
-                                    ? this.appService.imgUrl + value.product_images[0].small
-                                    : !value.product_images.length &&
-                                    item.product_images.length &&
-                                    item.product_images[0].small.startsWith("http")
-                                        ? item.product_images[0].small
-                                        : this.appService.imgUrl + item.product_images[0].small
+                                    !item.product_images.length &&
+                                    value.product_images[0].small.startsWith("http")
+                                    ? value.product_images[0].small
+                                    : value.product_images.length &&
+                                        !item.product_images.length &&
+                                        !value.product_images[0].small.startsWith("http")
+                                        ? this.appService.imgUrl + value.product_images[0].small
+                                        : !value.product_images.length &&
+                                            item.product_images.length &&
+                                            item.product_images[0].small.startsWith("http")
+                                            ? item.product_images[0].small
+                                            : this.appService.imgUrl + item.product_images[0].small
                         /*image: !item.product_images.length
                                                     ? value.product_images[0].small
                                                     : item.product_images[0].small.startsWith('http')

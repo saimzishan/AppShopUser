@@ -11,6 +11,13 @@ import {ProductComponent} from "./product/product.component";
 import {ProductZoomComponent} from "./product/product-zoom/product-zoom.component";
 import {SubCatComponent} from "./subcat/sub-cat.compoment";
 import {TreeModule} from "angular-tree-component";
+import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { HttpClient } from "@angular/common/http";
+
+export function translateHttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
+}
 
 export const routes = [
     {path: "", component: ProductsComponent, pathMatch: "full"},
@@ -54,7 +61,14 @@ export const routes = [
         NgxPaginationModule,
         SharedModule,
         PipesModule,
-        TreeModule
+        TreeModule,
+        TranslateModule.forRoot({
+            loader: {
+              provide: TranslateLoader,
+              useFactory: translateHttpLoaderFactory,
+              deps: [HttpClient]
+            }
+          })
     ],
     declarations: [
         ProductsComponent,

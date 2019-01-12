@@ -1,6 +1,6 @@
 <mat-horizontal-stepper #horizontalStepper linear="true" class="mat-elevation-z2" fxShow="false" fxShow.gt-sm>
     <!--<mat-step [stepControl]="billingForm" label="Billing address">-->
-    <mat-step [stepControl]="billingForm && (billlingAddressFlag && shippingForm)" i18n-label label="Billing and Shipping address">
+    <mat-step [stepControl]="billingForm && (billlingAddressFlag && shippingForm)" i18n-label label="{{'billing_and_shipping' | translate}}">
         <h3 i18n>{{"Billing_Address" | translate }}</h3>
         <form [formGroup]="billingForm">
             <div fxLayout="row wrap">
@@ -41,41 +41,41 @@
                 <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
                     <mat-form-field class="w-100">
                         <input matInput i18n-placeholder placeholder="No." formControlName="bNo" required>
-                        <mat-error *ngIf="billingForm.controls.bNo.errors?.required" i18n>No. is required</mat-error>
+                        <mat-error *ngIf="billingForm.controls.bNo.errors?.required" i18n>{{"no_required" | translate}}</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
                     <mat-form-field class="w-100">
-                        <input matInput i18n-placeholder placeholder="Street" formControlName="bStreet" required>
-                        <mat-error *ngIf="billingForm.controls.bStreet.errors?.required" i18n>Street is required</mat-error>
+                        <input matInput i18n-placeholder placeholder="{{'street' | translate}}" formControlName="bStreet" required>
+                        <mat-error *ngIf="billingForm.controls.bStreet.errors?.required" i18n>{{"street_required" | translate}}</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
                     <mat-form-field class="w-100">
-                        <mat-select i18n-placeholder placeholder="Country" formControlName="bcountry" required>
+                        <mat-select i18n-placeholder placeholder="{{'country' | translate}}" formControlName="bcountry" required>
                             <mat-option *ngFor="let country of countries" [value]="country.code">
                                 {{country.name}}
                             </mat-option>
                         </mat-select>
-                        <mat-error *ngIf="billingForm.controls.bcountry.errors?.required" i18n>Country is required
+                        <mat-error *ngIf="billingForm.controls.bcountry.errors?.required" i18n>{{"country_required" | translate}}
                         </mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
                     <mat-form-field class="w-100">
-                        <input matInput i18n-placeholder placeholder="City" formControlName="bcity" required>
-                        <mat-error *ngIf="billingForm.controls.bcity.errors?.required" i18n>City is required</mat-error>
+                        <input matInput i18n-placeholder placeholder="{{'city' | translate}}" formControlName="bcity" required>
+                        <mat-error *ngIf="billingForm.controls.bcity.errors?.required" i18n>{{"city_required" | translate}}</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
                     <mat-form-field class="w-100">
-                        <input matInput i18n-placeholder placeholder="State/Province" formControlName="bstate">
+                        <input matInput i18n-placeholder placeholder="{{'state/province' | translate}}" formControlName="bstate">
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
                     <mat-form-field class="w-100">
-                        <input matInput i18n-placeholder placeholder="Zip/Postal Code" formControlName="bzip" required>
-                        <mat-error *ngIf="billingForm.controls.bzip.errors?.required" i18n>Zip/Postal Code is required
+                        <input matInput i18n-placeholder placeholder="{{'postal_code' | translate}}" formControlName="bzip" required>
+                        <mat-error *ngIf="billingForm.controls.bzip.errors?.required" i18n>{{"postal_required" | translate}}
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -91,10 +91,10 @@
             </div>-->
             <mat-divider></mat-divider>
         </form>
-        <h3 style="padding: 10px;" i18n>Shipping Address</h3>
+        <h3 style="padding: 10px;" i18n>{{"shipping_address" | translate}}</h3>
         <div fxLayout="row">
             <!--<mat-form-field class="w-100">-->
-            <mat-checkbox (change)="onChange($event)" i18n>Same as Billing Address</mat-checkbox>
+            <mat-checkbox (change)="onChange($event)" i18n>{{"same_as_billing" | translate}}</mat-checkbox>
             <!--</mat-form-field>-->
         </div>
         <div *ngIf="!billlingAddressFlag" fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
@@ -141,41 +141,41 @@
                 <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
                     <mat-form-field class="w-100">
                         <input matInput i18n-placeholder placeholder="No" formControlName="sNo" required>
-                        <mat-error *ngIf="shippingForm.controls.sNo.errors?.required" i18n>No is required</mat-error>
+                        <mat-error *ngIf="shippingForm.controls.sNo.errors?.required" i18n>{{"no_required" | translate}}</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
                     <mat-form-field class="w-100">
-                        <input matInput i18n-placeholder placeholder="Street" formControlName="sStreet" required>
-                        <mat-error *ngIf="shippingForm.controls.sStreet.errors?.required" i18n>Street is required</mat-error>
+                        <input matInput i18n-placeholder placeholder="{{'street' | translate}}" formControlName="sStreet" required>
+                        <mat-error *ngIf="shippingForm.controls.sStreet.errors?.required" i18n>{{"street_required" | translate}}</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
                     <mat-form-field class="w-100">
-                        <mat-select i18n-placeholder placeholder="Country" formControlName="scountry" required>
+                        <mat-select i18n-placeholder placeholder="{{'country' | translate}}" formControlName="scountry" required>
                             <mat-option *ngFor="let country of countries" [value]="country.code">
                                 {{country.name}}
                             </mat-option>
                         </mat-select>
-                        <mat-error *ngIf="shippingForm.controls.scountry.errors?.required" i18n>Country is required
+                        <mat-error *ngIf="shippingForm.controls.scountry.errors?.required" i18n>{{"country_required" | translate}}
                         </mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
                     <mat-form-field class="w-100">
-                        <input matInput i18n-placeholder placeholder="City" formControlName="scity" required>
-                        <mat-error *ngIf="shippingForm.controls.scity.errors?.required" i18n>City is required</mat-error>
+                        <input matInput i18n-placeholder placeholder="{{'city' | translate}}" formControlName="scity" required>
+                        <mat-error *ngIf="shippingForm.controls.scity.errors?.required" i18n>{{"city_required" | translate}}</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
                     <mat-form-field class="w-100">
-                        <input matInput i18n-placeholder placeholder="State/Province" formControlName="sstate">
+                        <input matInput i18n-placeholder placeholder="{{'state/province' | translate}}" formControlName="sstate">
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
                     <mat-form-field class="w-100">
-                        <input matInput i18n-placeholder placeholder="Zip/Postal Code" formControlName="szip" required>
-                        <mat-error *ngIf="shippingForm.controls.szip.errors?.required" i18n>Zip/Postal Code is required
+                        <input matInput i18n-placeholder placeholder="{{'postal_code' | translate}}" formControlName="szip" required>
+                        <mat-error *ngIf="shippingForm.controls.szip.errors?.required" i18n>{{"postal_required" | translate}}
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -193,17 +193,16 @@
             </div>
         </form>
     </mat-step>
-    <mat-step [stepControl]="deliveryForm" i18n-label label="Delivery method">
+    <mat-step [stepControl]="deliveryForm" i18n-label label="{{'delivery_method' | translate}}">
         <form [formGroup]="deliveryForm" class="p-2">
-            <mat-radio-group formControlName="deliveryMethod" fxLayout="column" fxLayoutAlign="center" required
-                             name="methods">
+            <mat-radio-group formControlName="deliveryMethod" fxLayout="column" fxLayoutAlign="center" required name="methods">
                 <mat-radio-button *ngFor="let method of deliveryMethods" color="primary" [value]="method" class="mt-1">
-                    <b>{{method.name}}</b> {{method.desc}}
+                        <b>{{translateService.getDefaultLang() === 'en' ? method.ename : method.dname}}</b> 
+                        {{translateService.getDefaultLang() === 'en' ? method.edesc : method.ddesc}}
                 </mat-radio-button>
             </mat-radio-group>
             <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
-                <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
-                        class="mr-1">
+                <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before" class="mr-1">
                     <mat-icon>navigate_before</mat-icon>
                 </button>
                 <button mat-mini-fab matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after">
@@ -273,18 +272,18 @@
       </div>
     </form>&ndash;&gt;
   </mat-step>-->
-    <mat-step i18n-label label="Review Order">
+    <mat-step i18n-label label="{{'review_order' | translate}}">
         <div fxLayout="row wrap">
             <div fxFlex="100" class="p-1">
-                <h3 class="text-muted" i18n>Shopping Cart</h3>
+                <h3 class="text-muted" i18n>{{"shopping_cart" | translate}}</h3>
                 <div class="divider"></div>
                 <div class="mat-table review-order-table">
                     <div class="mat-header-row">
-                        <div class="mat-header-cell" i18n>Product</div>
-                        <div class="mat-header-cell" i18n>Name</div>
-                        <div class="mat-header-cell" i18n>Unit Price</div>
-                        <div class="mat-header-cell" i18n>Quantity</div>
-                        <div class="mat-header-cell" i18n>Total</div>
+                        <div class="mat-header-cell" i18n>{{"Product" | translate}}</div>
+                        <div class="mat-header-cell" i18n>{{"Name" | translate}}</div>
+                        <div class="mat-header-cell" i18n>{{"unit_price" | translate}}</div>
+                        <div class="mat-header-cell" i18n>{{"Quantity" | translate}}</div>
+                        <div class="mat-header-cell" i18n>{{"Total" | translate}}</div>
                     </div>
                     <div *ngFor="let product of appService.Data.cartList" class="mat-row">
                         <!--<div class="mat-cell"><img [src]="product.images.length ? this.appService.imgUrl + product.images[0].small : this.appService.imgUrl + product.product_images[0].small"></div>-->
@@ -299,7 +298,7 @@
         </div>
         <div fxLayout="row wrap">
             <div fxFlex="100" class="p-1">
-                <h3 class="text-muted mt-2" i18n>Billing information</h3>
+                <h3 class="text-muted mt-2" i18n>{{"billing_information" | translate}}</h3>
                 <div class="divider"></div>
             </div>
             <!--<div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
@@ -319,11 +318,11 @@
                 <p>{{billingForm.controls.bNo.value}} </p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Street:</p>
+                <p class="text-muted" i18n>{{"street" | translate}}:</p>
                 <p>{{billingForm.controls.bStreet.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Country:</p>
+                <p class="text-muted" i18n>{{"country" | translate}}:</p>
                 <p>{{billingForm.controls.bcountry.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
@@ -331,11 +330,11 @@
                 <p>{{billingForm.controls.bcity.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>State:</p>
+                <p class="text-muted" i18n>{{"state/province" | translate}}:</p>
                 <p>{{billingForm.controls.bstate.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Zip/PostalCode:</p>
+                <p class="text-muted" i18n>{{"postal_code" | translate}}:</p>
                 <p>{{billingForm.controls.bzip.value}}</p>
             </div>
             <!--<div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
@@ -346,7 +345,7 @@
 
         <div *ngIf="billlingAddressFlag" fxLayout="row wrap">
             <div fxFlex="100" class="p-1">
-                <h3 class="text-muted mt-2" i18n>Shipping information</h3>
+                <h3 class="text-muted mt-2" i18n>{{"shipping_information" | translate}}</h3>
                 <div class="divider"></div>
             </div>
             <!--<div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
@@ -366,23 +365,23 @@
                 <p>{{shippingForm.controls.sNo.value}} </p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Street:</p>
+                <p class="text-muted" i18n>{{"street" | translate}}:</p>
                 <p>{{shippingForm.controls.sStreet.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Country:</p>
+                <p class="text-muted" i18n>{{"country" | translate}}:</p>
                 <p>{{shippingForm.controls.scountry.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>City:</p>
+                <p class="text-muted" i18n>{{"city" | translate}}:</p>
                 <p>{{shippingForm.controls.scity.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>State:</p>
+                <p class="text-muted" i18n>{{"state/province" | translate}}:</p>
                 <p>{{shippingForm.controls.sstate.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Zip/PostalCode:</p>
+                <p class="text-muted" i18n>{{"postal_code" | translate}}:</p>
                 <p>{{shippingForm.controls.szip.value}}</p>
             </div>
             <!--<div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
@@ -393,7 +392,7 @@
 
         <div *ngIf="!billlingAddressFlag" fxLayout="row wrap">
             <div fxFlex="100" class="p-1">
-                <h3 class="text-muted mt-2" i18n>Shipping information</h3>
+                <h3 class="text-muted mt-2" i18n>{{"shipping_information" | translate}}</h3>
                 <div class="divider"></div>
             </div>
             <!--<div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
@@ -413,23 +412,23 @@
                 <p>{{billingForm.controls.bNo.value}} </p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Street:</p>
+                <p class="text-muted" i18n>{{"street" | translate}}:</p>
                 <p>{{billingForm.controls.bStreet.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Country:</p>
+                <p class="text-muted" i18n>{{"country" | translate}}:</p>
                 <p>{{billingForm.controls.bcountry.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>City:</p>
+                <p class="text-muted" i18n>{{"city" | translate}}:</p>
                 <p>{{billingForm.controls.bcity.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>State:</p>
+                <p class="text-muted" i18n>{{"state/province" | translate}}:</p>
                 <p>{{billingForm.controls.bstate.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Zip/PostalCode:</p>
+                <p class="text-muted" i18n>{{"postal_code" | translate}}:</p>
                 <p>{{billingForm.controls.bzip.value}}</p>
             </div>
             <!--<div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
@@ -440,7 +439,7 @@
 
         <div fxLayout="row">
             <div fxFlex="100" class="p-1">
-                <h3 class="text-muted mt-2" i18n>Delivery information</h3>
+                <h3 class="text-muted mt-2" i18n>{{"delivery_information" | translate}}</h3>
                 <div class="divider"></div>
                 <p class="py-1">{{deliveryForm.controls.deliveryMethod.value['name']}} <span class="text-muted">{{deliveryForm.controls.deliveryMethod.value['desc']}}</span>
                 </p>
@@ -454,46 +453,36 @@
           </div>
         </div>-->
         <div fxLayout="row" fxLayoutAlign="center center" class="p-1">
-            <h2><span class="text-muted mr-1" i18n>Total Price:</span><span>${{grandTotal | number : '1.2-2'}}</span></h2>
+            <h2><span class="text-muted mr-1" i18n>{{"total_price" | translate}}:</span><span>${{grandTotal | number : '1.2-2'}}</span></h2>
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
-            <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
-                    class="mr-1">
+            <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before" class="mr-1">
                 <mat-icon>navigate_before</mat-icon>
             </button>
 
-            <button [disabled]="this.appService.Data.cartList?.length < 1" mat-raised-button matStepperNext
-                    color="primary" (click)="placeOrder()" i18n>Place order now
+            <button [disabled]="this.appService.Data.cartList?.length < 1" mat-raised-button matStepperNext color="primary" (click)="placeOrder()"
+                i18n>{{"place_order_now" | translate}}
             </button>
         </div>
     </mat-step>
-    <mat-step [stepControl]="billingForm" i18n-label label="Payment">
+    <mat-step [stepControl]="billingForm" i18n-label label="{{'payment' | translate}}">
         <!--<div id="paypal-checkout-button"></div>-->
-        <ngx-braintree
-                [getClientToken]="getClientToken.bind(this)"
-                [createPurchase]="createPurchase.bind(this)"
-                [chargeAmount]="grandTotal"
-                (paymentStatus)="onPaymentStatus($event)"
-                [showCardholderName]="false"
-                [enablePaypalCheckout]="false"
-                [currency]="'EUR'"
-                [enablePaypalVault]="true"
-                [buttonText]="'Purchase'"
-                [enabledStyle]="enabledStyle"
-                [disabledStyle]="disabledStyle">
+        <ngx-braintree [getClientToken]="getClientToken.bind(this)" [createPurchase]="createPurchase.bind(this)" [chargeAmount]="grandTotal"
+            (paymentStatus)="onPaymentStatus($event)" [showCardholderName]="false" [enablePaypalCheckout]="false" [currency]="'EUR'"
+            [enablePaypalVault]="true" [buttonText]="'Purchase'" [enabledStyle]="enabledStyle" [disabledStyle]="disabledStyle">
         </ngx-braintree>
     </mat-step>
-    <mat-step [stepControl]="confirmation" i18n-label label="Confirmation">
+    <mat-step [stepControl]="confirmation" i18n-label label="{{'confirmation' | translate}}">
         <div fxLayout="column" fxLayoutAlign="center center" class="p-2 text-center">
             <button mat-fab color="primary">
                 <mat-icon>check</mat-icon>
             </button>
-            <h2 class="py-2" i18n>Congratulation! Your order has been processed</h2>
-            <h2 class="py-2" i18n>You can track your order here: </h2>
+            <h2 class="py-2" i18n>{{"order_processed" | translate}}</h2>
+            <h2 class="py-2" i18n>{{"track_order" | translate}} </h2>
             <a href="{{trackingUrl}}" target="_blank">{{trackingUrl}}</a>
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
-            <a [routerLink]="['/']" mat-raised-button color="primary" i18n>Return to Shop</a>
+            <a [routerLink]="['/']" mat-raised-button color="primary" i18n>{{"return_to_shop" | translate}}</a>
         </div>
 
     </mat-step>
@@ -501,7 +490,7 @@
 
 <mat-vertical-stepper #verticalStepper linear="true" class="mat-elevation-z2" fxHide="false" fxHide.gt-sm>
     <mat-step [stepControl]="billingForm && (billlingAddressFlag && shippingForm)" i18n-label label="Billing and Shipping address">
-        <h3 i18n>Billing Address</h3>
+        <h3 i18n>{{"Billing_Address" | translate}}</h3>
         <form [formGroup]="billingForm">
             <div fxLayout="row wrap">
                 <!--<div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
@@ -541,41 +530,41 @@
                 <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
                     <mat-form-field class="w-100">
                         <input matInput i18n-placeholder placeholder="No." formControlName="bNo" required>
-                        <mat-error *ngIf="billingForm.controls.bNo.errors?.required" i18n>No. is required</mat-error>
+                        <mat-error *ngIf="billingForm.controls.bNo.errors?.required" i18n>{{"no_required" | translate}}</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
                     <mat-form-field class="w-100">
-                        <input matInput i18n-placeholder placeholder="Street" formControlName="bStreet" required>
-                        <mat-error *ngIf="billingForm.controls.bStreet.errors?.required" i18n>Street is required</mat-error>
+                        <input matInput i18n-placeholder placeholder="{{'street' | translate}}" formControlName="bStreet" required>
+                        <mat-error *ngIf="billingForm.controls.bStreet.errors?.required" i18n>{{"street_required" | translate}}</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
                     <mat-form-field class="w-100">
-                        <mat-select i18n-placeholder placeholder="Country" formControlName="bcountry" required>
+                        <mat-select i18n-placeholder placeholder="{{'country' | translate}}" formControlName="bcountry" required>
                             <mat-option *ngFor="let country of countries" [value]="country.code">
                                 {{country.name}}
                             </mat-option>
                         </mat-select>
-                        <mat-error *ngIf="billingForm.controls.bcountry.errors?.required" i18n>Country is required
+                        <mat-error *ngIf="billingForm.controls.bcountry.errors?.required" i18n>{{"country_required" | translate}}
                         </mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
                     <mat-form-field class="w-100">
-                        <input matInput i18n-placeholder placeholder="City" formControlName="bcity" required>
-                        <mat-error *ngIf="billingForm.controls.bcity.errors?.required" i18n>City is required</mat-error>
+                        <input matInput i18n-placeholder placeholder="{{'city' | translate}}" formControlName="bcity" required>
+                        <mat-error *ngIf="billingForm.controls.bcity.errors?.required" i18n>{{"city_required" | translate}}</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
                     <mat-form-field class="w-100">
-                        <input matInput i18n-placeholder placeholder="State/Province" formControlName="bstate">
+                        <input matInput i18n-placeholder placeholder="{{'state/province' | translate}}" formControlName="bstate">
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
                     <mat-form-field class="w-100">
-                        <input matInput i18n-placeholder placeholder="Zip/Postal Code" formControlName="bzip" required>
-                        <mat-error *ngIf="billingForm.controls.bzip.errors?.required" i18n>Zip/Postal Code is required
+                        <input matInput i18n-placeholder placeholder="{{'postal_code' | translate}}" formControlName="bzip" required>
+                        <mat-error *ngIf="billingForm.controls.bzip.errors?.required" i18n>{{"postal_required" | translate}}
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -591,10 +580,10 @@
             </div>-->
             <mat-divider></mat-divider>
         </form>
-        <h3 style="padding: 10px;" i18n>Shipping Address </h3>
+        <h3 style="padding: 10px;" i18n>{{"shipping_address" | translate}} </h3>
         <div fxLayout="row">
             <!--<mat-form-field class="w-100">-->
-            <mat-checkbox (change)="onChange($event)" i18n>Same as Billing Address</mat-checkbox>
+            <mat-checkbox (change)="onChange($event)" i18n>{{"same_as_billing" | translate}}</mat-checkbox>
             <!--</mat-form-field>-->
         </div>
         <div *ngIf="!billlingAddressFlag" fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
@@ -641,41 +630,41 @@
                 <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
                     <mat-form-field class="w-100">
                         <input matInput i18n-placeholder placeholder="No" formControlName="sNo" required>
-                        <mat-error *ngIf="shippingForm.controls.sNo.errors?.required" i18n>No is required</mat-error>
+                        <mat-error *ngIf="shippingForm.controls.sNo.errors?.required" i18n>{{"no_required" | translate}}</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
                     <mat-form-field class="w-100">
-                        <input matInput i18n-placeholder placeholder="Street" formControlName="sStreet" required>
-                        <mat-error *ngIf="shippingForm.controls.sStreet.errors?.required" i18n>Street is required</mat-error>
+                        <input matInput i18n-placeholder placeholder="{{'street' | translate}}" formControlName="sStreet" required>
+                        <mat-error *ngIf="shippingForm.controls.sStreet.errors?.required" i18n>{{"street_required" | translate}}</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
                     <mat-form-field class="w-100">
-                        <mat-select i18n-placeholder placeholder="Country" formControlName="scountry" required>
+                        <mat-select i18n-placeholder placeholder="{{'country' | translate}}" formControlName="scountry" required>
                             <mat-option *ngFor="let country of countries" [value]="country.code">
                                 {{country.name}}
                             </mat-option>
                         </mat-select>
-                        <mat-error *ngIf="shippingForm.controls.scountry.errors?.required" i18n>Country is required
+                        <mat-error *ngIf="shippingForm.controls.scountry.errors?.required" i18n>{{"country_required" | translate}}
                         </mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
                     <mat-form-field class="w-100">
-                        <input matInput i18n-placeholder placeholder="City" formControlName="scity" required>
-                        <mat-error *ngIf="shippingForm.controls.scity.errors?.required" i18n>City is required</mat-error>
+                        <input matInput i18n-placeholder placeholder="{{'city' | translate}}" formControlName="scity" required>
+                        <mat-error *ngIf="shippingForm.controls.scity.errors?.required" i18n>{{"city_required" | translate}}</mat-error>
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
                     <mat-form-field class="w-100">
-                        <input matInput i18n-placeholder placeholder="State/Province" formControlName="sstate">
+                        <input matInput i18n-placeholder placeholder="{{'state/province' | translate}}" formControlName="sstate">
                     </mat-form-field>
                 </div>
                 <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
                     <mat-form-field class="w-100">
-                        <input matInput i18n-placeholder placeholder="Zip/Postal Code" formControlName="szip" required>
-                        <mat-error *ngIf="shippingForm.controls.szip.errors?.required" i18n>Zip/Postal Code is required
+                        <input matInput i18n-placeholder placeholder="{{'postal_code' | translate}}" formControlName="szip" required>
+                        <mat-error *ngIf="shippingForm.controls.szip.errors?.required" i18n>{{"postal_required" | translate}}
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -693,17 +682,15 @@
             </div>
         </form>
     </mat-step>
-    <mat-step [stepControl]="deliveryForm" i18n-label label="Delivery method">
+    <mat-step [stepControl]="deliveryForm" i18n-label label="{{'delivery_method' | translate}}">
         <form [formGroup]="deliveryForm" class="p-2">
-            <mat-radio-group formControlName="deliveryMethod" fxLayout="column" fxLayoutAlign="center" required
-                             name="methods">
+            <mat-radio-group formControlName="deliveryMethod" fxLayout="column" fxLayoutAlign="center" required name="methods">
                 <mat-radio-button *ngFor="let method of deliveryMethods" color="primary" [value]="method" class="mt-1">
                     <b>{{method.name}}</b> {{method.desc}}
                 </mat-radio-button>
             </mat-radio-group>
             <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
-                <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
-                        class="mr-1">
+                <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before" class="mr-1">
                     <mat-icon>expand_less</mat-icon>
                 </button>
                 <button mat-mini-fab matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after">
@@ -767,15 +754,15 @@
     <mat-step i18n-label label="Review Order">
         <div fxLayout="row wrap">
             <div fxFlex="100" class="p-1">
-                <h3 class="text-muted" i18n>Shopping Cart</h3>
+                <h3 class="text-muted" i18n>{{"shopping_cart" | translate}}</h3>
                 <div class="divider"></div>
                 <div class="mat-table review-order-table">
                     <div class="mat-header-row">
-                        <div class="mat-header-cell" i18n>Product</div>
-                        <div class="mat-header-cell" i18n>Name</div>
-                        <div class="mat-header-cell" i18n>Unit Price</div>
-                        <div class="mat-header-cell" i18n>Quantity</div>
-                        <div class="mat-header-cell" i18n>Total</div>
+                        <div class="mat-header-cell" i18n>{{"Product" | translate}}</div>
+                        <div class="mat-header-cell" i18n>{{"Name" | translate}}</div>
+                        <div class="mat-header-cell" i18n>{{"unit_price" | translate}}</div>
+                        <div class="mat-header-cell" i18n>{{"Quantity" | translate}}</div>
+                        <div class="mat-header-cell" i18n>{{"Total" | translate}}</div>
                     </div>
                     <div *ngFor="let product of appService.Data.cartList" class="mat-row">
                         <!--<div class="mat-cell"><img [src]="product.images.length ? this.appService.imgUrl + product.images[0].small : this.appService.imgUrl + product.product_images[0].small"></div>-->
@@ -790,7 +777,7 @@
         </div>
         <div fxLayout="row wrap">
             <div fxFlex="100" class="p-1">
-                <h3 class="text-muted mt-2" i18n>Billing information</h3>
+                <h3 class="text-muted mt-2" i18n>{{"billing_information" | translate}}</h3>
                 <div class="divider"></div>
             </div>
             <!--<div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
@@ -810,23 +797,23 @@
                 <p>{{billingForm.controls.bNo.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Street:</p>
+                <p class="text-muted" i18n>{{"street" | translate}}:</p>
                 <p>{{billingForm.controls.bStreet.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Country:</p>
+                <p class="text-muted" i18n>{{"country" | translate}}:</p>
                 <p>{{billingForm.controls.bcountry.value['name']}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>City:</p>
+                <p class="text-muted" i18n>{{"city" | translate}}:</p>
                 <p>{{billingForm.controls.bcity.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>State:</p>
+                <p class="text-muted" i18n>{{"state/province" | translate}}:</p>
                 <p>{{billingForm.controls.bstate.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Zip/PostalCode:</p>
+                <p class="text-muted" i18n>{{"postal_code" | translate}}:</p>
                 <p>{{billingForm.controls.bzip.value}}</p>
             </div>
             <!--<div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
@@ -836,7 +823,7 @@
         </div>
         <div *ngIf="billlingAddressFlag" fxLayout="row wrap">
             <div fxFlex="100" class="p-1">
-                <h3 class="text-muted mt-2" i18n>Shipping information</h3>
+                <h3 class="text-muted mt-2" i18n>{{"shipping_information" | translate}}</h3>
                 <div class="divider"></div>
             </div>
             <!--<div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
@@ -856,23 +843,23 @@
                 <p>{{shippingForm.controls.sNo.value}} </p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Street:</p>
+                <p class="text-muted" i18n>{{"street" | translate}}:</p>
                 <p>{{shippingForm.controls.sStreet.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Country:</p>
+                <p class="text-muted" i18n>{{"country" | translate}}:</p>
                 <p>{{shippingForm.controls.scountry.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>City:</p>
+                <p class="text-muted" i18n>{{"city" | translate}}:</p>
                 <p>{{shippingForm.controls.scity.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>State:</p>
+                <p class="text-muted" i18n>{{"state/province" | translate}}:</p>
                 <p>{{shippingForm.controls.sstate.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Zip/PostalCode:</p>
+                <p class="text-muted" i18n>{{"postal_code" | translate}}:</p>
                 <p>{{shippingForm.controls.szip.value}}</p>
             </div>
             <!--<div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
@@ -883,7 +870,7 @@
 
         <div *ngIf="!billlingAddressFlag" fxLayout="row wrap">
             <div fxFlex="100" class="p-1">
-                <h3 class="text-muted mt-2" i18n>Shipping information</h3>
+                <h3 class="text-muted mt-2" i18n>{{"shipping_information" | translate}}</h3>
                 <div class="divider"></div>
             </div>
             <!--<div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
@@ -903,23 +890,23 @@
                 <p>{{billingForm.controls.bNo.value}} </p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Street:</p>
+                <p class="text-muted" i18n>{{"street" | translate}}:</p>
                 <p>{{billingForm.controls.bStreet.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Country:</p>
+                <p class="text-muted" i18n>{{"country" | translate}}:</p>
                 <p>{{billingForm.controls.bcountry.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>City:</p>
+                <p class="text-muted" i18n>{{"city" | translate}}:</p>
                 <p>{{billingForm.controls.bcity.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>State:</p>
+                <p class="text-muted" i18n>{{"state/province" | translate}}:</p>
                 <p>{{billingForm.controls.bstate.value}}</p>
             </div>
             <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
-                <p class="text-muted" i18n>Zip/PostalCode:</p>
+                <p class="text-muted" i18n>{{"postal_code" | translate}}:</p>
                 <p>{{billingForm.controls.bzip.value}}</p>
             </div>
             <!--<div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
@@ -929,7 +916,7 @@
         </div>
         <div fxLayout="row">
             <div fxFlex="100" class="p-1">
-                <h3 class="text-muted mt-2" i18n>Delivery information</h3>
+                <h3 class="text-muted mt-2" i18n>{{"delivery_information" | translate}}</h3>
                 <div class="divider"></div>
                 <p class="py-1">{{deliveryForm.controls.deliveryMethod.value['name']}} <span class="text-muted">{{deliveryForm.controls.deliveryMethod.value['desc']}}</span>
                 </p>
@@ -943,32 +930,22 @@
           </div>
         </div>-->
         <div fxLayout="row" fxLayoutAlign="center center" class="p-1">
-            <h2><span class="text-muted mr-1" i18n>Total Price:</span><span>${{grandTotal | number : '1.2-2'}}</span></h2>
+            <h2><span class="text-muted mr-1" i18n>{{"total_price" | translate}}:</span><span>${{grandTotal | number : '1.2-2'}}</span></h2>
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
-            <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
-                    class="mr-1">
+            <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before" class="mr-1">
                 <mat-icon>expand_less</mat-icon>
             </button>
-            <button [disabled]="this.appService.Data.cartList?.length < 1" mat-raised-button matStepperNext
-                    color="primary" (click)="placeOrder()" i18n>Place order now
+            <button [disabled]="this.appService.Data.cartList?.length < 1" mat-raised-button matStepperNext color="primary" (click)="placeOrder()"
+                i18n>{{"place_order_now" | translate}}
             </button>
         </div>
     </mat-step>
-    <mat-step [stepControl]="billingForm" i18n-label label="Payment">
+    <mat-step [stepControl]="billingForm" i18n-label label="{{'payment' | translate}}">
         <!--<div id="paypal-checkout-button"></div>-->
-        <ngx-braintree
-                [getClientToken]="getClientToken.bind(this)"
-                [createPurchase]="createPurchase.bind(this)"
-                [chargeAmount]="grandTotal"
-                (paymentStatus)="onPaymentStatus($event)"
-                [showCardholderName]="false"
-                [enablePaypalCheckout]="false"
-                [currency]="'EUR'"
-                [enablePaypalVault]="true"
-                [buttonText]="'Purchase'"
-                [enabledStyle]="enabledStyle"
-                [disabledStyle]="disabledStyle">
+        <ngx-braintree [getClientToken]="getClientToken.bind(this)" [createPurchase]="createPurchase.bind(this)" [chargeAmount]="grandTotal"
+            (paymentStatus)="onPaymentStatus($event)" [showCardholderName]="false" [enablePaypalCheckout]="false" [currency]="'EUR'"
+            [enablePaypalVault]="true" [buttonText]="'Purchase'" [enabledStyle]="enabledStyle" [disabledStyle]="disabledStyle">
         </ngx-braintree>
     </mat-step>
     <mat-step i18n-label label="Confirmation">
@@ -976,13 +953,13 @@
             <button mat-fab color="primary">
                 <mat-icon>check</mat-icon>
             </button>
-            <h2 class="py-2" i18n>Congratulation! Your order has been processed</h2>
-            <h2 class="py-2" i18n>You can track your order here: {{trackingUrl}}</h2>
+            <h2 class="py-2" i18n>{{"order_processed" | translate}}</h2>
+            <h2 class="py-2" i18n>{{"track_order" | translate}} {{trackingUrl}}</h2>
 
             <!--<p class="text-muted lh">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempus dolor ante, ut luctus mi faucibus a. Ut eu tincidunt neque. Proin porttitor id ligula id placerat. Integer nec nulla varius, dapibus libero quis, semper eros. Aliquam erat volutpat. Proin volutpat tellus vel purus interdum euismod.</p>-->
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
-            <a [routerLink]="['/']" mat-raised-button color="primary" i18n>Return to Shop</a>
+            <a [routerLink]="['/']" mat-raised-button color="primary" i18n>{{"return_to_shop" | translate}}</a>
         </div>
     </mat-step>
 </mat-vertical-stepper>

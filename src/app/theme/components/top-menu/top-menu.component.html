@@ -1,4 +1,4 @@
-<div class="top-menu">
+<div class="top-menu" style="width: 100px">
 
     <!-- <a mat-button [matMenuTriggerFor]="langMenu" #langMenuTrigger="matMenuTrigger">
         <img [src]="flag.image" width="18">
@@ -14,7 +14,7 @@
     </mat-menu> -->
 
     <!-- <mat-form-field> -->
-    <mat-select (selectionChange)="switchLanguage($event.value)">
+    <mat-select (selectionChange)="switchLanguage($event.value)" [(ngModel)]="selectedLang">
         <mat-option *ngFor="let flag of flags" [value]="flag.language">
             <img [src]="flag.image" width="18"> {{flag.name}}
         </mat-option>

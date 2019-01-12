@@ -20,6 +20,7 @@ export class TopMenuComponent implements OnInit, OnDestroy {
         {name: 'Russian', image: 'assets/images/flags/ru.svg'},
         {name: 'Turkish', image: 'assets/images/flags/tr.svg'}*/
   ];
+  selectedLang;
   public flag: any;
   public loggedIn = false;
   public changesSubscription: Subscription;
@@ -55,11 +56,12 @@ export class TopMenuComponent implements OnInit, OnDestroy {
       const helper = new JwtHelperService();
       this.decodedToken = helper.decodeToken(currUser.access_token);
     }
+    this.selectedLang = this.flags[1].language;
   }
 
   ngOnInit() {
     this.currency = this.currencies[0];
-    this.flag = this.flags[0];
+    // this.flag = this.flags[0];
   }
 
   public switchLanguage(language) {

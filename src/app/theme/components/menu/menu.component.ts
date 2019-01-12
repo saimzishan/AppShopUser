@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {AppService} from '../../../app.service';
-import {Category} from '../../../app.models';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { AppService } from '../../../app.service';
+import { Category } from '../../../app.models';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-menu',
@@ -15,7 +15,8 @@ export class MenuComponent implements OnInit {
     public catId;
     public mainCategories: Category[];
 
-    constructor(private activatedRoute: ActivatedRoute, public appService: AppService, private router: Router) {
+    constructor(private activatedRoute: ActivatedRoute, public appService: AppService, private router: Router,
+    ) {
     }
 
     ngOnInit() {
