@@ -8,17 +8,26 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { InformationComponent } from './information/information.component';
 import { AddressesComponent } from './addresses/addresses.component';
 import { OrdersComponent } from './orders/orders.component';
+import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
+import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { HttpClient } from '@angular/common/http';
+
+
+export function translateHttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
+}
+
 
 export const routes = [
-  { 
-      path: '', 
-      component: AccountComponent, children: [
-          { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-          { path: 'dashboard', component: DashboardComponent, data: {  breadcrumb: 'Dashboard' } },
-          { path: 'information', component: InformationComponent, data: {  breadcrumb: 'Information' } },
-          { path: 'addresses', component: AddressesComponent, data: {  breadcrumb: 'Addresses' } },
-          { path: 'orders', component: OrdersComponent, data: {  breadcrumb: 'Orders' } }
-      ]
+  {
+    path: '',
+    component: AccountComponent, children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardComponent, data: { breadcrumb: 'Dashboard' } },
+      { path: 'information', component: InformationComponent, data: { breadcrumb: 'Information' } },
+      { path: 'addresses', component: AddressesComponent, data: { breadcrumb: 'Addresses' } },
+      { path: 'orders', component: OrdersComponent, data: { breadcrumb: 'Orders' } }
+    ]
   }
 ];
 
