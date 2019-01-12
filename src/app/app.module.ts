@@ -62,14 +62,7 @@ export function translateHttpLoaderFactory(http: HttpClient) {
     SharedModule,
     routing,
     DropzoneModule,
-    NgxBraintreeModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: translateHttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
+    NgxBraintreeModule
   ],
   declarations: [
     AppComponent,

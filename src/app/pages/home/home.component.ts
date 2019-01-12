@@ -47,7 +47,10 @@ export class HomeComponent implements OnInit {
     private detectChanges: DetectChangesService
   ) {
     translateService.addLangs(["en", "de"]);
-    translateService.setDefaultLang("de");
+    // translateService.setDefaultLang("de");
+    const de =  this.appService.getCurrentLan();
+    console.log(de);
+    translateService.setDefaultLang(de);
     this.cartSubscription = this.detectChanges.notifyObservable$.subscribe(
       res => {
         // console.log(res);

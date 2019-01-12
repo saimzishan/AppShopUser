@@ -39,7 +39,14 @@ export class AppService {
   // public apiUrl = 'http://www.econowholesale.com/api/public/api/auth/';
   public imgUrl = "http://124.109.39.22:18089/onlineappshopapi";
   // public imgUrl = 'http://www.econowholesale.com/api';
+  private currentLanguage = "en";
 
+  public getCurrentLan() {
+    return this.currentLanguage;
+  }
+  public setCurrentLan(language) {
+    this.currentLanguage = language;
+  }
   public httpOptions = {
     headers: new HttpHeaders({
       "Content-Type": "application/json"

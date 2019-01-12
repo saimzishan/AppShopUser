@@ -11,6 +11,7 @@ import { User } from "../../app.models";
 import { DetectChangesService } from "../../shared/detectchanges.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import { TranslateService } from "@ngx-translate/core";
+import { AppService } from "../../app.service";
 
 @Component({
   selector: "app-sign-in",
@@ -28,6 +29,7 @@ export class SignInComponent implements OnInit {
   public product_id;
   public product_name;
   returnUrl;
+  cartSubscription: any;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -37,10 +39,23 @@ export class SignInComponent implements OnInit {
     public signInService: SignInService,
     private detectChanges: DetectChangesService,
     private spinner: NgxSpinnerService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    public appService: AppService
   ) {
     translateService.addLangs(["en", "de"]);
-    translateService.setDefaultLang("de");
+    // translateService.setDefaultLang("de");
+    const de = this.appService.getCurrentLan();
+    translateService.setDefaultLang(de);
+    this.cartSubscription = this.detectChanges.notifyObservable$.subscribe(
+      res => {
+        // console.log(res);
+        if (res) {
+          if (res.option === "switchLanguage") {
+            this.translateService.use(res.value);
+          }
+        }
+      }
+    );
   }
 
   ngOnInit() {

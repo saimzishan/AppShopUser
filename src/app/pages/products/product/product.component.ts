@@ -17,6 +17,7 @@ import { PrintingOptionsComponent } from "../../../dialogs/printing-options.comp
 import { SpinnerService } from "../../../shared/spinner/spinner.service";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { TranslateService } from "@ngx-translate/core";
+import { DetectChangesService } from "../../../shared/detectchanges.service";
 
 @Component({
   selector: "app-product",
@@ -60,6 +61,7 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
     "star_border"
   ];
   public storedRating = [];
+  cartSubscription: any;
 
   constructor(
     public appService: AppService,
@@ -68,10 +70,23 @@ export class ProductComponent implements OnInit, AfterViewInit, OnDestroy {
     public dialog: MatDialog,
     private spinnerService: SpinnerService,
     public formBuilder: FormBuilder,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private detectChanges: DetectChangesService
   ) {
     translateService.addLangs(["en", "de"]);
-    translateService.setDefaultLang("de");
+    // translateService.setDefaultLang("de");
+    const de =  this.appService.getCurrentLan();
+    translateService.setDefaultLang(de);
+    this.cartSubscription = this.detectChanges.notifyObservable$.subscribe(
+      res => {
+        // console.log(res);
+        if (res) {
+          if (res.option === "switchLanguage") {
+            this.translateService.use(res.value);
+          }
+        }
+      }
+    );
   }
 
   ngOnInit() {

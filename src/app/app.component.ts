@@ -8,6 +8,8 @@ import { Router, NavigationEnd } from "@angular/router";
 import { Settings, AppSettings } from "./app.settings";
 import { SpinnerService } from "./shared/spinner/spinner.service";
 import { TranslateService } from "@ngx-translate/core";
+import { DetectChangesService } from "./shared/detectchanges.service";
+import { AppService } from "./app.service";
 
 @Component({
   selector: "app-root",
@@ -19,19 +21,33 @@ export class AppComponent implements OnInit, AfterViewInit {
   public settings: Settings;
   public isRequesting = false;
   private sub: any;
+  cartSubscription: any;
 
   constructor(
     public appSettings: AppSettings,
     public router: Router,
     public spinnerService: SpinnerService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private detectChanges: DetectChangesService,
+    public appService: AppService
   ) {
     this.settings = this.appSettings.settings;
     this.sub = this.spinnerService.requestInProcess$.subscribe(isDone => {
       this.isRequesting = isDone;
     });
     translateService.addLangs(["en", "de"]);
-    translateService.setDefaultLang("de");
+    const de = this.appService.getCurrentLan();
+    translateService.setDefaultLang(de);
+    this.cartSubscription = this.detectChanges.notifyObservable$.subscribe(
+      res => {
+        // console.log(res);
+        if (res) {
+          if (res.option === "switchLanguage") {
+            this.translateService.use(res.value);
+          }
+        }
+      }
+    );
   }
 
   ngOnInit() {

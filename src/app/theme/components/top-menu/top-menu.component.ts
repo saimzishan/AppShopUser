@@ -25,7 +25,6 @@ export class TopMenuComponent implements OnInit, OnDestroy {
   public loggedIn = false;
   public changesSubscription: Subscription;
   decodedToken;
-  public selectedLanguage = "en";
   constructor(
     public appService: AppService,
     public router: Router,
@@ -50,13 +49,14 @@ export class TopMenuComponent implements OnInit, OnDestroy {
       }
     );
 
+    // translateService.setDefaultLang("de");
     const currUser = JSON.parse(localStorage.getItem("currentUser"));
     if (currUser) {
       this.loggedIn = true;
       const helper = new JwtHelperService();
       this.decodedToken = helper.decodeToken(currUser.access_token);
     }
-    this.selectedLang = this.flags[1].language;
+    this.selectedLang = this.flags[0].language;
   }
 
   ngOnInit() {
@@ -66,6 +66,7 @@ export class TopMenuComponent implements OnInit, OnDestroy {
 
   public switchLanguage(language) {
     this.translateService.use(language);
+    this.appService.setCurrentLan(language);
     this.detectChanges.notifyOther({
       option: "switchLanguage",
       value: language
