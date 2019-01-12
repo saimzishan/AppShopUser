@@ -4,6 +4,7 @@ import { Product } from "../../app.models";
 import { NgxSpinnerService } from "ngx-spinner";
 import { SpinnerService } from "../../shared/spinner/spinner.service";
 import { TranslateService } from "@ngx-translate/core";
+import { DetectChangesService } from "../../shared/detectchanges.service";
 
 @Component({
   selector: "app-home",
@@ -32,6 +33,7 @@ export class HomeComponent implements OnInit {
   noonsaleProducts = false;
   nonewarrivalProducts = false;
   nohotProducts = false;
+  cartSubscription: any;
 
   /*public featuredProductsArray = [];
       public onSaleProductsArray = [];
@@ -41,10 +43,21 @@ export class HomeComponent implements OnInit {
     public appService: AppService,
     private spinner: NgxSpinnerService,
     public spinnerService: SpinnerService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private detectChanges: DetectChangesService
   ) {
     translateService.addLangs(["en", "de"]);
     translateService.setDefaultLang("de");
+    this.cartSubscription = this.detectChanges.notifyObservable$.subscribe(
+      res => {
+        // console.log(res);
+        if (res) {
+          if (res.option === "switchLanguage") {
+            this.translateService.use(res.value);
+          }
+        }
+      }
+    );
   }
 
   ngOnInit() {

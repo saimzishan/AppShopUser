@@ -66,6 +66,10 @@ export class TopMenuComponent implements OnInit, OnDestroy {
 
   public switchLanguage(language) {
     this.translateService.use(language);
+    this.detectChanges.notifyOther({
+      option: "switchLanguage",
+      value: language
+    });
   }
 
   public logout() {
